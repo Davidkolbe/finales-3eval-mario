@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mario · Finales 3ª evaluación · 3º ESO Zola Villafranca</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0f172a;--panel:#1e293b;--panel-2:#334155;
+    --text:#f1f5f9;--muted:#94a3b8;--border:#475569;
+    --accent:#fbbf24;--accent-2:#f97316;
+    --mate:#3b82f6;--lengua:#a855f7;--fyq:#ef4444;
+    --ingles:#10b981;--hist:#f59e0b;--bio:#14b8a6;
+    --good:#4ade80;--bad:#f87171;
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6}
+  .container{max-width:1200px;margin:0 auto;padding:24px}
+  header{background:linear-gradient(135deg,#4c1d95 0%,#be123c 100%);
+    padding:50px 24px;text-align:center;border-radius:18px;margin-bottom:32px;
+    box-shadow:0 12px 32px rgba(0,0,0,.5)}
+  header h1{font-size:2.6em;margin-bottom:10px}
+  header p{font-size:1.15em;color:#fde68a;margin-bottom:6px}
+  header .sub{font-size:.95em;color:#fbbf24;font-weight:600}
+  .countdown{background:rgba(0,0,0,.3);display:inline-block;padding:10px 24px;
+    border-radius:30px;margin-top:14px;font-size:1.1em;border:2px solid #fbbf24}
+  h2{color:var(--accent);font-size:1.7em;margin-bottom:18px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:var(--accent-2);font-size:1.25em;margin:18px 0 10px}
+  .grid-subjects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;margin-bottom:32px}
+  .subject-card{background:var(--panel);padding:22px;border-radius:14px;
+    border-left:6px solid;text-decoration:none;color:var(--text);
+    transition:all .2s;display:block;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .subject-card:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(0,0,0,.5)}
+  .subject-card .icon{font-size:2.6em;margin-bottom:8px;display:block}
+  .subject-card h3{margin:0 0 6px;color:var(--text);font-size:1.3em}
+  .subject-card .date{color:var(--accent);font-size:.92em;font-weight:600;margin-bottom:6px}
+  .subject-card .desc{color:var(--muted);font-size:.92em;line-height:1.5}
+  .subject-card.mate{border-color:var(--mate)}
+  .subject-card.lengua{border-color:var(--lengua)}
+  .subject-card.fyq{border-color:var(--fyq)}
+  .subject-card.ingles{border-color:var(--ingles)}
+  .subject-card.hist{border-color:var(--hist)}
+  .subject-card.bio{border-color:var(--bio)}
+  section{background:var(--panel);padding:28px;border-radius:14px;margin-bottom:24px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .calendar-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.95em}
+  .calendar-table th,.calendar-table td{padding:12px;text-align:left;
+    border-bottom:1px solid var(--border)}
+  .calendar-table th{background:var(--panel-2);color:var(--accent);font-weight:700}
+  .calendar-table tr.exam{background:rgba(239,68,68,.18);font-weight:600}
+  .calendar-table tr.today{background:rgba(251,191,36,.15);border-left:4px solid var(--accent)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:14px;font-size:.78em;
+    font-weight:700;margin-right:5px}
+  .badge.mate{background:var(--mate);color:#fff}
+  .badge.lengua{background:var(--lengua);color:#fff}
+  .badge.fyq{background:var(--fyq);color:#fff}
+  .badge.ingles{background:var(--ingles);color:#fff}
+  .badge.hist{background:var(--hist);color:#0f172a}
+  .badge.bio{background:var(--bio);color:#fff}
+  .badge.repaso{background:#475569;color:#fff}
+  .planning-day{background:var(--panel-2);padding:16px 20px;border-radius:10px;
+    margin-bottom:10px;border-left:4px solid var(--accent)}
+  .planning-day.exam-day{border-color:var(--bad);background:rgba(239,68,68,.1)}
+  .planning-day.today{border-color:var(--accent);background:rgba(251,191,36,.1)}
+  .planning-day .date{font-weight:700;color:var(--accent);margin-bottom:4px}
+  .planning-day .tasks{color:var(--text);font-size:.95em}
+  .planning-day .tasks ul{margin-left:22px;margin-top:6px}
+  .planning-day .tasks li{margin:3px 0}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:14px;margin-bottom:24px}
+  .stat{background:var(--panel-2);padding:16px;border-radius:10px;text-align:center}
+  .stat .num{font-size:2em;font-weight:800;color:var(--accent);display:block}
+  .stat .lbl{color:var(--muted);font-size:.85em;margin-top:4px}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:14px 0}
+  .warn-box{background:rgba(248,113,113,.08);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:14px 0}
+  footer{text-align:center;color:var(--muted);font-size:.88em;padding:24px}
+  @media(max-width:640px){
+    header h1{font-size:1.8em}.grid-subjects{grid-template-columns:1fr}
+    .calendar-table{font-size:.85em}.calendar-table th,.calendar-table td{padding:8px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📚 Finales 3ª Evaluación</h1>
+    <p>Mario · 3º ESO · Colegios Zola Villafranca</p>
+    <p class="sub">Curso 2025-2026</p>
+    <div class="countdown" id="countdown">Cargando...</div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="num">6</span><span class="lbl">Asignaturas</span></div>
+    <div class="stat"><span class="num">5</span><span class="lbl">Días de exámenes</span></div>
+    <div class="stat"><span class="num" id="days-left">12</span><span class="lbl">Días para empezar</span></div>
+    <div class="stat"><span class="num">19-25</span><span class="lbl">Mayo 2026</span></div>
+  </div>
+
+  <section>
+    <h2>📅 Calendario de exámenes</h2>
+    <table class="calendar-table">
+      <thead><tr><th>Fecha</th><th>Hora</th><th>Asignatura</th></tr></thead>
+      <tbody>
+        <tr class="exam"><td><strong>Martes 19 mayo</strong></td><td>09:50</td>
+          <td><span class="badge mate">MATE</span> Matemáticas</td></tr>
+        <tr class="exam"><td><strong>Miércoles 20 mayo</strong></td><td>12:00</td>
+          <td><span class="badge lengua">LEN</span> Lengua y Literatura</td></tr>
+        <tr class="exam"><td><strong>Jueves 21 mayo</strong></td><td>08:55</td>
+          <td><span class="badge fyq">FYQ</span> Física y Química</td></tr>
+        <tr class="exam"><td><strong>Viernes 22 mayo</strong></td><td>10:45</td>
+          <td><span class="badge ingles">ING</span> Inglés</td></tr>
+        <tr class="exam"><td><strong>Lunes 25 mayo</strong></td><td>10:45</td>
+          <td><span class="badge hist">HIST</span> Geografía e Historia</td></tr>
+        <tr class="exam"><td><strong>Lunes 25 mayo</strong></td><td>12:00</td>
+          <td><span class="badge bio">BIO</span> Biología y Geología</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🎯 Asignaturas — Material de estudio</h2>
+    <p style="color:var(--muted);margin-bottom:18px">Pulsa sobre cada asignatura para acceder a teoría, ejercicios, simulacros y soluciones.</p>
+    <div class="grid-subjects">
+      <a class="subject-card mate" href="mate.html">
+        <span class="icon">📐</span>
+        <div class="date">Martes 19 mayo · 09:50</div>
+        <h3>Matemáticas</h3>
+        <div class="desc">Funciones + UD6 Geometría: semejanza, Thales, Pitágoras, áreas y volúmenes, vectores. 60 ejercicios oficiales.</div>
+      </a>
+      <a class="subject-card lengua" href="lengua.html">
+        <span class="icon">📖</span>
+        <div class="date">Miércoles 20 mayo · 12:00</div>
+        <h3>Lengua y Literatura</h3>
+        <div class="desc">Barroco, Cervantes, El Quijote. Oración compuesta y subordinadas. Monemas y ortografía.</div>
+      </a>
+      <a class="subject-card fyq" href="fisica.html">
+        <span class="icon">⚡</span>
+        <div class="date">Jueves 21 mayo · 08:55</div>
+        <h3>Física y Química</h3>
+        <div class="desc">MRU y MRUA en profundidad. Atención: el examen previo de MRU fue débil — repaso intensivo de errores típicos.</div>
+      </a>
+      <a class="subject-card ingles" href="ingles.html">
+        <span class="icon">🇬🇧</span>
+        <div class="date">Viernes 22 mayo · 10:45</div>
+        <h3>Inglés</h3>
+        <div class="desc">Tiempos verbales, modal verbs, condicionales, passive voice, reported speech. Vocabulario y reading.</div>
+      </a>
+      <a class="subject-card hist" href="historia.html">
+        <span class="icon">🌍</span>
+        <div class="date">Lunes 25 mayo · 10:45</div>
+        <h3>Geografía e Historia</h3>
+        <div class="desc">Sectores económicos (T2-T5), sostenibilidad (T6), Restauración y crisis del 98 (T17), España s.XIX (T18).</div>
+      </a>
+      <a class="subject-card bio" href="biologia.html">
+        <span class="icon">🫁</span>
+        <div class="date">Lunes 25 mayo · 12:00</div>
+        <h3>Biología y Geología</h3>
+        <div class="desc">Aparato respiratorio (T4), aparato circulatorio (T5) y aparato excretor (T6 NUEVO).</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>🗓️ Plan de estudio diario (12 días)</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Reparto inteligente del trabajo desde hoy hasta el último examen del 25 de mayo.</p>
+
+    <div class="planning-day today">
+      <div class="date">📍 Jueves 7 mayo (HOY) — Día anterior al examen de Bio T4+T5</div>
+      <div class="tasks"><span class="badge bio">BIO</span> Repaso final de aparato respiratorio + circulatorio. Esquemas, autoevaluaciones, simulacro de mañana viernes.</div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Viernes 8 mayo — Examen Biología T4+T5 (mañana)</div>
+      <div class="tasks">Por la tarde, descanso ligero. Empezar suave con un esquema de funciones para arrancar el sábado.</div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Sábado 9 mayo — Arranque Matemáticas</div>
+      <div class="tasks"><span class="badge mate">MATE</span>
+        <ul>
+          <li>Mañana: Repaso de FUNCIONES (chuleta + ejercicios resueltos)</li>
+          <li>Tarde: UD6 Geometría I — Semejanza + Teorema de Thales</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Domingo 10 mayo — Matemáticas Geometría avanzada</div>
+      <div class="tasks"><span class="badge mate">MATE</span>
+        <ul>
+          <li>Mañana: Triángulos, Pitágoras, teorema de la altura y del cateto</li>
+          <li>Tarde: Áreas y volúmenes (planas, poliedros, cuerpos 3D) + vectores</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Lunes 11 mayo</div>
+      <div class="tasks"><span class="badge lengua">LEN</span> <span class="badge hist">HIST</span>
+        <ul>
+          <li>Lengua: Literatura — Barroco (contexto, temas, culteranismo/conceptismo)</li>
+          <li>Historia: Tema 2 — El sector primario</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Martes 12 mayo</div>
+      <div class="tasks"><span class="badge lengua">LEN</span> <span class="badge hist">HIST</span>
+        <ul>
+          <li>Lengua: Cervantes y El Quijote + gramática (oraciones compuestas)</li>
+          <li>Historia: Tema 3 — El sector secundario (energías, industria)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Miércoles 13 mayo — Atención FÍSICA</div>
+      <div class="tasks"><span class="badge fyq">FYQ</span> <span class="badge hist">HIST</span>
+        <ul>
+          <li>Física: MRU completo — repaso especial de errores típicos del examen anterior</li>
+          <li>Historia: Tema 4 — El sector terciario</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Jueves 14 mayo</div>
+      <div class="tasks"><span class="badge fyq">FYQ</span> <span class="badge hist">HIST</span>
+        <ul>
+          <li>Física: MRUA + simulacro de física (cronometrado)</li>
+          <li>Historia: Tema 5 — Europa y España (sectores económicos)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Viernes 15 mayo</div>
+      <div class="tasks"><span class="badge ingles">ING</span> <span class="badge hist">HIST</span>
+        <ul>
+          <li>Inglés: gramática — tiempos verbales y modal verbs</li>
+          <li>Historia: Tema 6 — Sostenibilidad y deterioro ambiental</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Sábado 16 mayo</div>
+      <div class="tasks"><span class="badge hist">HIST</span> <span class="badge bio">BIO</span>
+        <ul>
+          <li>Historia: Tema 17 (Restauración + crisis del 98) y Tema 18 (España s.XIX)</li>
+          <li>Biología: T6 — Aparato excretor (riñones, nefronas, formación de la orina)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Domingo 17 mayo — Repasos cruzados</div>
+      <div class="tasks"><span class="badge bio">BIO</span> <span class="badge ingles">ING</span> <span class="badge mate">MATE</span>
+        <ul>
+          <li>Bio: repaso T4+T5 (los temas viejos también entran)</li>
+          <li>Inglés: vocabulario + reading + simulacro</li>
+          <li>Mate: dudas que hayan quedado pendientes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Lunes 18 mayo — VÍSPERA Matemáticas</div>
+      <div class="tasks"><span class="badge mate">MATE</span> <span class="badge repaso">REPASO</span>
+        <ul>
+          <li>Simulacro completo de Matemáticas cronometrado</li>
+          <li>Repaso de la "chuleta" (formulario)</li>
+          <li>Acostarse temprano</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Martes 19 mayo — EXAMEN MATEMÁTICAS (9:50)</div>
+      <div class="tasks">Por la tarde: simulacro de Lengua + repaso de Cervantes/Barroco.</div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Miércoles 20 mayo — EXAMEN LENGUA (12:00)</div>
+      <div class="tasks">Por la tarde: simulacro de Física + revisión de errores típicos en MRU/MRUA.</div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Jueves 21 mayo — EXAMEN FÍSICA (8:55)</div>
+      <div class="tasks">Por la tarde: repaso de Inglés (grammar + vocabulary) + reading.</div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Viernes 22 mayo — EXAMEN INGLÉS (10:45)</div>
+      <div class="tasks">Por la tarde: empezar repaso intensivo de Historia (T2-T6) y Bio.</div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Sábado 23 mayo — Repaso Historia</div>
+      <div class="tasks"><span class="badge hist">HIST</span>
+        <ul><li>Repaso completo Temas 2, 3, 4, 5, 6</li>
+        <li>Esquemas y autoevaluaciones</li></ul>
+      </div>
+    </div>
+    <div class="planning-day">
+      <div class="date">Domingo 24 mayo — VÍSPERA Historia + Bio</div>
+      <div class="tasks"><span class="badge hist">HIST</span> <span class="badge bio">BIO</span>
+        <ul>
+          <li>Historia: Temas 17 y 18 + simulacro</li>
+          <li>Biología: simulacro completo (T4+T5+T6)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="planning-day exam-day">
+      <div class="date">📝 Lunes 25 mayo — EXAMEN HISTORIA (10:45) + BIOLOGÍA (12:00) 🎉</div>
+      <div class="tasks">¡Último día! Mañana antes de las 10:45: solo esquemas/mapas mentales. Sin estudio nuevo.</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Reglas de oro:</strong>
+      <ul style="margin-left:20px;margin-top:6px">
+        <li>Bloques de 50 min de estudio + 10 min de descanso (técnica Pomodoro).</li>
+        <li>Cada noche, 15 minutos para repasar lo del día siguiente.</li>
+        <li>Dormir 8 horas las vísperas de examen — más útil que estudiar de madrugada.</li>
+        <li>Comer ligero y desayuno fuerte el día del examen.</li>
+        <li>Antes de cada examen: respiración 4-7-8 (inhalar 4s, retener 7s, exhalar 8s) x 3 veces.</li>
+      </ul>
+    </div>
+
+    <div class="warn-box">
+      <strong>⚠️ Atención especial — Física:</strong> el examen previo de MRU sacó 1,75/10. En la página de Física hay un apartado específico de "errores típicos" para revisar.
+    </div>
+  </section>
+
+  <footer>
+    📚 Material preparado para Mario · Curso 2025-26 · Última actualización: 7 mayo 2026
+  </footer>
+</div>
+
+<script>
+  // Countdown to first exam (May 19, 2026 09:50)
+  function updateCountdown(){
+    const exam=new Date('2026-05-19T09:50:00');
+    const today=new Date();
+    const diff=exam-today;
+    const days=Math.floor(diff/(1000*60*60*24));
+    const cd=document.getElementById('countdown');
+    const dl=document.getElementById('days-left');
+    if(days>0){
+      cd.innerHTML=`⏳ Faltan <strong>${days} días</strong> para el primer examen (Matemáticas)`;
+      if(dl)dl.textContent=days;
+    } else if(days===0){
+      cd.innerHTML='⚡ <strong>¡HOY es el examen de Matemáticas!</strong>';
+    } else {
+      cd.innerHTML='🎉 Exámenes finalizados';
+    }
+  }
+  updateCountdown();
+</script>
+</body>
+</html>
