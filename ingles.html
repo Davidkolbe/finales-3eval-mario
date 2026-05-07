@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English · Final exam · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#064e3b;--panel-2:#065f46;--text:#f0fdf4;
+    --muted:#a7f3d0;--border:#10b981;--accent:#fbbf24;--accent-2:#10b981;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#022c22 0%,#065f46 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent-2);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent-2);color:#fff}
+  header{background:linear-gradient(135deg,#065f46 0%,#10b981 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#d1fae5}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#0f172a}
+  nav button.active{background:var(--accent);color:#0f172a;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:#a7f3d0;font-size:1.25em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden;font-size:.9em}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  table th{background:var(--accent);color:#0f172a}
+  .info-box{background:rgba(16,185,129,.12);border-left:4px solid var(--accent-2);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.1);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2)}
+  .ejercicio .num{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent-2);color:#fff;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:inherit}
+  .toggle-sol:hover{background:#059669}
+  .solucion{background:#022c22;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none}
+  .solucion.show{display:block}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--accent)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#022c22;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  blockquote{background:#022c22;border-left:4px solid var(--accent);
+    padding:14px 18px;margin:14px 0;border-radius:6px}
+  @media(max-width:700px){header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>🇬🇧 English</h1>
+    <p>Final exam · Friday 22 May · 10:45</p>
+    <p style="color:#fef3c7;margin-top:6px"><strong>Topics:</strong> Tenses, modal verbs, conditionals, passive, reported speech, vocabulary &amp; reading</p>
+  </header>
+
+  <div class="info-box" style="margin-bottom:24px">
+    <strong>📌 Nota:</strong> al no tener material específico del cole para este examen, se ha preparado un repaso completo de los contenidos típicos de 3º ESO. Si el examen entra en algo más concreto, dímelo y lo añadimos.
+  </div>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Topics</button>
+    <button onclick="show('tenses')">⏰ Tenses</button>
+    <button onclick="show('modals')">🛡️ Modals</button>
+    <button onclick="show('conditionals')">🔀 Conditionals</button>
+    <button onclick="show('passive')">🔄 Passive</button>
+    <button onclick="show('reported')">💬 Reported speech</button>
+    <button onclick="show('vocab')">📚 Vocabulary</button>
+    <button onclick="show('reading')">📖 Reading</button>
+    <button onclick="show('writing')">✍️ Writing</button>
+    <button onclick="show('quiz')">🎯 Quiz</button>
+    <button onclick="show('simulacro')">📝 Mock exam</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Topics</h2>
+    <ol>
+      <li><strong>Tenses</strong> — present simple/continuous, past simple/continuous, present perfect, past perfect, future (will/going to).</li>
+      <li><strong>Modal verbs</strong> — can/could, must/have to, should, may/might.</li>
+      <li><strong>Conditionals</strong> — zero, first, second.</li>
+      <li><strong>Passive voice</strong> — present and past.</li>
+      <li><strong>Reported speech</strong> — statements, questions, commands.</li>
+      <li><strong>Vocabulary</strong> — phrasal verbs, prepositions, common collocations.</li>
+      <li><strong>Reading comprehension</strong> &amp; <strong>writing</strong> (short essay or letter).</li>
+    </ol>
+  </section>
+
+  <!-- TENSES -->
+  <section id="tenses">
+    <h2>⏰ Verb tenses</h2>
+
+    <h3>Present Simple</h3>
+    <p><strong>Use:</strong> habits, routines, general truths.</p>
+    <p><strong>Form:</strong> I/You/We/They <em>play</em> · He/She/It <em>plays</em>.</p>
+    <p><strong>Markers:</strong> always, usually, often, sometimes, never, every day.</p>
+
+    <h3>Present Continuous</h3>
+    <p><strong>Use:</strong> actions happening now / temporary actions / future plans.</p>
+    <p><strong>Form:</strong> am/is/are + <em>verb-ing</em>.</p>
+    <p><strong>Markers:</strong> now, at the moment, today, this week, currently.</p>
+
+    <h3>Past Simple</h3>
+    <p><strong>Use:</strong> finished actions in the past.</p>
+    <p><strong>Form:</strong> regular: verb + <em>-ed</em>; irregular: 2ª columna (went, saw, did, took…).</p>
+    <p><strong>Markers:</strong> yesterday, last week, in 2010, ago, when I was younger.</p>
+
+    <h3>Past Continuous</h3>
+    <p><strong>Use:</strong> action in progress in the past / interrupted by another action.</p>
+    <p><strong>Form:</strong> was/were + <em>verb-ing</em>.</p>
+    <p><strong>Markers:</strong> while, as, when (combined with past simple).</p>
+    <blockquote><em>I was studying when she called me.</em></blockquote>
+
+    <h3>Present Perfect</h3>
+    <p><strong>Use:</strong> past action with present relevance / experience / unfinished time period.</p>
+    <p><strong>Form:</strong> have/has + <em>past participle</em> (3ª columna).</p>
+    <p><strong>Markers:</strong> ever, never, just, already, yet, since, for, this week, today.</p>
+    <blockquote><em>I have lived in Madrid for 5 years</em> (still living there).</blockquote>
+
+    <h3>Past Perfect</h3>
+    <p><strong>Use:</strong> action that happened BEFORE another past action.</p>
+    <p><strong>Form:</strong> had + <em>past participle</em>.</p>
+    <blockquote><em>When I arrived, the train had already left.</em></blockquote>
+
+    <h3>Future — will</h3>
+    <p><strong>Use:</strong> spontaneous decisions, predictions without evidence, promises, offers.</p>
+    <blockquote><em>I'll help you with your homework.</em></blockquote>
+
+    <h3>Future — going to</h3>
+    <p><strong>Use:</strong> plans/intentions decided before / predictions based on evidence.</p>
+    <blockquote><em>Look at those clouds! It's going to rain.</em></blockquote>
+
+    <table>
+      <tr><th>Tense</th><th>Affirmative</th><th>Negative</th><th>Question</th></tr>
+      <tr><td>Present S.</td><td>I work</td><td>I don't work</td><td>Do you work?</td></tr>
+      <tr><td>Present C.</td><td>I'm working</td><td>I'm not working</td><td>Are you working?</td></tr>
+      <tr><td>Past S.</td><td>I worked</td><td>I didn't work</td><td>Did you work?</td></tr>
+      <tr><td>Past C.</td><td>I was working</td><td>I wasn't working</td><td>Were you working?</td></tr>
+      <tr><td>Pres. Perf.</td><td>I have worked</td><td>I haven't worked</td><td>Have you worked?</td></tr>
+      <tr><td>Past Perf.</td><td>I had worked</td><td>I hadn't worked</td><td>Had you worked?</td></tr>
+      <tr><td>Will</td><td>I will work</td><td>I won't work</td><td>Will you work?</td></tr>
+      <tr><td>Going to</td><td>I'm going to work</td><td>I'm not going to work</td><td>Are you going to work?</td></tr>
+    </table>
+
+    <h3>Common irregular verbs (top 25 to memorize)</h3>
+    <table>
+      <tr><th>Infinitive</th><th>Past simple</th><th>Past participle</th><th>Spanish</th></tr>
+      <tr><td>be</td><td>was/were</td><td>been</td><td>ser/estar</td></tr>
+      <tr><td>begin</td><td>began</td><td>begun</td><td>empezar</td></tr>
+      <tr><td>break</td><td>broke</td><td>broken</td><td>romper</td></tr>
+      <tr><td>bring</td><td>brought</td><td>brought</td><td>traer</td></tr>
+      <tr><td>buy</td><td>bought</td><td>bought</td><td>comprar</td></tr>
+      <tr><td>come</td><td>came</td><td>come</td><td>venir</td></tr>
+      <tr><td>do</td><td>did</td><td>done</td><td>hacer</td></tr>
+      <tr><td>drink</td><td>drank</td><td>drunk</td><td>beber</td></tr>
+      <tr><td>drive</td><td>drove</td><td>driven</td><td>conducir</td></tr>
+      <tr><td>eat</td><td>ate</td><td>eaten</td><td>comer</td></tr>
+      <tr><td>fall</td><td>fell</td><td>fallen</td><td>caer</td></tr>
+      <tr><td>find</td><td>found</td><td>found</td><td>encontrar</td></tr>
+      <tr><td>get</td><td>got</td><td>got/gotten</td><td>conseguir</td></tr>
+      <tr><td>give</td><td>gave</td><td>given</td><td>dar</td></tr>
+      <tr><td>go</td><td>went</td><td>gone</td><td>ir</td></tr>
+      <tr><td>have</td><td>had</td><td>had</td><td>tener</td></tr>
+      <tr><td>know</td><td>knew</td><td>known</td><td>saber/conocer</td></tr>
+      <tr><td>make</td><td>made</td><td>made</td><td>hacer</td></tr>
+      <tr><td>see</td><td>saw</td><td>seen</td><td>ver</td></tr>
+      <tr><td>speak</td><td>spoke</td><td>spoken</td><td>hablar</td></tr>
+      <tr><td>take</td><td>took</td><td>taken</td><td>coger</td></tr>
+      <tr><td>think</td><td>thought</td><td>thought</td><td>pensar</td></tr>
+      <tr><td>write</td><td>wrote</td><td>written</td><td>escribir</td></tr>
+      <tr><td>read</td><td>read</td><td>read</td><td>leer (mismo en escrito, distinta pron.)</td></tr>
+      <tr><td>tell</td><td>told</td><td>told</td><td>decir/contar</td></tr>
+    </table>
+  </section>
+
+  <!-- MODALS -->
+  <section id="modals">
+    <h2>🛡️ Modal verbs</h2>
+
+    <table>
+      <tr><th>Modal</th><th>Use</th><th>Example</th></tr>
+      <tr><td><strong>can / can't</strong></td><td>Ability, permission</td><td>I can swim. Can I leave?</td></tr>
+      <tr><td><strong>could / couldn't</strong></td><td>Past ability, polite request</td><td>I couldn't sleep. Could you help me?</td></tr>
+      <tr><td><strong>must / mustn't</strong></td><td>Strong obligation; prohibition</td><td>You must study. You mustn't smoke.</td></tr>
+      <tr><td><strong>have to / don't have to</strong></td><td>Obligation (external); not necessary</td><td>I have to wear a uniform.</td></tr>
+      <tr><td><strong>should / shouldn't</strong></td><td>Advice</td><td>You should go to bed early.</td></tr>
+      <tr><td><strong>may / might</strong></td><td>Possibility</td><td>It might rain tomorrow.</td></tr>
+      <tr><td><strong>would</strong></td><td>Polite request, hypothetical</td><td>Would you like a coffee?</td></tr>
+    </table>
+
+    <div class="warn-box">
+      <strong>⚠️ Difference must vs. have to:</strong>
+      <ul>
+        <li><em>You must finish</em> — sense of personal/internal obligation.</li>
+        <li><em>You have to wear a uniform</em> — external rule.</li>
+      </ul>
+      <strong>Mustn't ≠ don't have to</strong>:
+      <ul>
+        <li><em>You mustn't smoke</em> = it's prohibited.</li>
+        <li><em>You don't have to go</em> = it's not necessary.</li>
+      </ul>
+    </div>
+
+    <h3>Rules — modal verbs</h3>
+    <ul>
+      <li>Modals NEVER take "-s" in 3rd person: <em>He <strong>can</strong> swim</em> (NOT cans).</li>
+      <li>After a modal use the <strong>infinitive without to</strong>: <em>You should <strong>go</strong></em> (NOT to go).</li>
+      <li>Negation: modal + n't (or not). <em>I cannot / can't / mustn't / shouldn't</em>.</li>
+      <li>Question: modal first. <em>Can you help me?</em></li>
+    </ul>
+  </section>
+
+  <!-- CONDITIONALS -->
+  <section id="conditionals">
+    <h2>🔀 Conditionals</h2>
+
+    <h3>Zero conditional — General truths</h3>
+    <p><strong>If + present simple, present simple.</strong></p>
+    <blockquote><em>If you heat water to 100°C, it boils.</em></blockquote>
+
+    <h3>First conditional — Real future possibility</h3>
+    <p><strong>If + present simple, will + infinitive.</strong></p>
+    <blockquote><em>If it rains tomorrow, I will stay at home.</em></blockquote>
+    <p>Variants: instead of "will" we can use modals: <em>If you study, you can pass</em>.</p>
+
+    <h3>Second conditional — Hypothetical / unreal present</h3>
+    <p><strong>If + past simple, would + infinitive.</strong></p>
+    <blockquote><em>If I had a million euros, I would travel the world.</em></blockquote>
+    <p>With "be" we use <strong>were</strong> for all persons (formal): <em>If I were you, I would tell the truth.</em></p>
+
+    <div class="info-box">
+      <strong>💡 Comparison:</strong>
+      <ul>
+        <li>0: <em>If you don't eat, you get hungry.</em> (always true)</li>
+        <li>1: <em>If you don't eat, you will get hungry.</em> (likely future)</li>
+        <li>2: <em>If you didn't eat, you would get hungry.</em> (hypothetical)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PASSIVE -->
+  <section id="passive">
+    <h2>🔄 Passive voice</h2>
+
+    <h3>Form</h3>
+    <p>Subject + <strong>to be</strong> (correct tense) + <strong>past participle</strong> (+ by + agent).</p>
+
+    <table>
+      <tr><th>Tense</th><th>Active</th><th>Passive</th></tr>
+      <tr><td>Present S.</td><td>They make cars.</td><td>Cars are made.</td></tr>
+      <tr><td>Past S.</td><td>They built the house.</td><td>The house was built.</td></tr>
+      <tr><td>Pres. Perf.</td><td>They have finished it.</td><td>It has been finished.</td></tr>
+      <tr><td>Will</td><td>They will fix it.</td><td>It will be fixed.</td></tr>
+      <tr><td>Modal</td><td>They can solve it.</td><td>It can be solved.</td></tr>
+    </table>
+
+    <h3>How to transform from active to passive (3 steps)</h3>
+    <ol>
+      <li>Find the OBJECT of the active sentence → it becomes the new SUBJECT.</li>
+      <li>Conjugate "to be" in the SAME TENSE as the active verb + past participle of the main verb.</li>
+      <li>The original SUBJECT becomes the agent (preceded by "by"), or is omitted if not important.</li>
+    </ol>
+    <blockquote>
+      Active: <em>Shakespeare wrote Hamlet</em>.<br>
+      → Object: Hamlet (new subject).<br>
+      → Active verb: wrote (past simple) → was + written.<br>
+      → Subject becomes "by Shakespeare".<br>
+      Passive: <em>Hamlet was written by Shakespeare.</em>
+    </blockquote>
+
+    <div class="tip-box"><strong>💡 Tip:</strong> we use the passive when the action is more important than the doer, or when the doer is unknown.</div>
+  </section>
+
+  <!-- REPORTED SPEECH -->
+  <section id="reported">
+    <h2>💬 Reported speech</h2>
+
+    <h3>Backshift — verb tense changes</h3>
+    <table>
+      <tr><th>Direct speech</th><th>Reported speech</th></tr>
+      <tr><td>Present simple</td><td>Past simple</td></tr>
+      <tr><td>Present continuous</td><td>Past continuous</td></tr>
+      <tr><td>Past simple</td><td>Past perfect</td></tr>
+      <tr><td>Present perfect</td><td>Past perfect</td></tr>
+      <tr><td>Will</td><td>Would</td></tr>
+      <tr><td>Can</td><td>Could</td></tr>
+      <tr><td>Must</td><td>Had to</td></tr>
+      <tr><td>May</td><td>Might</td></tr>
+    </table>
+
+    <h3>Time and place expressions</h3>
+    <table>
+      <tr><th>Direct</th><th>Reported</th></tr>
+      <tr><td>now</td><td>then</td></tr>
+      <tr><td>today</td><td>that day</td></tr>
+      <tr><td>tomorrow</td><td>the next day / the following day</td></tr>
+      <tr><td>yesterday</td><td>the previous day / the day before</td></tr>
+      <tr><td>here</td><td>there</td></tr>
+      <tr><td>this</td><td>that</td></tr>
+    </table>
+
+    <h3>Statements</h3>
+    <p><strong>say / tell + (that) + clause</strong>. (Tell is followed by an indirect object: tell me, tell him.)</p>
+    <blockquote>
+      "I am tired" → He said (that) he was tired.<br>
+      "I love pizza" → She told me (that) she loved pizza.
+    </blockquote>
+
+    <h3>Questions</h3>
+    <p>Use <strong>asked + if/whether</strong> (yes/no) or <strong>asked + question word</strong> (wh-). Word order is affirmative.</p>
+    <blockquote>
+      "Do you speak French?" → He asked if I spoke French.<br>
+      "Where do you live?" → She asked where I lived.
+    </blockquote>
+
+    <h3>Commands</h3>
+    <p>Use <strong>told + person + to/not to + infinitive</strong>.</p>
+    <blockquote>
+      "Open the door" → She told me to open the door.<br>
+      "Don't be late" → He told us not to be late.
+    </blockquote>
+  </section>
+
+  <!-- VOCABULARY -->
+  <section id="vocab">
+    <h2>📚 Vocabulary — Phrasal verbs &amp; collocations</h2>
+
+    <h3>Most useful phrasal verbs (3º ESO)</h3>
+    <table>
+      <tr><th>Phrasal verb</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td>get up</td><td>levantarse</td><td>I get up at 7.</td></tr>
+      <tr><td>get on with</td><td>llevarse bien</td><td>I get on well with my sister.</td></tr>
+      <tr><td>look after</td><td>cuidar</td><td>She looks after her brother.</td></tr>
+      <tr><td>look for</td><td>buscar</td><td>I'm looking for my keys.</td></tr>
+      <tr><td>look up</td><td>buscar (en diccionario)</td><td>Look up the word in the dictionary.</td></tr>
+      <tr><td>turn on/off</td><td>encender / apagar</td><td>Turn off the lights.</td></tr>
+      <tr><td>give up</td><td>dejar (un hábito)</td><td>He gave up smoking.</td></tr>
+      <tr><td>find out</td><td>descubrir</td><td>I found out the truth.</td></tr>
+      <tr><td>put on</td><td>ponerse (ropa)</td><td>Put on your jacket.</td></tr>
+      <tr><td>take off</td><td>quitarse / despegar</td><td>The plane takes off at 9.</td></tr>
+      <tr><td>run out of</td><td>quedarse sin</td><td>We ran out of milk.</td></tr>
+      <tr><td>go on</td><td>continuar</td><td>Please, go on.</td></tr>
+      <tr><td>come back</td><td>volver</td><td>He came back yesterday.</td></tr>
+      <tr><td>break down</td><td>averiarse</td><td>The car broke down.</td></tr>
+      <tr><td>make up</td><td>inventar / reconciliarse</td><td>They made up after the fight.</td></tr>
+    </table>
+
+    <h3>Common prepositions</h3>
+    <table>
+      <tr><th>Verb / Adjective</th><th>Prep</th><th>Example</th></tr>
+      <tr><td>good / bad</td><td>at</td><td>I'm good at maths.</td></tr>
+      <tr><td>interested</td><td>in</td><td>She's interested in music.</td></tr>
+      <tr><td>afraid</td><td>of</td><td>He's afraid of dogs.</td></tr>
+      <tr><td>worried</td><td>about</td><td>I'm worried about the exam.</td></tr>
+      <tr><td>depend</td><td>on</td><td>It depends on you.</td></tr>
+      <tr><td>listen</td><td>to</td><td>I listen to music.</td></tr>
+      <tr><td>arrive</td><td>at / in</td><td>arrive at school / in Madrid</td></tr>
+      <tr><td>look</td><td>at</td><td>Look at the board.</td></tr>
+    </table>
+
+    <h3>Word formation — common suffixes</h3>
+    <table>
+      <tr><th>Suffix</th><th>Type</th><th>Example</th></tr>
+      <tr><td>-er / -or</td><td>person</td><td>teacher, actor</td></tr>
+      <tr><td>-tion / -sion</td><td>noun</td><td>information, decision</td></tr>
+      <tr><td>-ness</td><td>noun (abstract)</td><td>happiness, kindness</td></tr>
+      <tr><td>-ful</td><td>adjective</td><td>useful, beautiful</td></tr>
+      <tr><td>-less</td><td>without</td><td>useless, hopeless</td></tr>
+      <tr><td>-ly</td><td>adverb</td><td>quickly, slowly</td></tr>
+      <tr><td>un- / in-</td><td>negative</td><td>unhappy, incorrect</td></tr>
+    </table>
+  </section>
+
+  <!-- READING -->
+  <section id="reading">
+    <h2>📖 Reading practice</h2>
+
+    <div class="ejercicio">
+      <div class="num">Reading 1 — Teen life</div>
+      <blockquote>
+        Sarah is a 15-year-old girl from Brighton. Every morning, she <strong>wakes up</strong> at 7 and <strong>has</strong> breakfast with her family. She <strong>is studying</strong> very hard this term because she <strong>has</strong> important exams in May. Last weekend, she <strong>went</strong> to London with her friends and they <strong>visited</strong> the British Museum. Sarah <strong>has been</strong> there twice this year. Next summer, she <strong>is going to</strong> travel to Spain to improve her Spanish. If she <strong>passes</strong> all her exams, her parents <strong>will buy</strong> her a new phone.
+      </blockquote>
+      <h4>Questions:</h4>
+      <ol>
+        <li>How old is Sarah and where does she live?</li>
+        <li>Why is she studying so hard now?</li>
+        <li>What did she do last weekend?</li>
+        <li>How many times has she been to the British Museum this year?</li>
+        <li>What's her plan for next summer?</li>
+        <li>What will happen if she passes all her exams?</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Show answers</button>
+      <div class="solucion">
+        <ol>
+          <li>She is 15 years old and lives in Brighton.</li>
+          <li>Because she has important exams in May.</li>
+          <li>She went to London with her friends and visited the British Museum.</li>
+          <li>Twice (= two times).</li>
+          <li>She is going to travel to Spain to improve her Spanish.</li>
+          <li>Her parents will buy her a new phone.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Reading 2 — Climate change</div>
+      <blockquote>
+        Climate change <strong>is</strong> one of the biggest problems of our time. Scientists <strong>have warned</strong> us for decades that human activity <strong>is causing</strong> the planet to warm up. If we <strong>continue</strong> burning fossil fuels, sea levels <strong>will rise</strong> and many cities <strong>will be flooded</strong>. We <strong>should</strong> use renewable energy and <strong>must</strong> reduce plastic waste. In some countries, plastic bags <strong>have been banned</strong>. Young people like Greta Thunberg <strong>are fighting</strong> to make governments take action.
+      </blockquote>
+      <h4>Questions:</h4>
+      <ol>
+        <li>What is the text mainly about?</li>
+        <li>What will happen if we continue burning fossil fuels?</li>
+        <li>What two things should/must we do, according to the text?</li>
+        <li>What has been banned in some countries?</li>
+        <li>Why is Greta Thunberg mentioned?</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Show answers</button>
+      <div class="solucion">
+        <ol>
+          <li>Climate change and what we should do about it.</li>
+          <li>Sea levels will rise and many cities will be flooded.</li>
+          <li>Use renewable energy and reduce plastic waste.</li>
+          <li>Plastic bags have been banned (in some countries).</li>
+          <li>As an example of a young person fighting to make governments take action.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section id="writing">
+    <h2>✍️ Writing — How to score points</h2>
+
+    <h3>Structure of a short essay (80-120 words)</h3>
+    <ol>
+      <li><strong>Introduction</strong> (1-2 sentences): present the topic.</li>
+      <li><strong>Body</strong> (3-4 sentences): develop ideas with examples and connectors.</li>
+      <li><strong>Conclusion</strong> (1-2 sentences): wrap up your opinion.</li>
+    </ol>
+
+    <h3>Useful connectors</h3>
+    <table>
+      <tr><th>Function</th><th>Connectors</th></tr>
+      <tr><td>Adding ideas</td><td>also, in addition, moreover, furthermore, besides</td></tr>
+      <tr><td>Contrasting</td><td>but, however, although, on the other hand, nevertheless</td></tr>
+      <tr><td>Cause</td><td>because, since, as</td></tr>
+      <tr><td>Effect</td><td>so, therefore, as a result, consequently</td></tr>
+      <tr><td>Examples</td><td>for example, for instance, such as</td></tr>
+      <tr><td>Sequence</td><td>first(ly), then, next, after that, finally</td></tr>
+      <tr><td>Conclusion</td><td>in conclusion, to sum up, all in all, in short</td></tr>
+    </table>
+
+    <h3>Useful opinion phrases</h3>
+    <ul>
+      <li>In my opinion, …</li>
+      <li>I think / I believe that …</li>
+      <li>It seems to me that …</li>
+      <li>From my point of view, …</li>
+      <li>I (don't) agree with the idea that …</li>
+    </ul>
+
+    <h3>Sample essay topic — "Should teenagers use social media?"</h3>
+    <div class="ejercicio">
+      <button class="toggle-sol" onclick="toggleSol(this)">Show sample answer</button>
+      <div class="solucion">
+        <p>Nowadays, social media is part of teenagers' daily lives. In my opinion, social media has both advantages and disadvantages.</p>
+        <p>On the one hand, platforms like Instagram or TikTok help young people communicate with friends and learn about the world. For example, many students use YouTube to study. Moreover, social media can be useful to develop creativity.</p>
+        <p>On the other hand, spending too much time online can be harmful. Many teenagers feel anxious because of comparisons with others, and they sleep less because they use their phones at night.</p>
+        <p>To sum up, I believe social media is positive if we use it sensibly, but parents and schools should help teenagers find a healthy balance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <h2>🎯 Quick quiz</h2>
+
+    <div class="quiz">
+      <div class="q">1. She _____ to the gym every Tuesday.</div>
+      <div class="options">
+        <button onclick="chk(this,true)">goes</button>
+        <button onclick="chk(this,false)">going</button>
+        <button onclick="chk(this,false)">go</button>
+        <button onclick="chk(this,false)">is going</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">2. They _____ in London for ten years.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">live</button>
+        <button onclick="chk(this,false)">are living</button>
+        <button onclick="chk(this,true)">have lived</button>
+        <button onclick="chk(this,false)">had lived</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">3. If it _____ tomorrow, we will stay at home.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">will rain</button>
+        <button onclick="chk(this,true)">rains</button>
+        <button onclick="chk(this,false)">rained</button>
+        <button onclick="chk(this,false)">would rain</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">4. The Mona Lisa _____ by Leonardo da Vinci.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">painted</button>
+        <button onclick="chk(this,false)">is painted</button>
+        <button onclick="chk(this,true)">was painted</button>
+        <button onclick="chk(this,false)">has painted</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">5. He said that he _____ tired.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">is</button>
+        <button onclick="chk(this,true)">was</button>
+        <button onclick="chk(this,false)">be</button>
+        <button onclick="chk(this,false)">had been</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">6. You _____ smoke here. It's prohibited.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">don't have to</button>
+        <button onclick="chk(this,true)">mustn't</button>
+        <button onclick="chk(this,false)">should</button>
+        <button onclick="chk(this,false)">can</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">7. While I _____ TV, the phone rang.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">watched</button>
+        <button onclick="chk(this,true)">was watching</button>
+        <button onclick="chk(this,false)">have watched</button>
+        <button onclick="chk(this,false)">watch</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">8. I'm worried _____ my exams.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">on</button>
+        <button onclick="chk(this,false)">of</button>
+        <button onclick="chk(this,true)">about</button>
+        <button onclick="chk(this,false)">in</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">9. If I _____ rich, I would travel.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">am</button>
+        <button onclick="chk(this,true)">were</button>
+        <button onclick="chk(this,false)">would be</button>
+        <button onclick="chk(this,false)">will be</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">10. She asked me where I _____.</div>
+      <div class="options">
+        <button onclick="chk(this,false)">live</button>
+        <button onclick="chk(this,false)">do live</button>
+        <button onclick="chk(this,true)">lived</button>
+        <button onclick="chk(this,false)">am living</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Mock exam (60 min)</h2>
+
+    <div class="info-box"><strong>Structure:</strong> grammar (4 pts) + vocabulary (1.5 pts) + reading (1.5 pts) + writing (3 pts).</div>
+
+    <div class="ejercicio">
+      <div class="num">PART 1 — Grammar (4 pts)</div>
+      <p>A) Complete with the correct tense:</p>
+      <ol type="a">
+        <li>Last week, my brother _____ (visit) us.</li>
+        <li>I _____ (never / be) to Paris.</li>
+        <li>Look! The bus _____ (come).</li>
+        <li>If she _____ (study) more, she will pass.</li>
+        <li>My phone _____ (steal) yesterday. (passive)</li>
+      </ol>
+      <p>B) Transform into reported speech:</p>
+      <ol type="a" start="6">
+        <li>"I'm tired," he said. → He said …</li>
+        <li>"Where do you live?" she asked. → She asked …</li>
+        <li>"Don't open the door," dad said. → Dad told us …</li>
+      </ol>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PART 2 — Vocabulary (1.5 pts)</div>
+      <p>Complete with a phrasal verb or preposition:</p>
+      <ol type="a">
+        <li>I get _____ well with my parents.</li>
+        <li>She is good _____ painting.</li>
+        <li>Don't forget to turn _____ the lights when you leave.</li>
+        <li>We ran _____ of bread, can you buy some?</li>
+        <li>He's afraid _____ dogs.</li>
+      </ol>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PART 3 — Reading (1.5 pts)</div>
+      <p>Read the text in section "Reading 2" (Climate change) and answer the 5 questions.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PART 4 — Writing (3 pts)</div>
+      <p>Write a short essay (80-120 words) about ONE of these topics:</p>
+      <ul>
+        <li>"My ideal weekend"</li>
+        <li>"The importance of doing sport"</li>
+        <li>"Should phones be allowed in schools?"</li>
+      </ul>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Show answers</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">ANSWERS</h4>
+
+      <p><strong>Part 1A:</strong></p>
+      <ol type="a">
+        <li>visited</li>
+        <li>have never been</li>
+        <li>is coming</li>
+        <li>studies</li>
+        <li>was stolen</li>
+      </ol>
+
+      <p><strong>Part 1B:</strong></p>
+      <ol type="a" start="6">
+        <li>He said (that) he was tired.</li>
+        <li>She asked where I lived.</li>
+        <li>Dad told us not to open the door.</li>
+      </ol>
+
+      <p><strong>Part 2:</strong></p>
+      <ol type="a">
+        <li>on (get on with)</li>
+        <li>at (good at)</li>
+        <li>off / out (turn off)</li>
+        <li>out (run out of)</li>
+        <li>of (afraid of)</li>
+      </ol>
+
+      <p><strong>Part 4 — Writing tips:</strong> use 1 introduction + 2 body paragraphs + 1 conclusion. Include connectors (firstly, also, however, in conclusion). Vary tenses (present + future). Use opinion phrases ("In my opinion", "I think").</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Hide answers' : 'Show answers';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✅ Correct!';}
+    else{btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true'))b.classList.add('correct');
+      });
+      fb.className='feedback show ko';fb.textContent='❌ Incorrect. The right answer is in green.';}
+  }
+</script>
+</body>
+</html>

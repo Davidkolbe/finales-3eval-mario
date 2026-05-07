@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geografía e Historia · Final 3ª eval · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#451a03;--panel-2:#78350f;--text:#fef3c7;
+    --muted:#fed7aa;--border:#92400e;--accent:#fbbf24;--accent-2:#f59e0b;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:Georgia,serif;
+    background:linear-gradient(135deg,#1c0f02 0%,#78350f 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent-2);border-radius:20px;font-size:.9em;font-family:sans-serif}
+  .back:hover{background:var(--accent-2);color:#1c0f02}
+  header{background:linear-gradient(135deg,#78350f 0%,#f59e0b 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);color:#1c0f02}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#451a03}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:sans-serif}
+  nav button:hover{background:var(--accent);color:#1c0f02}
+  nav button.active{background:var(--accent);color:#1c0f02;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:#fed7aa;font-size:1.25em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  blockquote{background:#1c0f02;border-left:4px solid var(--accent);
+    padding:14px 18px;margin:14px 0;border-radius:6px;font-style:italic}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden;font-family:sans-serif;font-size:.92em}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  table th{background:var(--accent);color:#1c0f02}
+  .info-box{background:rgba(245,158,11,.12);border-left:4px solid var(--accent-2);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.1);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2);font-family:sans-serif}
+  .ejercicio .num{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent-2);color:#1c0f02;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:sans-serif;font-weight:600}
+  .toggle-sol:hover{background:var(--accent)}
+  .solucion{background:#1c0f02;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none;font-family:sans-serif}
+  .solucion.show{display:block}
+  .timeline{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;font-family:sans-serif}
+  .timeline-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
+  .timeline-item:last-child{border:0}
+  .timeline-item .year{font-weight:700;color:var(--accent);min-width:80px;font-size:1.05em}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0;font-family:sans-serif}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--accent)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#1c0f02;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  .key-term{background:rgba(251,191,36,.15);padding:1px 6px;border-radius:4px;color:var(--accent);font-weight:600}
+  @media(max-width:700px){header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>🌍 Geografía e Historia</h1>
+    <p><strong>Examen final · Lunes 25 mayo · 10:45</strong></p>
+    <p style="margin-top:6px"><strong>Temario:</strong> Sectores económicos (T2-5) · Sostenibilidad (T6) · Restauración (T17) · España s.XIX (T18)</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Temario</button>
+    <button onclick="show('t2')">T2 · Primario</button>
+    <button onclick="show('t3')">T3 · Secundario</button>
+    <button onclick="show('t4')">T4 · Terciario</button>
+    <button onclick="show('t5')">T5 · Europa/España</button>
+    <button onclick="show('t6')">T6 · Sostenibilidad</button>
+    <button onclick="show('t17')">T17 · Restauración</button>
+    <button onclick="show('t18')">T18 · S.XIX España</button>
+    <button onclick="show('glosario')">📚 Glosario</button>
+    <button onclick="show('quiz')">🎯 Test</button>
+    <button onclick="show('simulacro')">📝 Simulacro</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Qué entra (7 temas — mucha materia)</h2>
+    <h3>Geografía Económica</h3>
+    <ul>
+      <li><strong>Tema 2</strong>: Sector primario (agricultura, ganadería, pesca, acuicultura)</li>
+      <li><strong>Tema 3</strong>: Sector secundario (energías, industria)</li>
+      <li><strong>Tema 4</strong>: Sector terciario (transporte, comercio, turismo)</li>
+      <li><strong>Tema 5</strong>: Los sectores en Europa y España</li>
+      <li><strong>Tema 6</strong>: Sostenibilidad y deterioro ambiental</li>
+    </ul>
+    <h3>Historia de España</h3>
+    <ul>
+      <li><strong>Tema 17</strong>: La Restauración (1874-1902) y la crisis del 98</li>
+      <li><strong>Tema 18</strong>: Economía, sociedad y cultura en España (s.XIX)</li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>⚠️ Es muchísima materia.</strong> La estrategia es no aprender de memoria todo línea por línea, sino entender los <strong>conceptos clave</strong>, las <strong>diferencias entre términos</strong> (extensivo vs intensivo, renovable vs no renovable, etc.) y los <strong>procesos históricos</strong>.
+    </div>
+  </section>
+
+  <!-- T2 PRIMARIO -->
+  <section id="t2">
+    <h2>🌾 T2 · El Sector Primario</h2>
+    <p><strong>Definición:</strong> Sector económico que agrupa todas las actividades que proporcionan recursos obtenidos directamente de la naturaleza. Incluye agricultura, ganadería, pesca y explotación forestal.</p>
+
+    <h3>Factores naturales</h3>
+    <ul>
+      <li><strong>Clima:</strong> condiciona todas las actividades.</li>
+      <li><strong>Relieve:</strong> sobre todo afecta a la agricultura (terrazas en zonas montañosas).</li>
+      <li><strong>Tipos de suelo:</strong> determinan qué se puede cultivar.</li>
+    </ul>
+
+    <h3>Agricultura — clasificaciones</h3>
+    <table>
+      <tr><th>Criterio</th><th>Tipos</th><th>Características</th></tr>
+      <tr><td>Variedad de cultivos</td><td><span class="key-term">Monocultivo</span> / <span class="key-term">Policultivo</span></td><td>Uno solo (mercado) / varios (autoconsumo)</td></tr>
+      <tr><td>Aprovechamiento de la tierra</td><td><span class="key-term">Extensiva</span> / <span class="key-term">Intensiva</span></td><td>Bajo rendimiento, parcelas grandes / alto rendimiento, técnica avanzada</td></tr>
+      <tr><td>Origen del agua</td><td><span class="key-term">Secano</span> / <span class="key-term">Regadío</span></td><td>Solo agua de lluvia / sistemas artificiales</td></tr>
+    </table>
+
+    <h3>Tipos de explotación según parcelas</h3>
+    <ul>
+      <li><strong>Latifundios</strong> (parcelas grandes) vs <strong>minifundios</strong> (parcelas pequeñas).</li>
+      <li><strong>Bocage</strong> (campos cerrados con setos/muros) vs <strong>openfield</strong> (campos abiertos sin separación).</li>
+    </ul>
+
+    <h3>Ganadería</h3>
+    <ul>
+      <li>Tipos según especie: <strong>vacuno/bovino, avícola, porcino, ovino</strong>.</li>
+      <li><strong>Ganadería extensiva</strong>: animales libres, pastos naturales, baja productividad pero alta calidad. La <strong>trashumante</strong> mueve el ganado en busca de pastos.</li>
+      <li><strong>Ganadería intensiva</strong>: animales en establos, piensos artificiales, alta productividad, menor calidad.</li>
+    </ul>
+
+    <h3>Pesca</h3>
+    <table>
+      <tr><th>Tipo</th><th>Distancia</th><th>Características</th></tr>
+      <tr><td>Bajura (litoral)</td><td>Junto a la costa</td><td>Pequeñas embarcaciones, mercado local</td></tr>
+      <tr><td>Altura</td><td>Lejos de la costa</td><td>Embarcaciones medianas/grandes, varios días</td></tr>
+      <tr><td>Gran altura</td><td>Alta mar</td><td>Buques factoría, varios meses</td></tr>
+    </table>
+    <p><strong>Acuicultura:</strong> cría de especies acuáticas en cautividad (piscifactorías). Hoy &gt;50% del pescado consumido procede de aquí.</p>
+
+    <div class="info-box"><strong>📌 Conceptos clave para memorizar:</strong> latifundio, minifundio, bocage, openfield, monocultivo, policultivo, extensiva, intensiva, secano, regadío, trashumancia, acuicultura, pesca de bajura/altura/gran altura.</div>
+  </section>
+
+  <!-- T3 SECUNDARIO -->
+  <section id="t3">
+    <h2>🏭 T3 · El Sector Secundario</h2>
+    <p><strong>Definición:</strong> Actividades que proporcionan bienes manufacturados y obtienen recursos minerales y energéticos. Incluye industria, construcción y energía.</p>
+
+    <h3>Energía — clasificaciones</h3>
+    <table>
+      <tr><th>Criterio</th><th>Tipos</th></tr>
+      <tr><td>Por agotamiento</td><td><strong>Renovables</strong> (no se agotan) / <strong>No renovables</strong> (se agotan)</td></tr>
+      <tr><td>Por procedencia</td><td><strong>Primaria</strong> (de la naturaleza) / <strong>Secundaria</strong> (deriva de la primaria)</td></tr>
+    </table>
+
+    <h3>Energías renovables</h3>
+    <ul>
+      <li><strong>Solar</strong> (térmica o fotovoltaica): paneles solares.</li>
+      <li><strong>Eólica</strong>: viento → aerogeneradores.</li>
+      <li><strong>Hidráulica</strong>: caída de agua → turbinas.</li>
+      <li><strong>Mareomotriz</strong>: mareas.</li>
+      <li><strong>Geotérmica</strong>: calor interno de la Tierra.</li>
+      <li><strong>Biomasa</strong>: materia orgánica como combustible.</li>
+    </ul>
+    <p><strong>Ventajas:</strong> poco contaminantes, inagotables. <strong>Inconvenientes:</strong> irregulares, residuos de difícil tratamiento.</p>
+
+    <h3>Energías no renovables (convencionales)</h3>
+    <ul>
+      <li><strong>Combustibles fósiles:</strong> carbón, petróleo, gas natural.</li>
+      <li><strong>Uranio</strong> (energía nuclear).</li>
+    </ul>
+    <p><strong>Ventajas:</strong> baratas, fáciles de almacenar. <strong>Inconvenientes:</strong> contaminantes, agotables.</p>
+
+    <h3>Tres problemas energéticos</h3>
+    <ol>
+      <li><strong>Sobreexplotación:</strong> agotamiento de fuentes finitas.</li>
+      <li><strong>Contaminación:</strong> emisiones de la quema de combustibles.</li>
+      <li><strong>Dependencia energética:</strong> países que dependen de importar energía.</li>
+    </ol>
+
+    <h3>La industria</h3>
+    <p>Transforma materias primas en productos finales o intermedios. A diferencia de la <strong>artesanía</strong> (producción individual con herramientas sencillas), la industria usa producción <strong>en serie y en masa</strong>.</p>
+
+    <h4>Tipos según el consumidor:</h4>
+    <ul>
+      <li><strong>Industria de base:</strong> transforma materias primas en productos semielaborados (siderúrgica, química pesada, petroquímica).</li>
+      <li><strong>Industria de bienes de equipo:</strong> fabrica máquinas y equipos para otras industrias (robots, prensas, embotelladoras).</li>
+      <li><strong>Industria de bienes de consumo:</strong> produce bienes para el consumidor final (alimentaria, textil, automovilística, farmacéutica).</li>
+    </ul>
+
+    <h4>Tipos según energía/materia consumida:</h4>
+    <ul>
+      <li><strong>Pesada:</strong> mucha energía y materia (siderurgia).</li>
+      <li><strong>Ligera:</strong> menos consumo (textil, electrónica).</li>
+    </ul>
+
+    <h3>Factores de localización industrial</h3>
+    <ul>
+      <li>Cercanía a materias primas y fuentes de energía.</li>
+      <li>Mercado y mano de obra.</li>
+      <li>Infraestructuras de transporte.</li>
+      <li>Política e inversiones públicas.</li>
+    </ul>
+
+    <h3>Polos industriales mundiales</h3>
+    <ul>
+      <li>EE.UU. y Canadá (Norteamérica).</li>
+      <li>Europa Occidental (Alemania, Francia, Italia, Reino Unido).</li>
+      <li>Asia oriental (China, Japón, Corea del Sur).</li>
+      <li>Países emergentes (India, Brasil, México).</li>
+    </ul>
+  </section>
+
+  <!-- T4 TERCIARIO -->
+  <section id="t4">
+    <h2>🚚 T4 · El Sector Terciario</h2>
+    <p><strong>Definición:</strong> Engloba todos los <strong>servicios</strong>: actividades que satisfacen una necesidad sin proporcionar un bien tangible.</p>
+    <p><strong>Servicios públicos vs privados:</strong> los públicos los financia el Estado con impuestos; los privados los pagan los consumidores.</p>
+
+    <h3>Las tres grandes actividades</h3>
+
+    <h4>1. El transporte</h4>
+    <table>
+      <tr><th>Tipo</th><th>Características</th></tr>
+      <tr><td>Terrestre (carretera)</td><td>Flexible, puerta a puerta, mayoritario en mercancías cortas distancias</td></tr>
+      <tr><td>Ferroviario</td><td>Económico para grandes volúmenes y largas distancias</td></tr>
+      <tr><td>Marítimo</td><td>El más barato para grandes mercancías intercontinentales</td></tr>
+      <tr><td>Aéreo</td><td>El más rápido y caro; sobre todo personas y mercancías valiosas</td></tr>
+      <tr><td>Por tubería</td><td>Petróleo, gas (oleoductos, gasoductos)</td></tr>
+    </table>
+
+    <h4>2. El comercio</h4>
+    <ul>
+      <li><strong>Interior</strong> (dentro del país) vs <strong>exterior</strong> (entre países: importaciones y exportaciones).</li>
+      <li><strong>Mayorista</strong> (compra grandes cantidades para revender) vs <strong>minorista</strong> (vende al consumidor final).</li>
+      <li><strong>Balanza comercial:</strong> diferencia entre exportaciones e importaciones. Positiva (superávit) o negativa (déficit).</li>
+      <li><strong>Globalización:</strong> intercambio mundial de productos, servicios e información.</li>
+    </ul>
+
+    <h4>3. El turismo</h4>
+    <p>Actividad que mueve a personas a desplazarse fuera de su lugar habitual de residencia con fines de ocio, descanso o cultura. Es muy importante en países como España.</p>
+    <p>Tipos: turismo de sol y playa, cultural, rural, deportivo, de negocios, gastronómico, etc.</p>
+
+    <h3>Las economías terciarizadas</h3>
+    <p>Son aquellas en las que el sector servicios <strong>aporta más del 50% del PIB</strong> y emplea a la mayor parte de la población. Es típico de los países desarrollados.</p>
+  </section>
+
+  <!-- T5 EUROPA Y ESPAÑA -->
+  <section id="t5">
+    <h2>🇪🇺🇪🇸 T5 · Los sectores económicos en Europa y España</h2>
+
+    <h3>Europa</h3>
+    <ul>
+      <li><strong>Sector primario:</strong> peso reducido en el PIB (3-5%) pero altamente tecnificado. Los países del norte y del este tienen agricultura y ganadería más extensivas; los del sur (España, Italia) más mediterráneas (olivo, vid, cítricos). Pesca importante en Atlántico Norte.</li>
+      <li><strong>Sector secundario:</strong> Europa fue cuna de la Revolución Industrial. Hoy hay un eje industrial entre Reino Unido, Países Bajos, Alemania y norte de Italia ("la banana azul"). Industrias punteras de alta tecnología.</li>
+      <li><strong>Sector terciario:</strong> dominante (más del 70% del PIB en muchos países). Servicios financieros (Londres, Frankfurt), turismo (España, Francia, Italia, Grecia), comercio.</li>
+    </ul>
+
+    <h3>España</h3>
+    <ul>
+      <li><strong>Sector primario:</strong> ≈ 4-5% del PIB. Agricultura mediterránea (cereales, olivo, vid, hortalizas). Ganadería diversa (porcino, ovino, vacuno). Importante actividad pesquera, sobre todo en Galicia.</li>
+      <li><strong>Sector secundario:</strong> ≈ 20% del PIB. Industria automovilística (Vigo, Valladolid, Pamplona, Barcelona, Zaragoza), petroquímica (Tarragona, Huelva), agroalimentaria, textil. Crisis del sector tradicional desde los años 70.</li>
+      <li><strong>Sector terciario:</strong> &gt;75% del PIB. España es la <strong>2ª potencia turística mundial</strong> (≈80 millones de turistas/año pre-pandemia). Banca, transporte, comercio, telecomunicaciones.</li>
+    </ul>
+
+    <div class="info-box"><strong>📌 Idea fuerza:</strong> Europa y España son economías terciarizadas. El primario aporta poco al PIB pero sigue siendo importante por la soberanía alimentaria. La industria ha perdido peso a favor de los servicios.</div>
+  </section>
+
+  <!-- T6 SOSTENIBILIDAD -->
+  <section id="t6">
+    <h2>🌱 T6 · Sostenibilidad y deterioro ambiental</h2>
+
+    <h3>Sobreexplotación de recursos naturales</h3>
+    <p><strong>Sobreexplotación:</strong> aprovechamiento excesivo de los recursos naturales por encima de su capacidad de regeneración. Afecta a recursos renovables (bosques, pesca) y no renovables (combustibles fósiles, minerales).</p>
+
+    <h3>Desarrollo sostenible</h3>
+    <p>Modelo de desarrollo que satisface las necesidades actuales <strong>sin comprometer las de generaciones futuras</strong> (definición Brundtland, 1987). Tres pilares:</p>
+    <ol>
+      <li>Económico (crecimiento)</li>
+      <li>Social (equidad)</li>
+      <li>Ambiental (conservación)</li>
+    </ol>
+
+    <h3>Degradación del medio</h3>
+    <h4>Contaminación de aguas</h4>
+    <ul>
+      <li>Vertidos urbanos, industriales y agrícolas (fertilizantes, pesticidas).</li>
+      <li>Eutrofización (exceso de nutrientes → proliferación de algas).</li>
+      <li>Vertidos de petróleo (mareas negras).</li>
+    </ul>
+
+    <h4>Deforestación, destrucción del suelo y pérdida de biodiversidad</h4>
+    <ul>
+      <li>Tala masiva (Amazonas, Indonesia) → menos absorción de CO₂.</li>
+      <li>Erosión del suelo por malas prácticas agrícolas.</li>
+      <li>Desertificación (España, mediterráneo).</li>
+      <li>Extinción de especies a un ritmo acelerado.</li>
+    </ul>
+
+    <h4>Cambio climático</h4>
+    <ul>
+      <li>Causado por el aumento de gases de efecto invernadero (CO₂, metano).</li>
+      <li>Origen: quema de combustibles fósiles, deforestación, ganadería intensiva.</li>
+      <li>Consecuencias: aumento de temperatura, deshielo, subida del nivel del mar, fenómenos meteorológicos extremos.</li>
+    </ul>
+
+    <h4>Contaminación atmosférica</h4>
+    <ul>
+      <li><strong>Lluvia ácida</strong> (SO₂, NOx).</li>
+      <li><strong>Smog</strong> en ciudades.</li>
+      <li><strong>Capa de ozono</strong> (CFCs — hoy reducidos).</li>
+    </ul>
+
+    <h3>Soluciones — Acuerdos internacionales</h3>
+    <ul>
+      <li><strong>Protocolo de Kioto</strong> (1997): reducción de emisiones.</li>
+      <li><strong>Acuerdo de París</strong> (2015): mantener el aumento de temperatura por debajo de 2°C.</li>
+      <li><strong>Agenda 2030 / ODS</strong>: 17 Objetivos de Desarrollo Sostenible de la ONU.</li>
+    </ul>
+
+    <div class="tip-box"><strong>💡 Para responder bien:</strong> conecta cada problema con una causa, una consecuencia y una posible solución. Ej: deforestación (causa) → menos CO₂ absorbido → cambio climático (consecuencia) → reforestación + agricultura sostenible (soluciones).</div>
+  </section>
+
+  <!-- T17 RESTAURACIÓN -->
+  <section id="t17">
+    <h2>👑 T17 · La Restauración (1874-1902) y la Crisis del 98</h2>
+
+    <h3>Contexto: por qué surge la Restauración</h3>
+    <p>España vive una época de <strong>inestabilidad</strong>: pronunciamientos militares, fracaso del Sexenio Democrático (1868-1874), de Amadeo de Saboya y la Primera República. La sociedad (sobre todo clases altas y medias) deseaba estabilidad.</p>
+    <p><strong>Antonio Cánovas del Castillo</strong> diseñó un plan para restaurar la monarquía borbónica con el príncipe Alfonso, hijo de Isabel II.</p>
+
+    <div class="timeline">
+      <div class="timeline-item"><div class="year">1874</div><div>El general <strong>Martínez Campos</strong> proclama rey a <strong>Alfonso XII</strong>. Fin de la Primera República.</div></div>
+      <div class="timeline-item"><div class="year">1876</div><div>Se aprueba la <strong>Constitución de 1876</strong>, conservadora pero flexible.</div></div>
+      <div class="timeline-item"><div class="year">1885</div><div>Muere Alfonso XII. Su esposa <strong>María Cristina de Habsburgo</strong> asume la regencia.</div></div>
+      <div class="timeline-item"><div class="year">1885</div><div><strong>Pacto del Pardo</strong>: Cánovas y Sagasta acuerdan mantener el turnismo durante la regencia.</div></div>
+      <div class="timeline-item"><div class="year">1898</div><div>Explosión del <strong>Maine</strong> en La Habana (15 feb). EE.UU. declara la guerra a España.</div></div>
+      <div class="timeline-item"><div class="year">1898</div><div><strong>Tratado de París</strong> (dic): España pierde Cuba, Puerto Rico y Filipinas.</div></div>
+      <div class="timeline-item"><div class="year">1902</div><div>Mayoría de edad de Alfonso XIII. Fin de la regencia.</div></div>
+    </div>
+
+    <h3>Reinado de Alfonso XII (1874-1885)</h3>
+    <ul>
+      <li>Conocido como "el Pacificador" por la estabilidad que trajo.</li>
+      <li>Dejó el gobierno en manos de los políticos.</li>
+      <li>Sistema de Cánovas basado en dos pilares: Constitución 1876 + Turnismo.</li>
+    </ul>
+
+    <h3>El Turnismo</h3>
+    <p>Sistema en que <strong>Cánovas (Conservador)</strong> y <strong>Sagasta (Liberal)</strong> se turnaban en el gobierno de forma pactada. Era <strong>fraudulento pero estable</strong>.</p>
+    <h4>Cómo funcionaba el fraude electoral:</h4>
+    <ol>
+      <li><strong>Encasillado</strong>: pacto previo de qué diputados saldrían elegidos en cada distrito.</li>
+      <li><strong>Pucherazo</strong>: manipulación de votos, falsificación de actas, votos de fallecidos.</li>
+      <li><strong>Caciquismo</strong>: en zonas rurales, los <strong>caciques</strong> (terratenientes con poder) "orientaban" el voto con favores o amenazas.</li>
+    </ol>
+
+    <h3>Regencia de María Cristina (1885-1902)</h3>
+    <ul>
+      <li>Periodo de relativa calma interna.</li>
+      <li>Cobran fuerza fuerzas políticas que el turnismo dejaba fuera: <strong>republicanos, socialistas, anarquistas, nacionalismos catalán y vasco</strong>.</li>
+    </ul>
+
+    <h3>La Crisis del 98 — Pérdida de las últimas colonias</h3>
+    <ul>
+      <li>Cuba y Filipinas tenían movimientos independentistas.</li>
+      <li>EE.UU., en ascenso como potencia, apoyaba a los independentistas y tenía intereses económicos en Cuba.</li>
+      <li>15 febrero 1898: explosión del <strong>Maine</strong> en La Habana → <em>casus belli</em>.</li>
+      <li>España es derrotada rápidamente por la superioridad militar de EE.UU.</li>
+      <li><strong>Tratado de París</strong> (diciembre 1898): Cuba y Puerto Rico van a EE.UU.; Filipinas se vende por 20 millones de dólares.</li>
+    </ul>
+
+    <h4>Consecuencias del 98</h4>
+    <ul>
+      <li><strong>Trauma nacional:</strong> "el Desastre del 98".</li>
+      <li>Nace la <strong>Generación del 98</strong> (Unamuno, Machado, Baroja, Azorín…) que reflexiona sobre la decadencia española.</li>
+      <li><strong>Regeneracionismo</strong>: movimiento que pide modernizar el país (Joaquín Costa: "Despensa y escuela").</li>
+      <li>Crisis del sistema de la Restauración, aunque sobrevive hasta 1923 (dictadura de Primo de Rivera).</li>
+    </ul>
+  </section>
+
+  <!-- T18 SIGLO XIX -->
+  <section id="t18">
+    <h2>🏛️ T18 · Economía, sociedad y cultura en la España del s. XIX</h2>
+
+    <h3>Contexto general</h3>
+    <p>El siglo XIX en Europa fue de transformaciones profundas: <strong>Revoluciones Industriales</strong>, surgimiento del <strong>movimiento obrero</strong>. España vivió estos cambios pero más lenta y desigualmente.</p>
+
+    <h3>Economía — La agricultura como base</h3>
+    <ul>
+      <li>El <strong>sector primario</strong> sigue siendo la base de la economía.</li>
+      <li>La agricultura era <strong>atrasada tecnológicamente</strong>, dependiente del clima y con bajos rendimientos.</li>
+      <li>Problema clave: la <strong>concentración de la propiedad</strong> en manos de la nobleza y la Iglesia → tierras infraexplotadas.</li>
+      <li>Las <strong>Desamortizaciones</strong> (Mendizábal en 1836 y Madoz en 1855) sacaron tierras al mercado, pero fueron compradas por burgueses ricos, no por los campesinos.</li>
+    </ul>
+
+    <h3>El inicio de la industrialización</h3>
+    <ul>
+      <li>Industrialización <strong>lenta y desigual</strong> respecto a Reino Unido o Alemania.</li>
+      <li>Dos focos principales:
+        <ul>
+          <li><strong>Cataluña</strong>: industria <strong>textil del algodón</strong>.</li>
+          <li><strong>País Vasco</strong>: industria <strong>siderúrgica</strong> (hierro de Vizcaya).</li>
+        </ul>
+      </li>
+      <li><strong>Asturias</strong>: minas de carbón.</li>
+      <li>El resto del país siguió siendo agrario.</li>
+    </ul>
+
+    <h3>Comercio y finanzas</h3>
+    <ul>
+      <li>Construcción del <strong>ferrocarril</strong> a partir de 1848 (primera línea Barcelona-Mataró). Ley de Ferrocarriles de 1855.</li>
+      <li>Aparición de la banca moderna y la bolsa.</li>
+      <li>Adopción de la <strong>peseta</strong> (1868) como moneda única.</li>
+      <li>Comercio exterior centrado en exportar materias primas e importar productos manufacturados.</li>
+    </ul>
+
+    <h3>La sociedad — De estamentos a clases sociales</h3>
+    <p>Se transita de la sociedad estamental del Antiguo Régimen a una <strong>sociedad de clases</strong>:</p>
+    <ul>
+      <li><strong>Clases altas:</strong> nobleza (en declive) y alta burguesía (banqueros, industriales).</li>
+      <li><strong>Clases medias:</strong> profesionales liberales, funcionarios, comerciantes, pequeños propietarios.</li>
+      <li><strong>Clases bajas:</strong> campesinos (mayoría) y proletariado urbano.</li>
+    </ul>
+    <p>La situación de los obreros era muy dura: jornadas largas, salarios bajos, falta de derechos.</p>
+
+    <h3>El movimiento obrero</h3>
+    <p>Frente a las malas condiciones, los obreros se organizan. Dos grandes corrientes:</p>
+    <table>
+      <tr><th>Marxismo / Socialismo</th><th>Anarquismo</th></tr>
+      <tr>
+        <td>Lucha política a través de partidos y sindicatos. Toma del Estado por la clase obrera.<br><strong>PSOE</strong> (1879, P. Iglesias) y <strong>UGT</strong> (1888).<br>Más fuerte en Madrid, País Vasco, Asturias.</td>
+        <td>Rechaza el Estado. Acción directa: huelgas, atentados.<br><strong>CNT</strong> (1910).<br>Más fuerte en Cataluña, Andalucía.</td>
+      </tr>
+    </table>
+
+    <h3>La cultura</h3>
+    <ul>
+      <li><strong>Romanticismo</strong> (1ª mitad XIX): exaltación del yo, libertad, naturaleza, lo medieval. Autores: Espronceda, Bécquer, Larra, Rosalía de Castro.</li>
+      <li><strong>Realismo</strong> y <strong>Naturalismo</strong> (2ª mitad XIX): retrato fiel de la sociedad. Autores: Galdós (<em>Episodios Nacionales, Fortunata y Jacinta</em>), Clarín (<em>La Regenta</em>), Pardo Bazán (<em>Los pazos de Ulloa</em>).</li>
+      <li>Pintura: Goya (transición), Sorolla, Madrazo.</li>
+      <li>Educación: alta tasa de analfabetismo (~75% al inicio del siglo, ~50% al final).</li>
+    </ul>
+
+    <div class="info-box">
+      <strong>📌 Idea-fuerza:</strong> en el XIX, España vive un proceso de modernización <strong>incompleto y desigual</strong>: la economía sigue dependiendo del campo, la industrialización se concentra en Cataluña/País Vasco, y la sociedad se polariza entre una burguesía pujante y una clase obrera empobrecida que se organiza políticamente.
+    </div>
+  </section>
+
+  <!-- GLOSARIO -->
+  <section id="glosario">
+    <h2>📚 Glosario completo (90 términos)</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Términos clave de los 7 temas. Útil para repasar la víspera.</p>
+
+    <h3>Sector primario (T2)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Agropecuario</td><td>Relativo a agricultura y ganadería conjuntamente.</td></tr>
+      <tr><td>Latifundio</td><td>Explotación agraria de gran tamaño.</td></tr>
+      <tr><td>Minifundio</td><td>Explotación de pequeño tamaño.</td></tr>
+      <tr><td>Bocage</td><td>Paisaje de campos cerrados con setos o muros.</td></tr>
+      <tr><td>Openfield</td><td>Paisaje de campos abiertos sin separación.</td></tr>
+      <tr><td>Monocultivo</td><td>Una sola especie por parcela; orientado al mercado.</td></tr>
+      <tr><td>Policultivo</td><td>Varias especies en una parcela; autoconsumo.</td></tr>
+      <tr><td>Agricultura extensiva</td><td>Sigue ciclos naturales, baja productividad.</td></tr>
+      <tr><td>Agricultura intensiva</td><td>Uso intensivo de técnicas; alta productividad.</td></tr>
+      <tr><td>Secano</td><td>Solo agua de lluvia.</td></tr>
+      <tr><td>Regadío</td><td>Riego artificial.</td></tr>
+      <tr><td>Trashumancia</td><td>Desplazamiento del ganado en busca de pastos.</td></tr>
+      <tr><td>Vía pecuaria</td><td>Camino tradicional de paso del ganado trashumante.</td></tr>
+      <tr><td>Cabaña</td><td>Conjunto del ganado.</td></tr>
+      <tr><td>Banco / Caladero</td><td>Zona del mar rica en peces.</td></tr>
+      <tr><td>Acuicultura</td><td>Cría de especies acuáticas en cautividad.</td></tr>
+      <tr><td>Piscifactoría</td><td>Instalación donde se practica la acuicultura.</td></tr>
+    </table>
+
+    <h3>Sector secundario (T3)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Energía primaria</td><td>Obtenida directamente de la naturaleza.</td></tr>
+      <tr><td>Energía secundaria</td><td>Obtenida transformando una primaria (electricidad, gasolina).</td></tr>
+      <tr><td>Combustible fósil</td><td>Carbón, petróleo, gas natural.</td></tr>
+      <tr><td>Aerogenerador</td><td>Máquina que convierte el viento en electricidad.</td></tr>
+      <tr><td>Industria de base</td><td>Transforma materias primas en semielaborados.</td></tr>
+      <tr><td>Industria de bienes de equipo</td><td>Fabrica máquinas para otras industrias.</td></tr>
+      <tr><td>Industria de bienes de consumo</td><td>Productos para el consumidor final.</td></tr>
+      <tr><td>Polo industrial</td><td>Zona con gran concentración de industrias.</td></tr>
+      <tr><td>Dependencia energética</td><td>Necesidad de importar energía.</td></tr>
+    </table>
+
+    <h3>Sector terciario (T4) y Europa/España (T5)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Sector terciario</td><td>Actividades de servicios (sin bien tangible).</td></tr>
+      <tr><td>Servicios públicos</td><td>Financiados por el Estado.</td></tr>
+      <tr><td>Comercio mayorista</td><td>Compra grandes cantidades para revender.</td></tr>
+      <tr><td>Comercio minorista</td><td>Vende al consumidor final.</td></tr>
+      <tr><td>Balanza comercial</td><td>Diferencia entre exportaciones e importaciones.</td></tr>
+      <tr><td>Globalización</td><td>Integración mundial de la economía.</td></tr>
+      <tr><td>Economía terciarizada</td><td>El sector servicios aporta más del 50% del PIB.</td></tr>
+      <tr><td>PIB</td><td>Producto Interior Bruto: valor de todo lo producido.</td></tr>
+      <tr><td>Banana azul</td><td>Eje industrial europeo (Reino Unido — norte de Italia).</td></tr>
+    </table>
+
+    <h3>Sostenibilidad (T6)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Sobreexplotación</td><td>Aprovechamiento por encima de la capacidad de regeneración.</td></tr>
+      <tr><td>Desarrollo sostenible</td><td>Desarrollo que no compromete las generaciones futuras.</td></tr>
+      <tr><td>Eutrofización</td><td>Exceso de nutrientes que provoca proliferación de algas.</td></tr>
+      <tr><td>Deforestación</td><td>Destrucción de bosques.</td></tr>
+      <tr><td>Desertificación</td><td>Pérdida de capacidad productiva del suelo.</td></tr>
+      <tr><td>Efecto invernadero</td><td>Retención de calor en la atmósfera por gases (CO₂, metano).</td></tr>
+      <tr><td>Lluvia ácida</td><td>Lluvia con SO₂ y NOx que daña ecosistemas.</td></tr>
+      <tr><td>Protocolo de Kioto</td><td>Acuerdo internacional para reducir emisiones (1997).</td></tr>
+      <tr><td>Acuerdo de París</td><td>Pacto climático mundial (2015).</td></tr>
+      <tr><td>ODS</td><td>Objetivos de Desarrollo Sostenible de la Agenda 2030.</td></tr>
+    </table>
+
+    <h3>Restauración (T17)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Restauración</td><td>Periodo (1874-1931) de regreso de la monarquía borbónica.</td></tr>
+      <tr><td>Cánovas del Castillo</td><td>Político conservador, ideólogo del sistema.</td></tr>
+      <tr><td>Sagasta</td><td>Líder del Partido Liberal, alternaba con Cánovas.</td></tr>
+      <tr><td>Constitución de 1876</td><td>Ley fundamental de la Restauración, conservadora pero flexible.</td></tr>
+      <tr><td>Turnismo</td><td>Alternancia pactada en el gobierno entre conservadores y liberales.</td></tr>
+      <tr><td>Encasillado</td><td>Pacto previo de qué candidatos serían elegidos.</td></tr>
+      <tr><td>Pucherazo</td><td>Manipulación fraudulenta de votos.</td></tr>
+      <tr><td>Caciquismo</td><td>Influencia de los caciques rurales en el voto.</td></tr>
+      <tr><td>Pacto del Pardo</td><td>Acuerdo Cánovas-Sagasta para mantener el turnismo (1885).</td></tr>
+      <tr><td>Casus belli</td><td>Pretexto que justifica una declaración de guerra.</td></tr>
+      <tr><td>Tratado de París (1898)</td><td>España pierde Cuba, Puerto Rico y Filipinas.</td></tr>
+      <tr><td>Generación del 98</td><td>Grupo de escritores que reflexionan sobre la decadencia española.</td></tr>
+      <tr><td>Regeneracionismo</td><td>Movimiento de modernización del país tras 1898.</td></tr>
+    </table>
+
+    <h3>Siglo XIX España (T18)</h3>
+    <table>
+      <tr><th>Término</th><th>Definición</th></tr>
+      <tr><td>Desamortización</td><td>Venta forzosa de tierras de la Iglesia y municipios (Mendizábal 1836, Madoz 1855).</td></tr>
+      <tr><td>Sociedad estamental</td><td>Sociedad del Antiguo Régimen dividida en estamentos cerrados.</td></tr>
+      <tr><td>Sociedad de clases</td><td>Sociedad moderna donde el nivel económico determina la posición social.</td></tr>
+      <tr><td>Burguesía</td><td>Clase social emergente, propietaria de medios de producción.</td></tr>
+      <tr><td>Proletariado</td><td>Clase trabajadora urbana sin medios de producción.</td></tr>
+      <tr><td>PSOE</td><td>Partido Socialista Obrero Español (1879).</td></tr>
+      <tr><td>UGT</td><td>Unión General de Trabajadores (1888).</td></tr>
+      <tr><td>CNT</td><td>Confederación Nacional del Trabajo, anarquista (1910).</td></tr>
+      <tr><td>Romanticismo</td><td>Movimiento cultural de la 1ª mitad del s. XIX.</td></tr>
+      <tr><td>Realismo</td><td>Movimiento literario que retrata fielmente la sociedad.</td></tr>
+    </table>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <h2>🎯 Test rápido (15 preguntas)</h2>
+
+    <div class="quiz">
+      <div class="q">1. La agricultura intensiva se caracteriza por:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Bajo rendimiento y parcelas grandes</button>
+        <button onclick="chk(this,true)">Alto rendimiento y mucha tecnología</button>
+        <button onclick="chk(this,false)">Solo riego de lluvia</button>
+        <button onclick="chk(this,false)">Producción para autoconsumo</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">2. Una explotación agraria de gran tamaño se llama:</div>
+      <div class="options">
+        <button onclick="chk(this,true)">Latifundio</button>
+        <button onclick="chk(this,false)">Minifundio</button>
+        <button onclick="chk(this,false)">Bocage</button>
+        <button onclick="chk(this,false)">Openfield</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">3. La pesca de gran altura se realiza:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Junto a la costa</button>
+        <button onclick="chk(this,false)">A pocos km de la costa</button>
+        <button onclick="chk(this,true)">En alta mar, con buques factoría</button>
+        <button onclick="chk(this,false)">En piscifactorías</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">4. ¿Cuál NO es una energía renovable?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Eólica</button>
+        <button onclick="chk(this,false)">Solar</button>
+        <button onclick="chk(this,true)">Carbón</button>
+        <button onclick="chk(this,false)">Mareomotriz</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">5. La industria siderúrgica es de tipo:</div>
+      <div class="options">
+        <button onclick="chk(this,true)">De base</button>
+        <button onclick="chk(this,false)">De bienes de equipo</button>
+        <button onclick="chk(this,false)">De bienes de consumo</button>
+        <button onclick="chk(this,false)">Artesanal</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">6. Una economía terciarizada es aquella donde:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Predomina la agricultura</button>
+        <button onclick="chk(this,false)">Predomina la industria</button>
+        <button onclick="chk(this,true)">El sector servicios aporta más del 50% del PIB</button>
+        <button onclick="chk(this,false)">No hay sector primario</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">7. El Acuerdo de París (2015) trata de:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Comercio internacional</button>
+        <button onclick="chk(this,true)">Cambio climático</button>
+        <button onclick="chk(this,false)">Energía nuclear</button>
+        <button onclick="chk(this,false)">Refugiados</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">8. ¿Quién proclamó rey a Alfonso XII en 1874?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Cánovas del Castillo</button>
+        <button onclick="chk(this,true)">El general Martínez Campos</button>
+        <button onclick="chk(this,false)">Sagasta</button>
+        <button onclick="chk(this,false)">María Cristina</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">9. El "encasillado" en la Restauración era:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Una sala donde votaban los obreros</button>
+        <button onclick="chk(this,true)">El pacto previo de qué diputados saldrían elegidos</button>
+        <button onclick="chk(this,false)">Una constitución</button>
+        <button onclick="chk(this,false)">Un tipo de fraude bancario</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">10. La Crisis del 98 supuso para España la pérdida de:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Marruecos y Argelia</button>
+        <button onclick="chk(this,true)">Cuba, Puerto Rico y Filipinas</button>
+        <button onclick="chk(this,false)">Cataluña y País Vasco</button>
+        <button onclick="chk(this,false)">Las Canarias</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">11. La explosión del Maine ocurrió en:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Manila</button>
+        <button onclick="chk(this,true)">La Habana</button>
+        <button onclick="chk(this,false)">Madrid</button>
+        <button onclick="chk(this,false)">Nueva York</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">12. El PSOE fue fundado en 1879 por:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Cánovas</button>
+        <button onclick="chk(this,false)">Sagasta</button>
+        <button onclick="chk(this,true)">Pablo Iglesias</button>
+        <button onclick="chk(this,false)">Joaquín Costa</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">13. Las dos zonas industriales de España en el s. XIX fueron:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Madrid y Sevilla</button>
+        <button onclick="chk(this,true)">Cataluña (textil) y País Vasco (siderurgia)</button>
+        <button onclick="chk(this,false)">Galicia y Andalucía</button>
+        <button onclick="chk(this,false)">Valencia y Murcia</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">14. El Lazarillo de Tormes y El Buscón son ejemplos de:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Romanticismo</button>
+        <button onclick="chk(this,true)">Novela picaresca</button>
+        <button onclick="chk(this,false)">Realismo</button>
+        <button onclick="chk(this,false)">Naturalismo</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">15. ¿Qué sector aporta hoy más del 75% del PIB español?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Primario</button>
+        <button onclick="chk(this,false)">Secundario</button>
+        <button onclick="chk(this,true)">Terciario</button>
+        <button onclick="chk(this,false)">Cuaternario</button>
+      </div><div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Simulacro de examen (60 minutos)</h2>
+
+    <div class="info-box"><strong>Estructura:</strong> 4 preguntas. 60 min. Algunas son de definir, otras de explicar y comparar, otras de comentar un proceso histórico.</div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 1 (2 pts) — Definiciones (Geografía)</div>
+      <p>Define brevemente:</p>
+      <ol type="a">
+        <li>Latifundio.</li>
+        <li>Acuicultura.</li>
+        <li>Energía primaria vs secundaria.</li>
+        <li>Industria de bienes de equipo.</li>
+        <li>Desarrollo sostenible.</li>
+      </ol>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 2 (2 pts) — Compara y desarrolla</div>
+      <p>Compara la <strong>agricultura extensiva</strong> y la <strong>agricultura intensiva</strong>: define cada una, indica al menos tres diferencias y menciona ventajas e inconvenientes.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 3 (3 pts) — Desarrollo histórico</div>
+      <p>Explica el sistema del <strong>Turnismo</strong> en la Restauración:</p>
+      <ol type="a">
+        <li>¿Quiénes eran los protagonistas y a qué partidos representaban?</li>
+        <li>Describe los tres mecanismos del fraude electoral (encasillado, pucherazo, caciquismo).</li>
+        <li>¿Por qué a pesar del fraude se considera que aportó estabilidad?</li>
+      </ol>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 4 (3 pts) — Comentario de proceso</div>
+      <p>Explica la <strong>Crisis del 98</strong>:</p>
+      <ol type="a">
+        <li>Causas (1 pt)</li>
+        <li>Desarrollo de los acontecimientos (Maine, guerra, tratado) (1 pt)</li>
+        <li>Consecuencias culturales y políticas (Generación del 98, regeneracionismo) (1 pt)</li>
+      </ol>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Ver solucionario completo</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">SOLUCIONARIO</h4>
+
+      <p><strong>Pregunta 1 — Definiciones:</strong></p>
+      <ol type="a">
+        <li><strong>Latifundio:</strong> explotación agraria de gran tamaño, característica del sur de España.</li>
+        <li><strong>Acuicultura:</strong> cría de especies acuáticas en cautividad (en piscifactorías) para consumo humano.</li>
+        <li><strong>Primaria vs secundaria:</strong> la primaria se obtiene directamente de la naturaleza (sol, viento, carbón); la secundaria se obtiene transformando una primaria (electricidad, gasolina).</li>
+        <li><strong>Bienes de equipo:</strong> industrias que fabrican máquinas y equipos para que otras industrias produzcan (robots, prensas, embotelladoras).</li>
+        <li><strong>Desarrollo sostenible:</strong> modelo de desarrollo que satisface las necesidades del presente sin comprometer las de generaciones futuras.</li>
+      </ol>
+
+      <p><strong>Pregunta 2 — Comparación:</strong></p>
+      <p>La agricultura <strong>extensiva</strong> sigue los ciclos naturales y emplea pocos medios artificiales: parcelas grandes, baja productividad, calidad alta. La agricultura <strong>intensiva</strong> busca la máxima producción usando técnicas avanzadas y riego: parcelas pequeñas-medianas, alta productividad, calidad menor.</p>
+      <p>Diferencias: tamaño de parcela, uso de tecnología, productividad, dependencia del clima, calidad del producto. <strong>Ventajas extensiva:</strong> respetuosa con el medio, productos de alta calidad. <strong>Inconvenientes:</strong> bajos rendimientos. <strong>Ventajas intensiva:</strong> alta productividad, abastece grandes mercados. <strong>Inconvenientes:</strong> contaminación, agotamiento del suelo, productos de menor calidad.</p>
+
+      <p><strong>Pregunta 3 — Turnismo:</strong></p>
+      <p>a) Cánovas del Castillo (Partido Conservador) y Sagasta (Partido Liberal). El sistema fue ideado por Cánovas y consistía en alternarse en el gobierno de forma pactada, con la conformidad del rey.</p>
+      <p>b) Tres mecanismos: <strong>Encasillado</strong>: pacto previo entre los dos partidos sobre qué diputados serían elegidos en cada distrito. <strong>Pucherazo</strong>: manipulación de actas, votos de fallecidos, exclusión de votantes reales. <strong>Caciquismo</strong>: en zonas rurales, los caciques (terratenientes con poder económico y social) presionaban a los votantes con favores o amenazas.</p>
+      <p>c) Aportó estabilidad porque evitó los pronunciamientos militares y guerras civiles del s. XIX, y permitió un período de relativa paz interna en el que el país pudo desarrollarse económicamente, aunque fuera a costa de la democracia real.</p>
+
+      <p><strong>Pregunta 4 — Crisis del 98:</strong></p>
+      <p>a) <strong>Causas:</strong> movimientos independentistas en Cuba y Filipinas (no totalmente sofocados desde mediados de s. XIX), intereses económicos crecientes de EE.UU. en Cuba, ascenso de EE.UU. como potencia mundial, debilidad militar y económica de España.</p>
+      <p>b) <strong>Desarrollo:</strong> el 15 de febrero de 1898 explota el acorazado estadounidense USS Maine en el puerto de La Habana, lo que sirve de <em>casus belli</em>. EE.UU. declara la guerra a España. La superioridad militar norteamericana lleva a una rápida derrota española en el Caribe (Santiago de Cuba) y en Filipinas (Cavite). En diciembre se firma el <strong>Tratado de París</strong>: España cede Cuba y Puerto Rico a EE.UU. y vende Filipinas por 20 millones de dólares.</p>
+      <p>c) <strong>Consecuencias:</strong> trauma colectivo conocido como "el Desastre del 98". Surge la <strong>Generación del 98</strong> (Unamuno, Machado, Baroja, Azorín…) que reflexiona sobre el atraso y la decadencia españoles. Aparece el <strong>regeneracionismo</strong> (Joaquín Costa: "despensa y escuela") que reclama modernizar España. La Restauración entra en crisis aunque sobrevivirá hasta 1923.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Ocultar' : 'Ver solución';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✅ ¡Correcto!';}
+    else{btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true'))b.classList.add('correct');
+      });
+      fb.className='feedback show ko';fb.textContent='❌ Incorrecto. La correcta está en verde.';}
+  }
+</script>
+</body>
+</html>

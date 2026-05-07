@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemáticas · Final 3ª eval · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#3b82f6;--accent-2:#60a5fa;
+    --good:#4ade80;--bad:#f87171;--warn:#fbbf24}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent-2);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#fff}
+  header{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#dbeafe}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#fff}
+  nav button.active{background:var(--accent);color:#fff;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent-2);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:var(--warn);font-size:1.2em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  .formula{background:#0f0a1f;padding:12px 16px;border-left:4px solid var(--accent);
+    border-radius:6px;font-family:"Courier New",monospace;font-size:1.05em;
+    margin:10px 0;color:#fde68a;overflow-x:auto}
+  .info-box{background:rgba(59,130,246,.1);border-left:4px solid var(--accent);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.08);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border)}
+  table th{background:var(--accent);color:#fff}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2)}
+  .ejercicio .num{font-weight:700;color:var(--accent-2);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent);color:#fff;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:inherit}
+  .toggle-sol:hover{background:var(--accent-2)}
+  .solucion{background:#0f0a1f;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none}
+  .solucion.show{display:block}
+  .solucion strong{color:var(--good)}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--warn)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#0f0a1f;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit;
+    transition:all .2s}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:700px){.grid-2{grid-template-columns:1fr}header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>📐 Matemáticas</h1>
+    <p>Examen final · Martes 19 mayo · 09:50</p>
+    <p style="color:#fbbf24;margin-top:6px"><strong>Temario:</strong> Funciones + UD6 Geometría</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Temario</button>
+    <button onclick="show('teoria-fun')">📖 Funciones</button>
+    <button onclick="show('teoria-geo1')">📖 Geometría I</button>
+    <button onclick="show('teoria-geo2')">📖 Geometría II</button>
+    <button onclick="show('teoria-vec')">📖 Vectores</button>
+    <button onclick="show('chuleta')">⚡ Chuleta</button>
+    <button onclick="show('ejer')">✏️ Ejercicios</button>
+    <button onclick="show('quiz')">🎯 Test rápido</button>
+    <button onclick="show('simulacro')">📝 Simulacro</button>
+    <button onclick="show('errores')">⚠️ Errores típicos</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Qué entra en el examen</h2>
+    <h3>Bloque 1 — Funciones</h3>
+    <ul>
+      <li>Concepto de función. Variable dependiente e independiente.</li>
+      <li>Dominio y recorrido.</li>
+      <li>Representación gráfica.</li>
+      <li>Funciones lineales (y = mx + n) y afines.</li>
+      <li>Pendiente y ordenada en el origen.</li>
+      <li>Crecimiento y decrecimiento, máximos y mínimos.</li>
+      <li>Continuidad básica.</li>
+    </ul>
+
+    <h3>Bloque 2 — UD6 Geometría</h3>
+    <ol>
+      <li><strong>Semejanza:</strong> figuras semejantes, razón de proporcionalidad k.</li>
+      <li><strong>Teorema de Thales</strong> y sus aplicaciones.</li>
+      <li><strong>Triángulos:</strong> clasificación, Pitágoras, teorema de la altura, teorema del cateto.</li>
+      <li><strong>Áreas y volúmenes:</strong> figuras planas, poliedros regulares, prisma, pirámide, cilindro, cono, esfera.</li>
+      <li><strong>Vectores en el plano:</strong> módulo, coordenadas, suma, producto por escalar.</li>
+    </ol>
+
+    <div class="info-box">
+      <strong>📚 Material oficial del cole:</strong> el PDF "UD 6 Geometría. Madrid, una ciudad llena de rascacielos.pdf" en la carpeta MATEMÁTICAS contiene 60 ejercicios y la teoría completa. La página los reproduce y amplía.
+    </div>
+  </section>
+
+  <!-- TEORÍA FUNCIONES -->
+  <section id="teoria-fun">
+    <h2>📖 Funciones — Resumen</h2>
+
+    <h3>1. Concepto de función</h3>
+    <p>Una <strong>función</strong> relaciona cada valor de una variable independiente <strong>x</strong> con un único valor de la variable dependiente <strong>y</strong>. Se escribe <em>y = f(x)</em>.</p>
+    <div class="formula">f: x → y &nbsp;&nbsp; |&nbsp;&nbsp; y = f(x)</div>
+
+    <h3>2. Dominio y recorrido</h3>
+    <ul>
+      <li><strong>Dominio (Dom f):</strong> conjunto de valores de x para los que existe f(x).</li>
+      <li><strong>Recorrido (Im f):</strong> conjunto de valores que toma y.</li>
+    </ul>
+
+    <h3>3. Función lineal y afín</h3>
+    <div class="formula">y = m·x + n</div>
+    <ul>
+      <li><strong>m (pendiente):</strong> indica la inclinación. Si m&gt;0 → creciente; si m&lt;0 → decreciente.</li>
+      <li><strong>n (ordenada en el origen):</strong> punto donde corta al eje Y.</li>
+      <li>Si n=0 → función lineal pura (y=mx). Pasa por el origen.</li>
+      <li>Si n≠0 → función afín.</li>
+    </ul>
+
+    <h3>4. Cómo calcular la pendiente entre dos puntos</h3>
+    <div class="formula">m = (y₂ − y₁) / (x₂ − x₁)</div>
+
+    <h3>5. Crecimiento, decrecimiento, máximos y mínimos</h3>
+    <table>
+      <tr><th>Concepto</th><th>Definición</th></tr>
+      <tr><td>Creciente</td><td>Al aumentar x, aumenta y.</td></tr>
+      <tr><td>Decreciente</td><td>Al aumentar x, disminuye y.</td></tr>
+      <tr><td>Constante</td><td>Y no cambia (línea horizontal).</td></tr>
+      <tr><td>Máximo (relativo)</td><td>Punto donde y deja de crecer y empieza a decrecer.</td></tr>
+      <tr><td>Mínimo (relativo)</td><td>Punto donde y deja de decrecer y empieza a crecer.</td></tr>
+    </table>
+
+    <div class="tip-box"><strong>💡 Truco:</strong> para representar y = mx + n, basta con dos puntos. El más fácil: x=0 (te da el punto (0,n)) y otro cualquiera, p.ej. x=1.</div>
+  </section>
+
+  <!-- TEORÍA GEOMETRÍA I -->
+  <section id="teoria-geo1">
+    <h2>📖 Geometría I — Semejanza, Thales y Pitágoras</h2>
+
+    <h3>1. Semejanza de figuras</h3>
+    <p>Dos figuras son <strong>semejantes</strong> si tienen la misma forma y sus lados son proporcionales. La razón k es:</p>
+    <div class="formula">k = lado figura 2 / lado figura 1</div>
+
+    <p>Relaciones entre magnitudes en figuras semejantes con razón k:</p>
+    <ul>
+      <li>Longitudes (perímetros, lados): se multiplican por <strong>k</strong>.</li>
+      <li>Áreas (superficies): se multiplican por <strong>k²</strong>.</li>
+      <li>Volúmenes: se multiplican por <strong>k³</strong>.</li>
+    </ul>
+    <div class="warn-box"><strong>⚠️ Cuidado:</strong> esta es la pregunta clásica. Si te dan que las aristas se duplican (k=2), el área no se duplica, se cuadruplica (k²=4); el volumen se multiplica por 8 (k³=8).</div>
+
+    <h3>2. Teorema de Thales</h3>
+    <p>Si en un triángulo trazas una recta paralela a uno de los lados, los dos triángulos resultantes son semejantes y sus lados son proporcionales:</p>
+    <div class="formula">AB / AB' = AC / AC' = BC / B'C'</div>
+    <p><strong>Aplicaciones:</strong> dividir un segmento en partes iguales, calcular alturas inaccesibles (un árbol, un edificio), hallar lados desconocidos.</p>
+
+    <h3>3. Triángulos: clasificación</h3>
+    <table>
+      <tr><th>Por lados</th><th>Por ángulos</th></tr>
+      <tr><td>Equilátero (3 lados iguales)</td><td>Acutángulo (3 agudos)</td></tr>
+      <tr><td>Isósceles (2 iguales)</td><td>Rectángulo (1 recto = 90°)</td></tr>
+      <tr><td>Escaleno (3 distintos)</td><td>Obtusángulo (1 obtuso, &gt;90°)</td></tr>
+    </table>
+    <p>Los tres ángulos de cualquier triángulo suman <strong>180°</strong>.</p>
+
+    <h3>4. Teorema de Pitágoras</h3>
+    <p>En un triángulo rectángulo, la hipotenusa al cuadrado es la suma de los catetos al cuadrado:</p>
+    <div class="formula">a² = b² + c²</div>
+    <p>Donde <strong>a</strong> = hipotenusa, <strong>b</strong> y <strong>c</strong> = catetos.</p>
+
+    <h3>5. Teorema de la altura y del cateto</h3>
+    <p>En un triángulo rectángulo, la altura sobre la hipotenusa la divide en dos segmentos m y n.</p>
+    <div class="formula">Altura: h² = m · n
+Cateto: b² = a · m  ;  c² = a · n</div>
+    <p>(a es la hipotenusa, m la proyección del cateto b, n la proyección del cateto c)</p>
+
+    <div class="tip-box"><strong>💡 Cómo recordarlos:</strong>
+      <ul>
+        <li>Pitágoras: "el grande al cuadrado = pequeños al cuadrado sumados".</li>
+        <li>Altura: "media proporcional entre los trozos".</li>
+        <li>Cateto: "media proporcional entre la hipotenusa y SU trozo".</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TEORÍA GEOMETRÍA II -->
+  <section id="teoria-geo2">
+    <h2>📖 Geometría II — Áreas y volúmenes</h2>
+
+    <h3>Figuras planas — fórmulas</h3>
+    <table>
+      <tr><th>Figura</th><th>Perímetro</th><th>Área</th></tr>
+      <tr><td>Triángulo</td><td>P = a+b+c</td><td>A = (b·h)/2</td></tr>
+      <tr><td>Cuadrado</td><td>P = 4·L</td><td>A = L²</td></tr>
+      <tr><td>Rectángulo</td><td>P = 2(a+b)</td><td>A = a·b</td></tr>
+      <tr><td>Rombo</td><td>P = 4·L</td><td>A = (D·d)/2</td></tr>
+      <tr><td>Trapecio</td><td>P = suma lados</td><td>A = ((B+b)·h)/2</td></tr>
+      <tr><td>Polígono regular</td><td>P = n·L</td><td>A = (P·apotema)/2</td></tr>
+      <tr><td>Círculo</td><td>L = 2π·r</td><td>A = π·r²</td></tr>
+    </table>
+
+    <h3>Poliedros regulares (sólidos platónicos)</h3>
+    <table>
+      <tr><th>Nombre</th><th>Caras</th><th>Forma cara</th><th>Vértices</th><th>Aristas</th></tr>
+      <tr><td>Tetraedro</td><td>4</td><td>Triángulo</td><td>4</td><td>6</td></tr>
+      <tr><td>Hexaedro (cubo)</td><td>6</td><td>Cuadrado</td><td>8</td><td>12</td></tr>
+      <tr><td>Octaedro</td><td>8</td><td>Triángulo</td><td>6</td><td>12</td></tr>
+      <tr><td>Dodecaedro</td><td>12</td><td>Pentágono</td><td>20</td><td>30</td></tr>
+      <tr><td>Icosaedro</td><td>20</td><td>Triángulo</td><td>12</td><td>30</td></tr>
+    </table>
+    <div class="formula">Fórmula de Euler:  C + V = A + 2</div>
+
+    <h3>Cuerpos de revolución y prismas — Áreas y volúmenes</h3>
+    <table>
+      <tr><th>Cuerpo</th><th>Área lateral</th><th>Área total</th><th>Volumen</th></tr>
+      <tr><td>Prisma</td><td>P_base · h</td><td>A_lat + 2·A_base</td><td>A_base · h</td></tr>
+      <tr><td>Pirámide</td><td>(P_base · g)/2</td><td>A_lat + A_base</td><td>(A_base · h)/3</td></tr>
+      <tr><td>Cilindro</td><td>2π·r·h</td><td>2π·r·(r+h)</td><td>π·r²·h</td></tr>
+      <tr><td>Cono</td><td>π·r·g</td><td>π·r·(r+g)</td><td>(π·r²·h)/3</td></tr>
+      <tr><td>Esfera</td><td>—</td><td>4π·r²</td><td>(4/3)·π·r³</td></tr>
+    </table>
+    <p style="font-size:.9em;color:var(--muted)">g = generatriz (cono y pirámide); h = altura; r = radio.</p>
+
+    <div class="tip-box"><strong>💡 Relación clave:</strong> el volumen del cono es 1/3 del cilindro con la misma base y altura. El de la pirámide es 1/3 del prisma equivalente.</div>
+
+    <div class="warn-box"><strong>⚠️ Unidades — error frecuente:</strong>
+      <ul>
+        <li>Si los datos vienen en cm, área en cm², volumen en cm³.</li>
+        <li>1 dm³ = 1 L (litro) = 1000 cm³</li>
+        <li>1 m³ = 1000 dm³ = 1000 L</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TEORÍA VECTORES -->
+  <section id="teoria-vec">
+    <h2>📖 Vectores en el plano</h2>
+
+    <h3>1. Concepto de vector</h3>
+    <p>Un <strong>vector</strong> es un segmento orientado. Tiene tres elementos:</p>
+    <ul>
+      <li><strong>Módulo:</strong> longitud del vector |v|.</li>
+      <li><strong>Dirección:</strong> recta sobre la que se sitúa.</li>
+      <li><strong>Sentido:</strong> hacia dónde apunta la flecha.</li>
+    </ul>
+
+    <h3>2. Coordenadas de un vector</h3>
+    <p>Si tenemos A(x₁, y₁) y B(x₂, y₂), el vector AB tiene coordenadas:</p>
+    <div class="formula">AB = (x₂ − x₁, y₂ − y₁)</div>
+    <p>Es decir: <em>extremo menos origen</em>.</p>
+
+    <h3>3. Módulo de un vector</h3>
+    <p>Si v = (v₁, v₂):</p>
+    <div class="formula">|v| = √(v₁² + v₂²)</div>
+    <p>Sale del Teorema de Pitágoras. <strong>Siempre es positivo.</strong></p>
+
+    <h3>4. Operaciones</h3>
+    <h4>Suma:</h4>
+    <div class="formula">u + v = (u₁ + v₁, u₂ + v₂)</div>
+    <h4>Producto por un escalar k:</h4>
+    <div class="formula">k · v = (k·v₁, k·v₂)</div>
+
+    <h3>5. Vectores paralelos</h3>
+    <p>Dos vectores son paralelos si sus coordenadas son <strong>proporcionales</strong>: v₁/u₁ = v₂/u₂.</p>
+
+    <div class="info-box">
+      <strong>Ejemplo:</strong> u = (2,3) y v = (4,6). Comprobamos: 4/2 = 2; 6/3 = 2. Mismo cociente → <strong>paralelos</strong>.
+    </div>
+  </section>
+
+  <!-- CHULETA -->
+  <section id="chuleta">
+    <h2>⚡ Chuleta — Fórmulas todas a la vista</h2>
+
+    <h3>📐 Geometría</h3>
+    <div class="formula">Pitágoras:        a² = b² + c²
+Altura:           h² = m · n
+Cateto:           b² = a·m  ;  c² = a·n
+Thales:           AB/AB' = AC/AC' = BC/B'C'
+
+Semejanza con razón k:
+  • Longitudes  → ×k
+  • Áreas       → ×k²
+  • Volúmenes   → ×k³
+
+Áreas planas:
+  Triángulo:   (b·h)/2
+  Cuadrado:    L²
+  Rectángulo:  a·b
+  Rombo:       (D·d)/2
+  Trapecio:    ((B+b)·h)/2
+  Círculo:     π·r²
+
+Volúmenes:
+  Prisma:      A_base · h
+  Pirámide:    (A_base · h)/3
+  Cilindro:    π·r²·h
+  Cono:        (π·r²·h)/3
+  Esfera:      (4/3)·π·r³</div>
+
+    <h3>📈 Funciones</h3>
+    <div class="formula">Pendiente:   m = (y₂−y₁)/(x₂−x₁)
+Función afín: y = m·x + n
+  • m > 0 → creciente
+  • m < 0 → decreciente
+  • Corta eje Y en (0, n)</div>
+
+    <h3>🧭 Vectores</h3>
+    <div class="formula">AB = (x₂−x₁, y₂−y₁)
+|v| = √(v₁² + v₂²)
+u + v = (u₁+v₁, u₂+v₂)
+k·v = (k·v₁, k·v₂)
+Distancia P-Q = |PQ|</div>
+
+    <button class="toggle-sol" onclick="window.print()">🖨️ Imprimir esta chuleta</button>
+  </section>
+
+  <!-- EJERCICIOS -->
+  <section id="ejer">
+    <h2>✏️ Ejercicios graduados</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Selección de los 60 ejercicios oficiales del cole, ordenados por dificultad. Pulsa "Ver solución" cuando termines.</p>
+
+    <h3>🟢 Nivel básico — Pitágoras y semejanza</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 1 — Cuadrado escalado</div>
+      <p>Imagina un cuadrado de lado 3 cm. ¿Cuál es su área? ¿Y si duplicamos el lado? ¿Y si lo cuadruplicamos?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p><strong>Lado 3 cm:</strong> A = 3² = 9 cm²</p>
+        <p><strong>Lado 6 cm (k=2):</strong> A = 6² = 36 cm² (= 9·k² = 9·4 ✓)</p>
+        <p><strong>Lado 12 cm (k=4):</strong> A = 12² = 144 cm² (= 9·k² = 9·16 ✓)</p>
+        <p><strong>Conclusión:</strong> al multiplicar el lado por k, el área se multiplica por k².</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 8 — Semejanza de triángulos</div>
+      <p>Los lados de un triángulo miden 3, 4 y 5 cm. Si tenemos otro semejante de perímetro 84 cm, ¿cuál es la razón k? Halla los lados del segundo.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Perímetro del primero: 3+4+5 = 12 cm.</p>
+        <p>Razón: <strong>k = 84/12 = 7</strong>.</p>
+        <p>Lados del segundo: 3·7=<strong>21 cm</strong>, 4·7=<strong>28 cm</strong>, 5·7=<strong>35 cm</strong>.</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 15 — Teorema del cateto (proyección)</div>
+      <p>Un cateto de un triángulo rectángulo mide 6 cm y su proyección sobre la hipotenusa mide 4 cm. ¿Cuánto mide la hipotenusa?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Aplicamos teorema del cateto: <strong>b² = a · m</strong></p>
+        <p>6² = a · 4 → 36 = 4a → <strong>a = 9 cm</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 16 — Teorema de la altura</div>
+      <p>En un triángulo rectángulo, la altura sobre la hipotenusa la divide en dos partes que miden 3 cm y 12 cm. Halla la altura y los catetos.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Hipotenusa: a = 3+12 = 15 cm.</p>
+        <p><strong>Altura:</strong> h² = m·n = 3·12 = 36 → h = <strong>6 cm</strong></p>
+        <p><strong>Cateto b (junto al m=3):</strong> b² = a·m = 15·3 = 45 → b = √45 ≈ <strong>6,71 cm</strong></p>
+        <p><strong>Cateto c (junto al n=12):</strong> c² = a·n = 15·12 = 180 → c = √180 ≈ <strong>13,42 cm</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 23 — El problema de Lily (Sam Loyd)</div>
+      <p>Un nenúfar está 10 cm por encima del agua. Al tirar de él, desaparece a 21 cm del lugar inicial. ¿Cuál es la profundidad del agua?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Llamamos h = profundidad del agua. La longitud del tallo (constante) es h+10. Al estirarlo, forma la hipotenusa de un triángulo rectángulo de catetos 21 (horizontal) y h (vertical).</p>
+        <p>Pitágoras: (h+10)² = 21² + h²</p>
+        <p>h² + 20h + 100 = 441 + h²</p>
+        <p>20h = 341 → <strong>h ≈ 17,05 cm</strong></p>
+      </div>
+    </div>
+
+    <h3>🟡 Nivel medio — Áreas y volúmenes</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 32 — Cono modificado</div>
+      <p>Un cono tiene altura 7 cm y radio de base 2 cm. Si mantenemos la altura y duplicamos la base, ¿cuánto cambia la generatriz?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Generatriz original: g = √(7² + 2²) = √(49+4) = √53 ≈ <strong>7,28 cm</strong></p>
+        <p>Nueva generatriz (radio 4): g' = √(7² + 4²) = √(49+16) = √65 ≈ <strong>8,06 cm</strong></p>
+        <p>La generatriz aumentó <strong>≈ 0,78 cm</strong>.</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 33 — Diagonal de un cilindro</div>
+      <p>Calcula la distancia máxima entre dos puntos de un cilindro de radio 12 cm y altura 60 cm.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>La distancia máxima va de un extremo del diámetro inferior al opuesto del superior.</p>
+        <p>Diámetro = 2·12 = 24 cm. Pitágoras: d = √(24² + 60²) = √(576+3600) = √4176</p>
+        <p><strong>d ≈ 64,62 cm</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 35 — Almacén de cajas</div>
+      <p>En un almacén de 5 m × 3 m × 2 m queremos guardar cajas de 10 dm × 6 dm × 4 dm. ¿Cuántas cajas caben?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Pasamos a las mismas unidades: 1 m = 10 dm.</p>
+        <p>Almacén: 50 dm × 30 dm × 20 dm.</p>
+        <p>Por dimensión: 50/10 = 5; 30/6 = 5; 20/4 = 5.</p>
+        <p>Total: 5 · 5 · 5 = <strong>125 cajas</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 39 — Cúpula semiesférica</div>
+      <p>Una cúpula tiene forma semiesférica de radio 50 m. Restaurarla cuesta 300 €/m². ¿Cuánto cuesta?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Área esfera completa: A = 4π·r² = 4π·50² = 10.000π m²</p>
+        <p>Semiesfera (mitad): A = 5.000π ≈ <strong>15.707,96 m²</strong></p>
+        <p>Coste: 15.707,96 · 300 ≈ <strong>4.712.388 €</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 41 — ¿Cabe el agua en la esfera?</div>
+      <p>Un cubo de arista 20 cm está lleno de agua. ¿Cabe esa agua en una esfera de radio 20 cm?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>V cubo = 20³ = <strong>8.000 cm³</strong></p>
+        <p>V esfera = (4/3)·π·20³ = (4/3)·π·8000 ≈ <strong>33.510 cm³</strong></p>
+        <p>33.510 &gt; 8.000 → <strong>SÍ cabe</strong> con espacio de sobra.</p>
+      </div>
+    </div>
+
+    <h3>🟠 Nivel medio — Vectores</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 51 — Coordenadas del vector</div>
+      <p>Dados A(2, 3) y B(5, 7), calcula las coordenadas del vector AB.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>AB = (5−2, 7−3) = <strong>(3, 4)</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 53 — Módulo</div>
+      <p>Calcula el módulo de u = (3, 4).</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>|u| = √(3² + 4²) = √(9+16) = √25 = <strong>5</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 57 — Combinación lineal</div>
+      <p>Dados a=(1, 2) y b=(3, −1), calcula 2a + 3b.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>2a = (2, 4); 3b = (9, −3)</p>
+        <p>2a + 3b = (2+9, 4−3) = <strong>(11, 1)</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 60 — Encuentra la coordenada</div>
+      <p>Un vector tiene módulo √13 y su primera coordenada es 2. ¿Cuál es la segunda? (dos soluciones)</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>√(2² + y²) = √13 → 4 + y² = 13 → y² = 9 → <strong>y = +3 ó y = −3</strong></p>
+      </div>
+    </div>
+
+    <h3>🔴 Nivel avanzado</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 42 — Ortoedro proporcional</div>
+      <p>Las dimensiones de un ortoedro son proporcionales a 4, 5 y 8, y suman 51 cm. Halla las dimensiones y la diagonal.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Si las dimensiones son 4k, 5k, 8k → 4k+5k+8k = 17k = 51 → k = 3</p>
+        <p>Dimensiones: <strong>12, 15 y 24 cm</strong></p>
+        <p>Diagonal: d = √(12² + 15² + 24²) = √(144+225+576) = √945 ≈ <strong>30,74 cm</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 50 — Caja de galletas</div>
+      <p>Galletas de diámetro 6 cm y grosor 5 mm. Paquetes de 40 galletas, 4 paquetes por caja.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p><strong>a) V galleta:</strong> r=3, h=0,5 → V = π·3²·0,5 = 4,5π ≈ <strong>14,14 cm³</strong></p>
+        <p><strong>b) Celofán paquete:</strong> 40 galletas apiladas → cilindro h=20 cm, r=3. A_total = 2π·3·(3+20) = 138π ≈ <strong>433,54 cm²</strong></p>
+        <p><strong>c) Caja:</strong> 4 paquetes alineados; cada paquete cabe en un prisma de 6×6×20. Caja ≈ 12×12×20 cm</p>
+        <p><strong>d) V caja:</strong> 12·12·20 = <strong>2.880 cm³</strong></p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TEST RÁPIDO -->
+  <section id="quiz">
+    <h2>🎯 Test rápido (10 preguntas)</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Para repaso veloz. Pulsa la respuesta correcta.</p>
+
+    <div class="quiz">
+      <div class="q">1. Si dos figuras son semejantes con razón k=3, su volumen se multiplica por:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">3</button>
+        <button onclick="chk(this,false)">9</button>
+        <button onclick="chk(this,true)">27</button>
+        <button onclick="chk(this,false)">81</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">2. En un triángulo rectángulo, la hipotenusa al cuadrado es...</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Producto de los catetos</button>
+        <button onclick="chk(this,true)">Suma de los catetos al cuadrado</button>
+        <button onclick="chk(this,false)">El doble de un cateto</button>
+        <button onclick="chk(this,false)">La altura sobre la hipotenusa</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">3. La fórmula del volumen de la esfera es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">π·r²</button>
+        <button onclick="chk(this,false)">4π·r²</button>
+        <button onclick="chk(this,true)">(4/3)·π·r³</button>
+        <button onclick="chk(this,false)">π·r³</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">4. El módulo del vector v=(6, 8) es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">14</button>
+        <button onclick="chk(this,true)">10</button>
+        <button onclick="chk(this,false)">7</button>
+        <button onclick="chk(this,false)">100</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">5. Si A(1,2) y B(4,6), las coordenadas del vector AB son:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">(5, 8)</button>
+        <button onclick="chk(this,true)">(3, 4)</button>
+        <button onclick="chk(this,false)">(−3, −4)</button>
+        <button onclick="chk(this,false)">(4, 3)</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">6. La función y = −2x + 5 es:</div>
+      <div class="options">
+        <button onclick="chk(this,true)">Decreciente, corta Y en (0,5)</button>
+        <button onclick="chk(this,false)">Creciente, corta Y en (0,5)</button>
+        <button onclick="chk(this,false)">Decreciente, corta Y en (0,−2)</button>
+        <button onclick="chk(this,false)">Constante</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">7. El cubo (hexaedro) tiene:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">8 caras, 6 vértices, 12 aristas</button>
+        <button onclick="chk(this,true)">6 caras, 8 vértices, 12 aristas</button>
+        <button onclick="chk(this,false)">6 caras, 12 vértices, 8 aristas</button>
+        <button onclick="chk(this,false)">12 caras, 8 vértices, 6 aristas</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">8. El volumen de un cono es del cilindro con misma base y altura:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">El doble</button>
+        <button onclick="chk(this,false)">La mitad</button>
+        <button onclick="chk(this,true)">Un tercio</button>
+        <button onclick="chk(this,false)">Igual</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">9. La pendiente de una recta entre P(2,1) y Q(5,7) vale:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">3</button>
+        <button onclick="chk(this,true)">2</button>
+        <button onclick="chk(this,false)">6</button>
+        <button onclick="chk(this,false)">−2</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">10. ¿Cuántos litros caben en un cubo de arista 1 m?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">100</button>
+        <button onclick="chk(this,true)">1.000</button>
+        <button onclick="chk(this,false)">10.000</button>
+        <button onclick="chk(this,false)">1</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Simulacro de examen (50 minutos)</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Hazlo cronometrado. Después abre las soluciones.</p>
+
+    <div class="info-box"><strong>Instrucciones:</strong> 5 ejercicios. Tiempo: 50 minutos. Puntuación: 2 puntos por ejercicio.</div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 1 (2 pts) — Funciones</div>
+      <p>Dada la función y = 3x − 2:</p>
+      <p>a) Indica si es creciente o decreciente y por qué.</p>
+      <p>b) Halla el punto de corte con el eje Y y con el eje X.</p>
+      <p>c) Calcula f(4) y comprueba si el punto P(2, 4) pertenece a la recta.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 2 (2 pts) — Pitágoras y proyecciones</div>
+      <p>En un triángulo rectángulo la hipotenusa mide 13 cm y un cateto mide 5 cm.</p>
+      <p>a) Calcula el otro cateto.</p>
+      <p>b) Halla la altura sobre la hipotenusa.</p>
+      <p>c) Halla las dos proyecciones de los catetos sobre la hipotenusa.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 3 (2 pts) — Semejanza</div>
+      <p>Una pirámide tiene arista 1,5 m y otra semejante tiene arista 0,75 m. Si el área de la primera es 36 m² y el volumen de la segunda es 3 m³:</p>
+      <p>a) Halla la razón de semejanza k.</p>
+      <p>b) Calcula el área de la segunda pirámide.</p>
+      <p>c) Calcula el volumen de la primera.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 4 (2 pts) — Volúmenes</div>
+      <p>Un cilindro tiene radio 5 cm y altura 12 cm.</p>
+      <p>a) Calcula su área lateral.</p>
+      <p>b) Calcula su área total.</p>
+      <p>c) Calcula su volumen y exprésalo también en litros.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 5 (2 pts) — Vectores</div>
+      <p>Dados los puntos A(−1, 2) y B(3, 5):</p>
+      <p>a) Calcula el vector AB.</p>
+      <p>b) Calcula su módulo.</p>
+      <p>c) Si v = (2, −1), halla 3·AB + v.</p>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Ver solucionario completo</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">SOLUCIONARIO</h4>
+
+      <p><strong>Ejercicio 1:</strong></p>
+      <p>a) m = 3 &gt; 0 → <strong>creciente</strong>.</p>
+      <p>b) Corte eje Y: x=0 → y=−2 → <strong>(0, −2)</strong>. Corte eje X: y=0 → 3x−2=0 → x=2/3 → <strong>(2/3, 0)</strong>.</p>
+      <p>c) f(4) = 3·4 − 2 = <strong>10</strong>. Para P(2,4): f(2) = 3·2 − 2 = 4 ✓ → <strong>SÍ pertenece</strong>.</p>
+
+      <p><strong>Ejercicio 2:</strong></p>
+      <p>a) Otro cateto: c² = 13² − 5² = 169 − 25 = 144 → <strong>c = 12 cm</strong>.</p>
+      <p>b) Altura: con teorema cateto primero, m = b²/a = 25/13 ≈ 1,92 cm. Luego h² = m·n con n = 13 − 1,92 = 11,08 → h² ≈ 21,29 → <strong>h ≈ 4,62 cm</strong>.</p>
+      <p>c) Proyecciones: <strong>m ≈ 1,92 cm</strong> (del cateto 5) y <strong>n ≈ 11,08 cm</strong> (del cateto 12).</p>
+
+      <p><strong>Ejercicio 3:</strong></p>
+      <p>a) k = 0,75 / 1,5 = <strong>0,5</strong> (la segunda es la mitad).</p>
+      <p>b) Área 2 = 36 · k² = 36 · 0,25 = <strong>9 m²</strong>.</p>
+      <p>c) Volumen 1 = Vol 2 / k³ = 3 / 0,125 = <strong>24 m³</strong>.</p>
+
+      <p><strong>Ejercicio 4:</strong></p>
+      <p>a) A_lat = 2π·r·h = 2π·5·12 = 120π ≈ <strong>376,99 cm²</strong>.</p>
+      <p>b) A_total = 2π·r·(r+h) = 2π·5·17 = 170π ≈ <strong>534,07 cm²</strong>.</p>
+      <p>c) V = π·r²·h = π·25·12 = 300π ≈ <strong>942,48 cm³ ≈ 0,942 L</strong>.</p>
+
+      <p><strong>Ejercicio 5:</strong></p>
+      <p>a) AB = (3−(−1), 5−2) = <strong>(4, 3)</strong>.</p>
+      <p>b) |AB| = √(16+9) = √25 = <strong>5</strong>.</p>
+      <p>c) 3·AB = (12, 9); 3·AB + v = (12+2, 9−1) = <strong>(14, 8)</strong>.</p>
+    </div>
+  </section>
+
+  <!-- ERRORES TÍPICOS -->
+  <section id="errores">
+    <h2>⚠️ Errores típicos a evitar</h2>
+
+    <div class="warn-box">
+      <strong>1. Confundir k², k³ con 2k, 3k</strong><br>
+      Si la razón es k=2, el área NO se duplica, se cuadruplica (×4). El volumen se multiplica por 8.
+    </div>
+
+    <div class="warn-box">
+      <strong>2. Olvidar elevar al cuadrado en Pitágoras</strong><br>
+      Si los catetos son 3 y 4, la hipotenusa NO es 7, es 5. Hay que sumar los CUADRADOS y luego sacar la raíz: √(9+16) = 5.
+    </div>
+
+    <div class="warn-box">
+      <strong>3. Confundir teorema del cateto y de la altura</strong><br>
+      • <strong>Altura:</strong> h² = m·n (proyecciones entre sí).<br>
+      • <strong>Cateto:</strong> b² = a·m (hipotenusa por la SUYA).
+    </div>
+
+    <div class="warn-box">
+      <strong>4. Olvidar dividir por 3 en pirámide y cono</strong><br>
+      Volumen pirámide = (Área base · h) <strong>/ 3</strong>. Volumen cono = (π·r²·h) <strong>/ 3</strong>.
+    </div>
+
+    <div class="warn-box">
+      <strong>5. Mezclar unidades</strong><br>
+      Si los datos vienen en m y cm a la vez, pasa todo a la MISMA unidad antes de operar.
+      <br>1 m = 100 cm; 1 m² = 10.000 cm²; 1 m³ = 1.000.000 cm³ = 1.000 L.
+    </div>
+
+    <div class="warn-box">
+      <strong>6. Coordenadas del vector al revés</strong><br>
+      Vector AB = <strong>extremo MENOS origen</strong> = (xB−xA, yB−yA). NO al revés.
+    </div>
+
+    <div class="warn-box">
+      <strong>7. Olvidar que pendiente requiere división, no resta</strong><br>
+      m = (y₂−y₁) <strong>/</strong> (x₂−x₁). Es un cociente.
+    </div>
+
+    <div class="warn-box">
+      <strong>8. Punto de corte con ejes</strong><br>
+      • Corte con eje Y: poner x=0.<br>
+      • Corte con eje X: poner y=0.
+    </div>
+
+    <div class="tip-box">
+      <strong>✅ Hábitos del examen:</strong>
+      <ul>
+        <li>Lee el enunciado dos veces antes de empezar.</li>
+        <li>Anota datos al lado y haz un dibujo si hay geometría.</li>
+        <li>Indica las unidades en el resultado final.</li>
+        <li>Si te bloqueas en uno, salta al siguiente y vuelve al final.</li>
+        <li>Reserva 5 minutos al final para revisar.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Ocultar solución' : 'Ver solución';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){
+      btn.classList.add('correct');
+      fb.className = 'feedback show ok';
+      fb.textContent = '✅ ¡Correcto!';
+    } else {
+      btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+      });
+      fb.className = 'feedback show ko';
+      fb.textContent = '❌ Incorrecto. La respuesta correcta está marcada en verde.';
+    }
+  }
+</script>
+</body>
+</html>

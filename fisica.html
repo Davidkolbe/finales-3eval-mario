@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física y Química · Final 3ª eval · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#27272a;--panel-2:#3f3f46;--text:#fafafa;
+    --muted:#a1a1aa;--border:#52525b;--accent:#ef4444;--accent-2:#f97316;
+    --good:#4ade80;--bad:#f87171;--warn:#fbbf24}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0c0a09 0%,#7c2d12 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent-2);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#fff}
+  header{background:linear-gradient(135deg,#7c2d12 0%,#ef4444 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fed7aa}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#fff}
+  nav button.active{background:var(--accent);color:#fff;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent-2);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:var(--warn);font-size:1.25em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  .formula{background:#0c0a09;padding:12px 16px;border-left:4px solid var(--accent);
+    border-radius:6px;font-family:"Courier New",monospace;font-size:1.05em;
+    margin:10px 0;color:#fde68a;overflow-x:auto;white-space:pre-wrap}
+  .info-box{background:rgba(239,68,68,.08);border-left:4px solid var(--accent);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.12);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .error-card{background:rgba(248,113,113,.1);border:2px solid var(--bad);
+    padding:16px;border-radius:10px;margin:14px 0}
+  .error-card h4{color:var(--bad);margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden;font-size:.95em}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  table th{background:var(--accent);color:#fff}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2)}
+  .ejercicio .num{font-weight:700;color:var(--accent-2);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent);color:#fff;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:inherit}
+  .toggle-sol:hover{background:#dc2626}
+  .solucion{background:#0c0a09;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none}
+  .solucion.show{display:block}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--warn)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#0c0a09;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  @media(max-width:700px){header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>⚡ Física y Química</h1>
+    <p>Examen final · Jueves 21 mayo · 08:55</p>
+    <p style="color:#fef3c7;margin-top:6px"><strong>Temario:</strong> MRU + MRUA</p>
+  </header>
+
+  <div class="warn-box" style="margin-bottom:24px;text-align:center;font-size:1.05em">
+    <strong>🎯 OBJETIVO PERSONAL:</strong> el examen anterior de MRU sacó 1,75/10.<br>Esta vez vamos a por el aprobado mínimo. <strong>Foco: errores típicos + práctica masiva</strong>.
+  </div>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Temario</button>
+    <button onclick="show('conceptos')">📖 Conceptos</button>
+    <button onclick="show('mru')">🚗 MRU</button>
+    <button onclick="show('mrua')">🚀 MRUA</button>
+    <button onclick="show('graficas')">📊 Gráficas</button>
+    <button onclick="show('chuleta')">⚡ Chuleta</button>
+    <button onclick="show('errores')">⚠️ Errores típicos</button>
+    <button onclick="show('ejer')">✏️ Ejercicios</button>
+    <button onclick="show('quiz')">🎯 Test</button>
+    <button onclick="show('simulacro')">📝 Simulacro</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Qué entra</h2>
+    <ol>
+      <li>Conceptos básicos: posición, trayectoria, desplazamiento, velocidad.</li>
+      <li>Conversión de unidades (m/s ↔ km/h).</li>
+      <li>Movimiento Rectilíneo Uniforme (MRU).</li>
+      <li>Gráficas posición-tiempo y velocidad-tiempo del MRU.</li>
+      <li>Problemas típicos de MRU: encuentro y alcance.</li>
+      <li>Aceleración.</li>
+      <li>Movimiento Rectilíneo Uniformemente Acelerado (MRUA).</li>
+      <li>Gráficas del MRUA.</li>
+      <li>Caída libre y tiro vertical.</li>
+    </ol>
+  </section>
+
+  <!-- CONCEPTOS -->
+  <section id="conceptos">
+    <h2>📖 Conceptos básicos</h2>
+
+    <h3>Movimiento</h3>
+    <p>Cambio de posición de un cuerpo respecto a otro punto que tomamos como <strong>sistema de referencia</strong>. Todo movimiento es <strong>relativo</strong>.</p>
+    <div class="info-box">
+      <strong>Ejemplo:</strong> vas en el AVE y un pasajero pasa por el pasillo a 1 m/s. Para alguien fuera del tren, ese pasajero va a 81 m/s. Mismo movimiento, distintos sistemas de referencia.
+    </div>
+
+    <h3>Magnitudes básicas</h3>
+    <ul>
+      <li><strong>Posición (x):</strong> dónde está el móvil. En metros (m).</li>
+      <li><strong>Trayectoria:</strong> línea que dibuja el móvil al moverse.</li>
+      <li><strong>Desplazamiento (Δx):</strong> diferencia entre posición final e inicial. Δx = x − x₀. Vectorial (con signo).</li>
+      <li><strong>Espacio recorrido (Δs):</strong> distancia total. Escalar (positivo).</li>
+    </ul>
+    <div class="warn-box">
+      <strong>⚠️ Diferencia clave:</strong> un atleta que da una vuelta a una pista de 400 m tiene <strong>desplazamiento = 0</strong> (vuelve al origen) pero <strong>espacio recorrido = 400 m</strong>.
+    </div>
+
+    <h3>Velocidad</h3>
+    <p>Mide la rapidez con que cambia la posición. Es <strong>vectorial</strong>. Unidad SI: <strong>m/s</strong>.</p>
+    <div class="formula">v = Δx / Δt</div>
+
+    <h3>Conversión de unidades — m/s ↔ km/h</h3>
+    <div class="formula">m/s × 3,6 = km/h
+km/h ÷ 3,6 = m/s</div>
+    <p>Ejemplo: 20 m/s = 20 × 3,6 = <strong>72 km/h</strong>.</p>
+    <p>Ejemplo: 90 km/h = 90 / 3,6 = <strong>25 m/s</strong>.</p>
+
+    <div class="tip-box"><strong>💡 Truco:</strong> en el examen NUNCA mezcles m/s con km/h. <strong>Siempre</strong> pasa todo a las mismas unidades antes de operar.</div>
+  </section>
+
+  <!-- MRU -->
+  <section id="mru">
+    <h2>🚗 Movimiento Rectilíneo Uniforme (MRU)</h2>
+
+    <h3>Definición</h3>
+    <p>Un cuerpo realiza un MRU cuando se mueve en <strong>línea recta</strong> y con <strong>velocidad constante</strong> (no cambia ni de valor ni de sentido). Por tanto, su <strong>aceleración es cero</strong>.</p>
+
+    <h3>Ecuación principal</h3>
+    <div class="formula">x = x₀ + v · t</div>
+    <p>Donde:</p>
+    <ul>
+      <li><strong>x</strong> = posición en el instante t (m)</li>
+      <li><strong>x₀</strong> = posición inicial (m)</li>
+      <li><strong>v</strong> = velocidad (m/s)</li>
+      <li><strong>t</strong> = tiempo (s)</li>
+    </ul>
+
+    <h3>Si x₀ = 0 (parte del origen)</h3>
+    <div class="formula">x = v · t  →  e = v · t</div>
+
+    <h3>Reglas de signos</h3>
+    <table>
+      <tr><th>Si...</th><th>Signo</th></tr>
+      <tr><td>Se mueve hacia la derecha (sentido positivo)</td><td>v > 0</td></tr>
+      <tr><td>Se mueve hacia la izquierda (sentido negativo)</td><td>v < 0</td></tr>
+    </table>
+
+    <h3>Problemas típicos: ENCUENTRO</h3>
+    <p>Dos móviles parten en sentidos contrarios y se cruzan.</p>
+    <ol>
+      <li>Pon un sistema de referencia (origen donde está uno de ellos).</li>
+      <li>Escribe x = x₀ + v·t para cada uno (¡atención al signo de v!).</li>
+      <li>Cuando se encuentran: <strong>x₁ = x₂</strong>. Despeja t.</li>
+      <li>Sustituye t para hallar el punto de encuentro.</li>
+    </ol>
+
+    <div class="info-box">
+      <strong>Ejemplo:</strong> dos coches separados 300 m parten al mismo tiempo uno hacia el otro. A va a 20 m/s y B a 10 m/s. ¿Cuándo se encuentran?<br>
+      x_A = 0 + 20t<br>
+      x_B = 300 − 10t (B va en sentido contrario)<br>
+      Igualamos: 20t = 300 − 10t → 30t = 300 → <strong>t = 10 s</strong>.<br>
+      Punto: x_A = 20·10 = <strong>200 m</strong> (200 m desde A).
+    </div>
+
+    <h3>Problemas típicos: ALCANCE</h3>
+    <p>Dos móviles van en el mismo sentido; uno alcanza al otro.</p>
+    <ol>
+      <li>Ojo: si parten a la vez, el más lento llevará ventaja inicial.</li>
+      <li>Si parten a tiempos distintos, el adelantado tiene tiempo extra (Δt).</li>
+      <li>Cuando uno alcanza al otro: <strong>x₁ = x₂</strong>.</li>
+    </ol>
+
+    <div class="info-box">
+      <strong>Ejemplo:</strong> un coche pasa por un punto a 30 m/s. 10 s después pasa otro a 40 m/s en la misma dirección. ¿Cuándo lo alcanza?<br>
+      Origen donde pasa el primero. Tiempo medido desde que sale el primero.<br>
+      x_1 = 30·t<br>
+      x_2 = 40·(t − 10)  (sale 10 s después)<br>
+      Igualamos: 30t = 40t − 400 → 400 = 10t → <strong>t = 40 s</strong>.<br>
+      Punto: 30·40 = <strong>1.200 m</strong>.
+    </div>
+  </section>
+
+  <!-- MRUA -->
+  <section id="mrua">
+    <h2>🚀 Movimiento Rectilíneo Uniformemente Acelerado (MRUA)</h2>
+
+    <h3>Aceleración</h3>
+    <p>Magnitud que mide cómo cambia la velocidad con el tiempo. <strong>Vectorial</strong>. Unidad SI: <strong>m/s²</strong>.</p>
+    <div class="formula">a = (v − v₀) / t</div>
+
+    <h3>Definición de MRUA</h3>
+    <p>Movimiento en <strong>línea recta</strong> con <strong>aceleración constante</strong>. La velocidad cambia uniformemente con el tiempo.</p>
+
+    <h3>Ecuaciones del MRUA (las TRES claves)</h3>
+    <div class="formula">v = v₀ + a · t
+
+x = x₀ + v₀ · t + ½ · a · t²
+
+v² = v₀² + 2 · a · (x − x₀)</div>
+
+    <h3>Reglas de signos</h3>
+    <ul>
+      <li>Si <strong>a tiene mismo sentido que v</strong>: el cuerpo <strong>acelera</strong> (va más rápido).</li>
+      <li>Si <strong>a tiene sentido opuesto a v</strong>: el cuerpo <strong>frena</strong> (a < 0 si v > 0).</li>
+    </ul>
+
+    <h3>Caída libre y tiro vertical</h3>
+    <p>Son MRUA con la aceleración de la gravedad: <strong>g ≈ 9,8 m/s²</strong> (en problemas a veces se usa 10 m/s² para simplificar).</p>
+
+    <h4>Caída libre</h4>
+    <p>Cuerpo que se deja caer (v₀ = 0). Si tomamos hacia abajo como positivo:</p>
+    <div class="formula">v = g · t
+h = ½ · g · t²
+v² = 2 · g · h</div>
+
+    <h4>Tiro vertical hacia arriba</h4>
+    <p>Lanzamos con v₀ hacia arriba. La gravedad lo frena. Si tomamos hacia arriba como positivo, a = −g.</p>
+    <div class="formula">v = v₀ − g · t
+h = v₀ · t − ½ · g · t²</div>
+    <p>En el <strong>punto más alto</strong>, v = 0. De ahí sale el tiempo de subida: t_subida = v₀ / g.</p>
+    <p>La <strong>altura máxima</strong>: h_max = v₀² / (2g).</p>
+
+    <div class="tip-box">
+      <strong>💡 Trucos del tiro vertical:</strong>
+      <ul>
+        <li>El tiempo de subida = el tiempo de bajada (si vuelve al mismo punto).</li>
+        <li>La velocidad al volver al punto de salida = la inicial pero con sentido contrario.</li>
+        <li>Tiempo total de vuelo = 2 · t_subida.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GRÁFICAS -->
+  <section id="graficas">
+    <h2>📊 Gráficas — Lo que SIEMPRE preguntan</h2>
+
+    <h3>MRU</h3>
+    <table>
+      <tr><th>Gráfica</th><th>Forma</th><th>Qué representa</th></tr>
+      <tr><td>x–t (posición)</td><td>Recta inclinada</td><td>Pendiente = velocidad. Si pasa por (0, x₀), corta el eje Y en x₀.</td></tr>
+      <tr><td>v–t (velocidad)</td><td>Recta horizontal</td><td>v constante. El área bajo la recta = espacio recorrido.</td></tr>
+      <tr><td>a–t (aceleración)</td><td>Recta horizontal en y = 0</td><td>a = 0 siempre.</td></tr>
+    </table>
+
+    <h3>MRUA</h3>
+    <table>
+      <tr><th>Gráfica</th><th>Forma</th><th>Qué representa</th></tr>
+      <tr><td>x–t</td><td>Parábola (curva)</td><td>Concavidad indica el signo de a.</td></tr>
+      <tr><td>v–t</td><td>Recta inclinada</td><td>Pendiente = aceleración. Corta eje Y en v₀. Área bajo la recta = espacio recorrido.</td></tr>
+      <tr><td>a–t</td><td>Recta horizontal en a ≠ 0</td><td>Aceleración constante.</td></tr>
+    </table>
+
+    <div class="warn-box">
+      <strong>⚠️ Pregunta clásica:</strong> "calcula el espacio recorrido entre t=2 y t=6 a partir de la gráfica v-t". Respuesta: el ÁREA bajo la curva entre esos instantes (rectángulo o trapecio).
+    </div>
+  </section>
+
+  <!-- CHULETA -->
+  <section id="chuleta">
+    <h2>⚡ Chuleta — Todas las fórmulas</h2>
+
+    <h3>🚗 MRU</h3>
+    <div class="formula">x = x₀ + v · t
+e = v · t          (si x₀ = 0)
+v = constante
+a = 0</div>
+
+    <h3>🚀 MRUA</h3>
+    <div class="formula">v = v₀ + a · t
+x = x₀ + v₀·t + ½·a·t²
+v² = v₀² + 2·a·(x − x₀)
+a = (v − v₀)/t</div>
+
+    <h3>🍎 Caída libre (deja caer)</h3>
+    <div class="formula">v = g·t
+h = ½·g·t²
+v² = 2·g·h
+g ≈ 9,8 m/s²</div>
+
+    <h3>🚀 Tiro vertical hacia arriba</h3>
+    <div class="formula">v = v₀ − g·t
+h = v₀·t − ½·g·t²
+t_subida = v₀ / g
+h_max = v₀² / (2g)
+t_total = 2·t_subida</div>
+
+    <h3>🔄 Conversiones</h3>
+    <div class="formula">m/s × 3,6 = km/h
+km/h / 3,6 = m/s
+1 km = 1.000 m
+1 h = 3.600 s
+1 min = 60 s</div>
+
+    <button class="toggle-sol" onclick="window.print()" style="background:var(--accent-2)">🖨️ Imprimir esta chuleta</button>
+  </section>
+
+  <!-- ERRORES TÍPICOS -->
+  <section id="errores">
+    <h2>⚠️ Errores típicos — LEE ESTO ANTES DEL EXAMEN</h2>
+    <p style="color:var(--warn);font-weight:600;margin-bottom:18px">⭐ El 80% de los puntos perdidos en MRU/MRUA vienen de estos errores. Memorízalos.</p>
+
+    <div class="error-card">
+      <h4>❌ Error #1: Mezclar km/h y m/s en la misma operación</h4>
+      <p><strong>Mal:</strong> v = 90 km/h, t = 5 s → e = 90 · 5 = 450 (¿metros? ¿km?). RESULTADO INVENTADO.</p>
+      <p><strong>Bien:</strong> pasa primero a m/s. v = 90/3,6 = 25 m/s. e = 25 · 5 = <strong>125 m</strong>.</p>
+      <p><strong>Regla:</strong> ANTES de operar, todo a m/s y segundos. (O todo a km y horas, pero NUNCA mezclar.)</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #2: Olvidar el signo de la velocidad</h4>
+      <p>Si dos móviles van en sentidos contrarios, sus velocidades tienen <strong>signos opuestos</strong>.</p>
+      <p>Si tomas como positivo "hacia la derecha" y un coche va hacia la izquierda, su v es <strong>negativa</strong>.</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #3: Olvidar el ½ en la fórmula del espacio en MRUA</h4>
+      <p><strong>Mal:</strong> x = x₀ + v₀·t + a·t²</p>
+      <p><strong>Bien:</strong> x = x₀ + v₀·t + <strong>½</strong>·a·t²</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #4: Confundir x (posición) con e (espacio recorrido)</h4>
+      <p><strong>Posición</strong> = dónde está. <strong>Desplazamiento</strong> = cuánto se ha movido (final − inicial). <strong>Espacio recorrido</strong> = distancia total andada.</p>
+      <p>Si vuelve al origen: desplazamiento = 0, pero espacio recorrido ≠ 0.</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #5: En tiro vertical, usar a = +g cuando subes</h4>
+      <p>Si tomas hacia arriba como positivo y el cuerpo va hacia arriba, la gravedad <strong>frena</strong>: a = <strong>−g</strong> (≈ −9,8 m/s²).</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #6: Calcular h_max con t = tiempo total de vuelo</h4>
+      <p>El cuerpo alcanza la altura máxima en <strong>la mitad</strong> del tiempo total: t_subida = t_total / 2.</p>
+      <p>O simplemente cuando <strong>v = 0</strong>.</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #7: Olvidar dejar el resultado con UNIDADES</h4>
+      <p>Una respuesta sin unidades, aunque el número sea correcto, suele perder puntos. Siempre escribe "m", "m/s", "s", "m/s²".</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #8: Usar la fórmula equivocada en problemas de aceleración</h4>
+      <p>Si NO te dan tiempo y NECESITAS hallar la velocidad final con aceleración y desplazamiento, NO uses v = v₀ + a·t. Usa: <strong>v² = v₀² + 2·a·(x−x₀)</strong>.</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #9: En problemas de encuentro/alcance, no poner el origen</h4>
+      <p>Antes de plantear ecuaciones, define dónde es x = 0. Sin un origen claro, te lías con los signos.</p>
+    </div>
+
+    <div class="error-card">
+      <h4>❌ Error #10: Calcular el área bajo la curva como si fuera siempre rectángulo</h4>
+      <p>En MRUA la gráfica v-t es una recta inclinada. El área es un <strong>trapecio</strong>: A = ((b+B)·h)/2.</p>
+    </div>
+
+    <div class="tip-box">
+      <strong>✅ Checklist antes de entregar el examen:</strong>
+      <ul>
+        <li>¿Todas las unidades coherentes? (m, s, m/s)</li>
+        <li>¿He puesto los signos correctamente?</li>
+        <li>¿He escrito las fórmulas antes de sustituir?</li>
+        <li>¿La respuesta tiene sentido físico? (un coche no va a 5.000 m/s)</li>
+        <li>¿He puesto unidades en el resultado final?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EJERCICIOS -->
+  <section id="ejer">
+    <h2>✏️ Ejercicios graduados</h2>
+
+    <h3>🟢 Nivel básico — Conversiones y MRU simple</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 1 — Conversiones</div>
+      <p>Pasa estas velocidades a m/s:</p>
+      <ol>
+        <li>108 km/h</li>
+        <li>72 km/h</li>
+        <li>36 km/h</li>
+        <li>5 km/h</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>1) 108/3,6 = <strong>30 m/s</strong></p>
+        <p>2) 72/3,6 = <strong>20 m/s</strong></p>
+        <p>3) 36/3,6 = <strong>10 m/s</strong></p>
+        <p>4) 5/3,6 ≈ <strong>1,39 m/s</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 2 — MRU simple</div>
+      <p>Un coche viaja a 90 km/h durante 30 minutos. ¿Qué espacio recorre?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Pasamos a m/s y s: v = 90/3,6 = 25 m/s; t = 30·60 = 1.800 s.</p>
+        <p>e = v·t = 25 · 1.800 = <strong>45.000 m = 45 km</strong>.</p>
+        <p>Comprobación: 90 km/h × 0,5 h = 45 km ✓</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 3 — Velocidad media</div>
+      <p>Un atleta recorre 800 m en 2 minutos. ¿Cuál es su velocidad media en m/s y en km/h?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>v = 800 / 120 = <strong>6,67 m/s</strong></p>
+        <p>En km/h: 6,67 · 3,6 ≈ <strong>24 km/h</strong></p>
+      </div>
+    </div>
+
+    <h3>🟡 Nivel medio — Encuentro y alcance</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 4 — Encuentro</div>
+      <p>Dos coches están separados 600 m y parten a la vez uno hacia el otro. El coche A va a 20 m/s y el coche B a 30 m/s. ¿Cuándo y dónde se encuentran?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Origen en A. B está en x=600. A va a v=+20, B va a v=−30.</p>
+        <p>x_A = 20·t ; x_B = 600 − 30·t</p>
+        <p>Igualamos: 20t = 600 − 30t → 50t = 600 → <strong>t = 12 s</strong></p>
+        <p>Posición: x = 20·12 = <strong>240 m</strong> (medidos desde A).</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 5 — Alcance</div>
+      <p>Un ciclista pasa por un punto a 8 m/s. 5 s después pasa una moto desde el mismo punto a 18 m/s. ¿Cuánto tarda la moto en alcanzar al ciclista?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Tiempo medido desde que sale el ciclista. Moto sale a t=5.</p>
+        <p>x_ciclista = 8·t ; x_moto = 18·(t − 5)</p>
+        <p>Igualamos: 8t = 18t − 90 → 10t = 90 → t = 9 s (desde el ciclista).</p>
+        <p>La moto tardó <strong>4 s</strong> en alcanzarlo (9 − 5).</p>
+        <p>Punto: x = 8·9 = <strong>72 m</strong>.</p>
+      </div>
+    </div>
+
+    <h3>🟠 Nivel medio — MRUA</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 6 — Aceleración básica</div>
+      <p>Un coche pasa de 36 km/h a 108 km/h en 5 segundos. Calcula su aceleración.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>v₀ = 36/3,6 = 10 m/s ; v = 108/3,6 = 30 m/s</p>
+        <p>a = (v − v₀)/t = (30 − 10)/5 = <strong>4 m/s²</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 7 — Espacio recorrido en MRUA</div>
+      <p>Un coche parte del reposo y acelera a 2 m/s² durante 10 s. ¿Qué velocidad alcanza? ¿Qué espacio recorre?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Velocidad: v = v₀ + a·t = 0 + 2·10 = <strong>20 m/s</strong></p>
+        <p>Espacio: x = ½·a·t² = ½·2·100 = <strong>100 m</strong></p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 8 — Frenado</div>
+      <p>Un coche que va a 20 m/s frena con a = −4 m/s². ¿Cuánto tarda en pararse? ¿Qué espacio recorre hasta detenerse?</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Tiempo: 0 = 20 − 4·t → t = <strong>5 s</strong></p>
+        <p>Espacio: x = 20·5 + ½·(−4)·25 = 100 − 50 = <strong>50 m</strong></p>
+        <p>Comprobación con v² = v₀² + 2·a·x → 0 = 400 − 8x → x = 50 m ✓</p>
+      </div>
+    </div>
+
+    <h3>🔴 Nivel avanzado — Caída libre y tiro vertical</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 9 — Caída libre</div>
+      <p>Una piedra cae desde una torre. Tarda 4 s en llegar al suelo. ¿Qué altura tiene la torre? ¿Con qué velocidad llega? (g = 10 m/s²)</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Altura: h = ½·g·t² = ½·10·16 = <strong>80 m</strong></p>
+        <p>Velocidad final: v = g·t = 10·4 = <strong>40 m/s</strong> (= 144 km/h)</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 10 — Tiro vertical</div>
+      <p>Lanzamos una pelota hacia arriba con v₀ = 30 m/s. Calcula:</p>
+      <ol>
+        <li>Tiempo en alcanzar la altura máxima.</li>
+        <li>Altura máxima.</li>
+        <li>Tiempo total de vuelo.</li>
+        <li>Velocidad al volver al punto de lanzamiento.</li>
+      </ol>
+      <p>(g = 10 m/s²)</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>1) v = v₀ − g·t. En altura máxima v=0 → 0 = 30 − 10·t → <strong>t = 3 s</strong></p>
+        <p>2) h_max = v₀² / (2g) = 900 / 20 = <strong>45 m</strong></p>
+        <p>3) t_total = 2 · 3 = <strong>6 s</strong></p>
+        <p>4) Misma magnitud, sentido contrario: <strong>−30 m/s</strong> (es decir, 30 m/s hacia abajo)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section id="quiz">
+    <h2>🎯 Test rápido</h2>
+
+    <div class="quiz">
+      <div class="q">1. En un MRU la aceleración vale:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">v/t</button>
+        <button onclick="chk(this,true)">0</button>
+        <button onclick="chk(this,false)">9,8 m/s²</button>
+        <button onclick="chk(this,false)">Depende del tiempo</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">2. ¿Cuánto son 72 km/h en m/s?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">72</button>
+        <button onclick="chk(this,false)">7,2</button>
+        <button onclick="chk(this,true)">20</button>
+        <button onclick="chk(this,false)">2</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">3. La fórmula del espacio en MRUA es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">x = v · t</button>
+        <button onclick="chk(this,true)">x = x₀ + v₀·t + ½·a·t²</button>
+        <button onclick="chk(this,false)">x = a · t²</button>
+        <button onclick="chk(this,false)">x = v² / a</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">4. En la gráfica v-t de un MRUA, la pendiente representa:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">El espacio recorrido</button>
+        <button onclick="chk(this,false)">La posición inicial</button>
+        <button onclick="chk(this,true)">La aceleración</button>
+        <button onclick="chk(this,false)">La velocidad media</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">5. Lanzo una pelota hacia arriba a 20 m/s (g=10). En el punto más alto, su velocidad vale:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">20 m/s</button>
+        <button onclick="chk(this,false)">10 m/s</button>
+        <button onclick="chk(this,true)">0 m/s</button>
+        <button onclick="chk(this,false)">−10 m/s</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">6. Si una piedra cae desde una torre, después de 3 s su velocidad es (g=10):</div>
+      <div class="options">
+        <button onclick="chk(this,false)">3 m/s</button>
+        <button onclick="chk(this,false)">10 m/s</button>
+        <button onclick="chk(this,true)">30 m/s</button>
+        <button onclick="chk(this,false)">300 m/s</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">7. Un atleta da una vuelta a una pista de 400 m. Su desplazamiento es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">400 m</button>
+        <button onclick="chk(this,false)">200 m</button>
+        <button onclick="chk(this,true)">0 m</button>
+        <button onclick="chk(this,false)">800 m</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">8. Coche que va a 20 m/s frena con a = −2 m/s². ¿Cuánto tarda en parar?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">5 s</button>
+        <button onclick="chk(this,true)">10 s</button>
+        <button onclick="chk(this,false)">20 s</button>
+        <button onclick="chk(this,false)">40 s</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Simulacro de examen (45 minutos)</h2>
+
+    <div class="info-box"><strong>5 ejercicios. 45 minutos. 2 puntos cada uno. Usa g = 10 m/s² para simplificar.</strong></div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 1 (2 pts) — Conversión y MRU</div>
+      <p>Un tren se mueve con velocidad constante de 144 km/h durante 1 hora y 30 minutos.</p>
+      <p>a) Pasa la velocidad a m/s.</p>
+      <p>b) Calcula el espacio recorrido en metros y en km.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 2 (2 pts) — Encuentro</div>
+      <p>Dos coches están separados 800 m y parten al mismo tiempo uno hacia el otro. El primero va a 15 m/s y el segundo a 25 m/s.</p>
+      <p>a) ¿Cuándo se encuentran?</p>
+      <p>b) ¿A qué distancia del primero se produce el encuentro?</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 3 (2 pts) — MRUA</div>
+      <p>Un coche parte del reposo y acelera con a = 3 m/s² durante 8 segundos.</p>
+      <p>a) ¿Qué velocidad alcanza? Exprésala en km/h.</p>
+      <p>b) ¿Qué espacio recorre durante esos 8 segundos?</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 4 (2 pts) — Frenado</div>
+      <p>Un coche que va a 90 km/h frena uniformemente y se detiene en 100 m.</p>
+      <p>a) Calcula la aceleración (deceleración).</p>
+      <p>b) ¿Cuánto tiempo tarda en parar?</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">EJERCICIO 5 (2 pts) — Tiro vertical</div>
+      <p>Lanzamos una pelota hacia arriba con velocidad inicial de 25 m/s.</p>
+      <p>a) ¿Qué altura máxima alcanza?</p>
+      <p>b) ¿Cuánto tarda en alcanzar esa altura?</p>
+      <p>c) ¿Cuál es el tiempo total de vuelo (hasta volver al punto de lanzamiento)?</p>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Ver solucionario</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">SOLUCIONARIO</h4>
+
+      <p><strong>Ej. 1:</strong></p>
+      <p>a) v = 144/3,6 = <strong>40 m/s</strong></p>
+      <p>b) t = 1,5 h = 5.400 s. e = 40·5.400 = <strong>216.000 m = 216 km</strong></p>
+
+      <p><strong>Ej. 2:</strong></p>
+      <p>x_1 = 15·t ; x_2 = 800 − 25·t. Igualamos: 15t = 800 − 25t → 40t = 800 → <strong>t = 20 s</strong></p>
+      <p>Posición: x_1 = 15·20 = <strong>300 m</strong> desde el primero.</p>
+
+      <p><strong>Ej. 3:</strong></p>
+      <p>a) v = 0 + 3·8 = 24 m/s = 24·3,6 = <strong>86,4 km/h</strong></p>
+      <p>b) x = ½·3·64 = <strong>96 m</strong></p>
+
+      <p><strong>Ej. 4:</strong></p>
+      <p>v₀ = 90/3,6 = 25 m/s. Aplicamos v² = v₀² + 2a·x → 0 = 625 + 2a·100 → a = <strong>−3,125 m/s²</strong> (frena)</p>
+      <p>Tiempo: 0 = 25 + (−3,125)·t → t = <strong>8 s</strong></p>
+
+      <p><strong>Ej. 5:</strong></p>
+      <p>a) h_max = v₀²/(2g) = 625/20 = <strong>31,25 m</strong></p>
+      <p>b) t_subida = v₀/g = 25/10 = <strong>2,5 s</strong></p>
+      <p>c) t_total = 2·2,5 = <strong>5 s</strong></p>
+
+      <p style="margin-top:14px;color:var(--good)"><strong>Puntuación orientativa:</strong></p>
+      <ul>
+        <li>9-10: dominio total</li>
+        <li>7-8: muy bien, errores menores</li>
+        <li>5-6: aprobado holgado</li>
+        <li>3-4: aprobado justo, repasar errores</li>
+        <li>&lt;3: volver a la teoría y rehacer ejercicios básicos</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Ocultar' : 'Ver solución';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✅ ¡Correcto!';}
+    else{btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true'))b.classList.add('correct');
+      });
+      fb.className='feedback show ko';fb.textContent='❌ Incorrecto. La correcta está en verde.';}
+  }
+</script>
+</body>
+</html>

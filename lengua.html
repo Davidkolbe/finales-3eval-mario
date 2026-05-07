@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lengua y Literatura · Final 3ª eval · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#2d1b4e;--panel-2:#3d2766;--text:#f5f5f4;
+    --muted:#a8a29e;--border:#5b21b6;--accent:#fbbf24;--accent-2:#a855f7;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:Georgia,"Times New Roman",serif;
+    background:linear-gradient(135deg,#1a0f2e 0%,#4c1d95 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent-2);border-radius:20px;font-size:.9em;font-family:sans-serif}
+  .back:hover{background:var(--accent-2);color:#fff}
+  header{background:linear-gradient(135deg,#4c1d95 0%,#be123c 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fde68a}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:sans-serif}
+  nav button:hover{background:var(--accent);color:#1a0f2e}
+  nav button.active{background:var(--accent);color:#1a0f2e;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:#f97316;font-size:1.25em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  blockquote{background:#0f0a1f;border-left:4px solid var(--accent);
+    padding:14px 18px;margin:14px 0;font-style:italic;color:#fde68a;border-radius:6px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden;font-family:sans-serif;font-size:.95em}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  table th{background:var(--accent);color:#1a0f2e}
+  .info-box{background:rgba(168,85,247,.12);border-left:4px solid var(--accent-2);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.08);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2);font-family:sans-serif}
+  .ejercicio .num{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent-2);color:#fff;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:sans-serif}
+  .toggle-sol:hover{background:#7e22ce}
+  .solucion{background:#0f0a1f;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none;font-family:sans-serif}
+  .solucion.show{display:block}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0;font-family:sans-serif}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--accent)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#0f0a1f;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit;font-size:.95em}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  .author-card{background:var(--panel-2);padding:18px;border-radius:10px;margin:12px 0;
+    border-left:4px solid #f97316}
+  @media(max-width:700px){header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>📖 Lengua y Literatura</h1>
+    <p>Examen final · Miércoles 20 mayo · 12:00</p>
+    <p style="color:#fbbf24;margin-top:6px"><strong>Temario:</strong> Barroco, Cervantes, gramática y ortografía</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Temario</button>
+    <button onclick="show('barroco')">🎭 Barroco</button>
+    <button onclick="show('autores')">✒️ Autores</button>
+    <button onclick="show('cervantes')">⚔️ Cervantes</button>
+    <button onclick="show('gramatica')">🔤 Gramática</button>
+    <button onclick="show('ortografia')">✍️ Ortografía</button>
+    <button onclick="show('ejer')">✏️ Ejercicios</button>
+    <button onclick="show('quiz')">🎯 Test</button>
+    <button onclick="show('simulacro')">📝 Simulacro</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Qué entra en el examen</h2>
+    <h3>Bloque 1 — Literatura</h3>
+    <ol>
+      <li>Contexto histórico-social del Barroco (s. XVII)</li>
+      <li>Características y temas barrocos</li>
+      <li>Estilos: culteranismo y conceptismo</li>
+      <li>Poesía barroca: Lope de Vega, Góngora, Quevedo</li>
+      <li>Prosa barroca: la novela picaresca</li>
+      <li>Miguel de Cervantes — vida, obra y El Quijote</li>
+    </ol>
+    <h3>Bloque 2 — Gramática</h3>
+    <ol>
+      <li>La oración compuesta (yuxtaposición, coordinación, subordinación)</li>
+      <li>Oraciones subordinadas (sustantivas, adjetivas, adverbiales)</li>
+      <li>Monemas y formación de palabras</li>
+    </ol>
+    <h3>Bloque 3 — Ortografía</h3>
+    <ol>
+      <li>Tildes en palabras dudosas (diptongos, hiatos, monosílabos)</li>
+      <li>Tilde diacrítica</li>
+      <li>Palabras dudosas (homófonos: ha/a, hay/ahí/ay…)</li>
+    </ol>
+  </section>
+
+  <!-- BARROCO -->
+  <section id="barroco">
+    <h2>🎭 El Barroco (siglo XVII)</h2>
+
+    <h3>Contexto histórico-social</h3>
+    <p>El Barroco es el movimiento artístico del siglo XVII. Surge como reacción al optimismo renacentista en una España en plena crisis política, económica y social.</p>
+    <table>
+      <tr><th>Política</th><th>Economía</th><th>Sociedad</th></tr>
+      <tr>
+        <td>Reinados de los <strong>Austrias menores</strong>: Felipe III, Felipe IV y Carlos II. Los reyes ceden poder a sus <strong>validos</strong>. Fin de la hegemonía española en Europa.</td>
+        <td><strong>Crisis económica</strong> profunda. Inflación, agotamiento de recursos, ruina del campo, deudas de la corona.</td>
+        <td>Pérdida demográfica por la emigración a América. Aislamiento cultural por la <strong>Inquisición</strong>. Conflictos católicos vs. protestantes.</td>
+      </tr>
+    </table>
+
+    <h3>Visión barroca del mundo</h3>
+    <ul>
+      <li><strong>Pesimismo:</strong> fin del optimismo del Renacimiento.</li>
+      <li><strong>Desengaño:</strong> el mundo es engaño, todo son apariencias.</li>
+      <li><strong>Vida fugaz:</strong> tránsito hacia la muerte.</li>
+      <li><strong>Contraste:</strong> entre apariencia y realidad, entre lo bello y lo grotesco.</li>
+    </ul>
+
+    <h3>Temas típicos</h3>
+    <table>
+      <tr><th>Tema</th><th>Idea central</th></tr>
+      <tr><td>Fugacidad de la vida</td><td>El tiempo pasa rapidísimo, todo es efímero</td></tr>
+      <tr><td>Inestabilidad de los bienes</td><td>La fortuna, el dinero y el poder son pasajeros</td></tr>
+      <tr><td>Desengaño y muerte</td><td>La vida termina y todo es vanidad</td></tr>
+      <tr><td>Humor y sátira</td><td>Crítica burlesca de vicios y costumbres</td></tr>
+      <tr><td>Religiosos y morales</td><td>Salvación del alma, advertencias contra el pecado</td></tr>
+    </table>
+
+    <h3>Aspectos formales</h3>
+    <p>Conserva la métrica renacentista (sonetos, liras), pero con un lenguaje mucho más complicado, ornamental y conceptuoso. Recursos: hipérbatos, metáforas, antítesis, paradojas, juegos de palabras.</p>
+
+    <h3>Estilos: culteranismo y conceptismo</h3>
+    <table>
+      <tr><th>Culteranismo (Góngora)</th><th>Conceptismo (Quevedo)</th></tr>
+      <tr>
+        <td>Busca <strong>la BELLEZA formal</strong>. Lenguaje culto y ornamentado, lleno de cultismos latinos, hipérbatos y metáforas brillantes. Importa <strong>cómo</strong> se dice.</td>
+        <td>Busca la <strong>AGUDEZA del pensamiento</strong>. Juegos de palabras, dobles sentidos, paradojas. Importa <strong>qué</strong> se dice y cómo se asocian las ideas.</td>
+      </tr>
+    </table>
+    <div class="tip-box"><strong>💡 Truco para diferenciarlos:</strong> Culteranismo = "culto" = forma compleja. Conceptismo = "concepto" = idea ingeniosa.</div>
+  </section>
+
+  <!-- AUTORES -->
+  <section id="autores">
+    <h2>✒️ Autores barrocos clave</h2>
+
+    <div class="author-card">
+      <h3>Lope de Vega (1562-1635)</h3>
+      <p><strong>El "Fénix de los ingenios"</strong>. Vida apasionada y tumultuosa. Conocido sobre todo por revolucionar el teatro español.</p>
+      <h4>Aportaciones:</h4>
+      <ul>
+        <li><strong>Comedia nueva</strong>: rompe la regla clásica de las tres unidades. Mezcla lo trágico y lo cómico.</li>
+        <li>Escribe en tres actos (planteamiento, nudo, desenlace).</li>
+        <li>Variedad métrica según la situación.</li>
+        <li>Temas: <strong>honor, amor, lo nacional, lo religioso</strong>.</li>
+      </ul>
+      <h4>Obras destacadas:</h4>
+      <ul>
+        <li><em>Fuente Ovejuna</em> (drama del honor del pueblo)</li>
+        <li><em>El caballero de Olmedo</em></li>
+        <li><em>Peribáñez y el Comendador de Ocaña</em></li>
+      </ul>
+    </div>
+
+    <div class="author-card">
+      <h3>Luis de Góngora (1561-1627)</h3>
+      <p>Cordobés, máximo representante del <strong>culteranismo</strong>. Sus obras son célebres por su dificultad y belleza.</p>
+      <h4>Características de su poesía:</h4>
+      <ul>
+        <li>Lenguaje muy ornamentado, lleno de hipérbatos y metáforas.</li>
+        <li>Cultismos del latín y referencias mitológicas.</li>
+        <li>Dos vertientes: poesía popular (letrillas, romances) y poesía culta (sonetos, <em>Soledades</em>, <em>Fábula de Polifemo y Galatea</em>).</li>
+      </ul>
+      <h4>Obras destacadas:</h4>
+      <ul>
+        <li><em>Soledades</em> (poesía culta extensa)</li>
+        <li><em>Fábula de Polifemo y Galatea</em></li>
+        <li>Numerosos sonetos y romances</li>
+      </ul>
+    </div>
+
+    <div class="author-card">
+      <h3>Francisco de Quevedo (1580-1645)</h3>
+      <p>Madrileño, máximo representante del <strong>conceptismo</strong>. Enemistad personal y literaria con Góngora. Vida cortesana e intelectual muy activa.</p>
+      <h4>Características de su poesía:</h4>
+      <ul>
+        <li>Mezcla lo serio y lo cómico, lo grave y lo satírico.</li>
+        <li>Juegos de palabras, dilogías (doble sentido), antítesis.</li>
+        <li>Tres líneas: <strong>amorosa, moral/filosófica, satírica/burlesca</strong>.</li>
+      </ul>
+      <h4>Obras destacadas:</h4>
+      <ul>
+        <li><em>El Buscón</em> (novela picaresca)</li>
+        <li><em>Los Sueños</em> (sátira moral)</li>
+        <li>Sonetos como "Amor constante más allá de la muerte" o el conocido a la nariz de Góngora ("Érase un hombre a una nariz pegado…")</li>
+      </ul>
+    </div>
+
+    <h3>Prosa barroca: la novela picaresca</h3>
+    <p>La novela picaresca aborda la vida de un <strong>pícaro</strong>, antihéroe de origen humilde, que cuenta sus desventuras en primera persona. Refleja una visión <strong>desengañada</strong> de la sociedad.</p>
+    <h4>Rasgos comunes:</h4>
+    <ul>
+      <li>Narración en <strong>primera persona</strong> (autobiografía ficticia).</li>
+      <li>El protagonista sirve a varios amos.</li>
+      <li>Crítica social y moral.</li>
+      <li>Tono pesimista y satírico.</li>
+    </ul>
+    <h4>Obras de referencia:</h4>
+    <ul>
+      <li><em>El Lazarillo de Tormes</em> (anónima, s. XVI, precedente)</li>
+      <li><em>Guzmán de Alfarache</em>, de Mateo Alemán</li>
+      <li><em>El Buscón</em>, de Quevedo</li>
+    </ul>
+  </section>
+
+  <!-- CERVANTES -->
+  <section id="cervantes">
+    <h2>⚔️ Miguel de Cervantes (1547-1616)</h2>
+
+    <h3>Vida</h3>
+    <ul>
+      <li>Nacido en <strong>Alcalá de Henares</strong> en 1547.</li>
+      <li>Soldado en la <strong>batalla de Lepanto</strong> (1571), donde quedó manco de la mano izquierda ("manco de Lepanto").</li>
+      <li>Capturado por piratas berberiscos y prisionero <strong>5 años en Argel</strong>.</li>
+      <li>Vida llena de penurias económicas a pesar de su éxito literario.</li>
+      <li>Murió en Madrid en 1616, casi a la vez que Shakespeare.</li>
+    </ul>
+
+    <h3>Obra (variada)</h3>
+    <table>
+      <tr><th>Género</th><th>Obras destacadas</th></tr>
+      <tr><td>Novela pastoril</td><td><em>La Galatea</em> (1585)</td></tr>
+      <tr><td>Novela corta</td><td><em>Novelas ejemplares</em> (1613) — 12 relatos</td></tr>
+      <tr><td>Teatro</td><td>Comedias y <strong>entremeses</strong> (piezas breves cómicas)</td></tr>
+      <tr><td>Novela bizantina</td><td><em>Los trabajos de Persiles y Sigismunda</em> (póstuma)</td></tr>
+      <tr><td>Novela moderna</td><td><strong><em>El ingenioso hidalgo Don Quijote de la Mancha</em></strong> (1605 + 1615)</td></tr>
+    </table>
+
+    <h3>El Quijote — Lo esencial</h3>
+    <h4>Estructura</h4>
+    <ul>
+      <li><strong>Primera parte (1605)</strong>: 52 capítulos. Don Quijote sale dos veces de su aldea.</li>
+      <li><strong>Segunda parte (1615)</strong>: 74 capítulos. Tercera salida, mucho más madura.</li>
+    </ul>
+
+    <h4>Personajes principales</h4>
+    <ul>
+      <li><strong>Don Quijote</strong>: hidalgo manchego (Alonso Quijano) que enloquece leyendo libros de caballerías. Es idealista, soñador, cree en la justicia.</li>
+      <li><strong>Sancho Panza</strong>: su escudero. Labrador realista, sensato, glotón y refranero. Contrapeso del idealismo de don Quijote.</li>
+      <li><strong>Dulcinea del Toboso</strong>: dama imaginaria de don Quijote (en realidad, Aldonza Lorenzo, una labradora).</li>
+      <li><strong>Rocinante</strong>: caballo viejo y flaco. Y el rucio (asno) de Sancho.</li>
+    </ul>
+
+    <h4>Temas y claves</h4>
+    <ul>
+      <li><strong>Idealismo vs. realismo</strong>: don Quijote ve el mundo como debería ser; Sancho lo ve como es.</li>
+      <li><strong>Parodia</strong> de los libros de caballerías.</li>
+      <li>La <strong>locura</strong> como vehículo para criticar la sociedad.</li>
+      <li><strong>Realidad y ficción</strong>: en la 2ª parte los personajes saben que existe la 1ª parte.</li>
+      <li><strong>Lenguaje</strong> rico: cada personaje habla según su condición social. Diálogos vivísimos.</li>
+    </ul>
+
+    <h4>Episodios famosos</h4>
+    <ul>
+      <li><strong>Los molinos de viento</strong> (que él toma por gigantes).</li>
+      <li>La <strong>aventura de los rebaños de ovejas</strong> (que cree ejércitos).</li>
+      <li>El encuentro con <strong>Maritornes</strong> en la venta.</li>
+      <li>La estancia en el palacio de los <strong>Duques</strong>.</li>
+      <li>Sancho como <strong>gobernador de la ínsula Barataria</strong>.</li>
+      <li>El final: don Quijote recobra la cordura y muere como Alonso Quijano.</li>
+    </ul>
+
+    <div class="info-box">
+      <strong>📚 Importancia:</strong> El Quijote se considera <strong>la primera novela moderna</strong> de la literatura universal. Inventa recursos como el narrador no fiable, los personajes evolutivos, la metaficción y el contraste de niveles de lenguaje.
+    </div>
+
+    <blockquote>"En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero…"</blockquote>
+  </section>
+
+  <!-- GRAMÁTICA -->
+  <section id="gramatica">
+    <h2>🔤 Gramática</h2>
+
+    <h3>1. La oración compuesta</h3>
+    <p>Una oración es <strong>compuesta</strong> cuando tiene <strong>dos o más verbos en forma personal</strong>, es decir, dos o más proposiciones (oraciones dentro de la oración).</p>
+
+    <h4>Tres tipos según la relación:</h4>
+    <table>
+      <tr><th>Tipo</th><th>Característica</th><th>Ejemplo</th></tr>
+      <tr><td><strong>Yuxtapuestas</strong></td><td>Sin nexo, separadas por signos (coma, punto y coma…)</td><td><em>Llegamos pronto; nadie estaba.</em></td></tr>
+      <tr><td><strong>Coordinadas</strong></td><td>Unidas por nexos coordinantes. Las proposiciones son independientes.</td><td><em>Quería estudiar, pero estaba cansado.</em></td></tr>
+      <tr><td><strong>Subordinadas</strong></td><td>Una proposición depende de la otra (la principal).</td><td><em>Me alegro de que vinieras.</em></td></tr>
+    </table>
+
+    <h4>Tipos de coordinadas (con sus nexos)</h4>
+    <table>
+      <tr><th>Tipo</th><th>Nexos</th><th>Ejemplo</th></tr>
+      <tr><td>Copulativas</td><td>y, e, ni</td><td>Estudia <strong>y</strong> aprueba.</td></tr>
+      <tr><td>Disyuntivas</td><td>o, u, o bien</td><td>Vienes <strong>o</strong> te quedas.</td></tr>
+      <tr><td>Adversativas</td><td>pero, sino, mas, sin embargo</td><td>Es difícil, <strong>pero</strong> me gusta.</td></tr>
+      <tr><td>Distributivas</td><td>ya... ya, bien... bien, unos... otros</td><td><strong>Ya</strong> ríe, <strong>ya</strong> llora.</td></tr>
+      <tr><td>Explicativas</td><td>es decir, o sea</td><td>Vino temprano, <strong>es decir</strong>, antes de las ocho.</td></tr>
+    </table>
+
+    <h3>2. Oraciones subordinadas</h3>
+    <p>Una proposición subordinada cumple una función dentro de la oración principal. Se clasifican en tres grandes tipos:</p>
+
+    <h4>A) Subordinadas sustantivas</h4>
+    <p>Funcionan como un <strong>sustantivo</strong> (sujeto, CD, atributo, etc.). Nexos típicos: <strong>que</strong>, <strong>si</strong>, pronombres interrogativos.</p>
+    <ul>
+      <li><strong>Sujeto:</strong> Me molesta <em>que mientas</em>. ("que mientas" = sujeto)</li>
+      <li><strong>CD:</strong> Quiero <em>que vengas</em>. ("que vengas" = qué quiero)</li>
+      <li><strong>Atributo:</strong> Mi deseo es <em>que aprobéis</em>.</li>
+    </ul>
+
+    <h4>B) Subordinadas adjetivas (de relativo)</h4>
+    <p>Funcionan como un <strong>adjetivo</strong>: complementan a un sustantivo (antecedente). Nexos: <strong>que, quien, cuyo, donde, cual</strong>.</p>
+    <ul>
+      <li>El libro <em>que me regalaste</em> es genial.</li>
+      <li>El profesor <em>cuyo coche está fuera</em> da Lengua.</li>
+    </ul>
+
+    <h4>C) Subordinadas adverbiales</h4>
+    <p>Funcionan como un <strong>adverbio</strong>, indicando las circunstancias del verbo principal.</p>
+    <table>
+      <tr><th>Tipo</th><th>Pregunta</th><th>Nexos</th></tr>
+      <tr><td>Tiempo</td><td>¿cuándo?</td><td>cuando, mientras, antes de que, después de que, en cuanto</td></tr>
+      <tr><td>Lugar</td><td>¿dónde?</td><td>donde, adonde</td></tr>
+      <tr><td>Modo</td><td>¿cómo?</td><td>como, según, igual que</td></tr>
+      <tr><td>Causa</td><td>¿por qué?</td><td>porque, ya que, puesto que, dado que</td></tr>
+      <tr><td>Finalidad</td><td>¿para qué?</td><td>para que, a fin de que</td></tr>
+      <tr><td>Consecuencia</td><td>¿qué se deduce?</td><td>tan… que, así que, por tanto</td></tr>
+      <tr><td>Condición</td><td>—</td><td>si, en caso de que, a no ser que</td></tr>
+      <tr><td>Concesión</td><td>—</td><td>aunque, a pesar de que, por más que</td></tr>
+      <tr><td>Comparación</td><td>—</td><td>más… que, menos… que, tan… como</td></tr>
+    </table>
+
+    <h3>3. Monemas y formación de palabras</h3>
+    <p>Los <strong>monemas</strong> son las unidades mínimas con significado en una palabra. Hay dos tipos:</p>
+    <ul>
+      <li><strong>Lexema (raíz):</strong> aporta el significado principal. <em>libr-</em> en libro, librería, librero.</li>
+      <li><strong>Morfema:</strong> aporta significado gramatical o derivativo.
+        <ul>
+          <li><strong>Derivativos</strong>: prefijos (<em>in-</em>útil), sufijos (libr<em>-ería</em>), interfijos (cafe<em>-c-</em>ito).</li>
+          <li><strong>Flexivos</strong>: género, número, persona, tiempo (libr<em>-o</em>, libr<em>-os</em>; cant<em>-aba</em>).</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Procedimientos de formación</h4>
+    <table>
+      <tr><th>Procedimiento</th><th>Definición</th><th>Ejemplo</th></tr>
+      <tr><td>Derivación</td><td>Lexema + morfema(s) derivativo(s)</td><td>pan → panad<em>ería</em></td></tr>
+      <tr><td>Composición</td><td>Dos o más lexemas juntos</td><td>saca + corchos = sacacorchos</td></tr>
+      <tr><td>Parasíntesis</td><td>Composición + derivación a la vez</td><td>quince + añ + ero = quinceañero</td></tr>
+      <tr><td>Acrónimo / sigla</td><td>Letras iniciales</td><td>OVNI, ONG, ESO</td></tr>
+    </table>
+  </section>
+
+  <!-- ORTOGRAFÍA -->
+  <section id="ortografia">
+    <h2>✍️ Ortografía</h2>
+
+    <h3>1. Las reglas básicas de acentuación</h3>
+    <table>
+      <tr><th>Tipo</th><th>Sílaba tónica</th><th>Llevan tilde si...</th></tr>
+      <tr><td>Agudas</td><td>Última</td><td>Acaban en vocal, n o s. Ej.: cantó, sofá, además.</td></tr>
+      <tr><td>Llanas</td><td>Penúltima</td><td>NO acaban en vocal, n o s. Ej.: árbol, lápiz, fácil.</td></tr>
+      <tr><td>Esdrújulas</td><td>Antepenúltima</td><td><strong>Siempre</strong>. Ej.: música, pájaro, esdrújula.</td></tr>
+      <tr><td>Sobreesdrújulas</td><td>Anterior a antepenúltima</td><td><strong>Siempre</strong>. Ej.: cuéntamelo, dígaselo.</td></tr>
+    </table>
+
+    <h3>2. Diptongos, triptongos e hiatos</h3>
+    <ul>
+      <li><strong>Diptongo</strong>: dos vocales en una sílaba. Combinación de cerrada (i, u) + abierta (a, e, o), o dos cerradas distintas. <em>cau-sa, vie-ne, ciu-dad</em>.</li>
+      <li><strong>Triptongo</strong>: tres vocales en una sílaba (cerrada + abierta + cerrada). <em>es-tu-diáis, miau</em>.</li>
+      <li><strong>Hiato</strong>: dos vocales que pertenecen a sílabas distintas. <em>ma-ra-vi-lla, ca-er, le-er, dí-a, rí-o</em>.</li>
+    </ul>
+    <div class="warn-box"><strong>⚠️ Cuidado con los hiatos acentuales:</strong> cuando una vocal cerrada (i, u) tónica está junto a una abierta, lleva <strong>tilde sí o sí</strong>: <em>día, río, frío, oír, búho</em>.</div>
+
+    <h3>3. Tilde diacrítica</h3>
+    <p>Distingue palabras de igual forma pero diferente función:</p>
+    <table>
+      <tr><th>Sin tilde</th><th>Con tilde</th></tr>
+      <tr><td><strong>el</strong> (artículo): <em>el coche</em></td><td><strong>él</strong> (pronombre): <em>él vino</em></td></tr>
+      <tr><td><strong>tu</strong> (posesivo): <em>tu casa</em></td><td><strong>tú</strong> (pronombre): <em>tú vienes</em></td></tr>
+      <tr><td><strong>mi</strong> (posesivo): <em>mi libro</em></td><td><strong>mí</strong> (pronombre): <em>para mí</em></td></tr>
+      <tr><td><strong>te</strong> (pronombre): <em>te lo doy</em></td><td><strong>té</strong> (bebida)</td></tr>
+      <tr><td><strong>mas</strong> (= pero)</td><td><strong>más</strong> (cantidad)</td></tr>
+      <tr><td><strong>si</strong> (condicional): <em>si vienes</em></td><td><strong>sí</strong> (afirmación / pronombre)</td></tr>
+      <tr><td><strong>de</strong> (preposición)</td><td><strong>dé</strong> (verbo dar)</td></tr>
+      <tr><td><strong>se</strong> (pronombre)</td><td><strong>sé</strong> (verbo saber/ser)</td></tr>
+      <tr><td><strong>aun</strong> (= incluso)</td><td><strong>aún</strong> (= todavía)</td></tr>
+    </table>
+
+    <h3>4. Palabras dudosas (homófonos clásicos)</h3>
+    <table>
+      <tr><th>Palabra</th><th>Cuándo se usa</th><th>Ejemplo</th></tr>
+      <tr><td><strong>a</strong> (preposición)</td><td>Indica dirección, destino, tiempo</td><td>Voy <em>a</em> casa</td></tr>
+      <tr><td><strong>ha</strong> (verbo haber)</td><td>Auxiliar: ha + participio</td><td>Mario <em>ha</em> estudiado</td></tr>
+      <tr><td><strong>¡ah!</strong></td><td>Interjección</td><td>¡<em>Ah</em>, qué sorpresa!</td></tr>
+      <tr><td><strong>hay</strong> (haber)</td><td>Existencia</td><td><em>Hay</em> dos sillas</td></tr>
+      <tr><td><strong>ahí</strong> (lugar)</td><td>Adverbio de lugar</td><td>Está <em>ahí</em></td></tr>
+      <tr><td><strong>¡ay!</strong></td><td>Interjección</td><td>¡<em>Ay</em>, qué dolor!</td></tr>
+      <tr><td><strong>haya</strong> (haber)</td><td>Verbo</td><td>Cuando <em>haya</em> terminado</td></tr>
+      <tr><td><strong>halla</strong> (hallar)</td><td>Encuentra</td><td>Se <em>halla</em> en Madrid</td></tr>
+      <tr><td><strong>echo</strong> (echar)</td><td>Verbo echar</td><td>Te <em>echo</em> de menos</td></tr>
+      <tr><td><strong>hecho</strong> (hacer/sustantivo)</td><td>Participio o nombre</td><td>He <em>hecho</em> los deberes / un <em>hecho</em> histórico</td></tr>
+    </table>
+  </section>
+
+  <!-- EJERCICIOS -->
+  <section id="ejer">
+    <h2>✏️ Ejercicios</h2>
+
+    <h3>📚 Literatura</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 1 — Identifica el estilo barroco</div>
+      <p>Indica si los siguientes rasgos pertenecen al CULTERANISMO o al CONCEPTISMO:</p>
+      <ol>
+        <li>Juegos de palabras y dobles sentidos.</li>
+        <li>Hipérbatos y cultismos latinos.</li>
+        <li>Lenguaje ornamentado y belleza formal.</li>
+        <li>Agudeza del pensamiento.</li>
+        <li>Su máximo representante es Góngora.</li>
+        <li>Su máximo representante es Quevedo.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>1. Conceptismo &nbsp; 2. Culteranismo &nbsp; 3. Culteranismo &nbsp; 4. Conceptismo &nbsp; 5. Culteranismo &nbsp; 6. Conceptismo</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 2 — Cervantes y El Quijote</div>
+      <p>Responde brevemente:</p>
+      <ol>
+        <li>¿Qué apodo recibe Cervantes y por qué?</li>
+        <li>¿Cuándo se publican las dos partes del Quijote?</li>
+        <li>¿Cuál es el verdadero nombre de Don Quijote antes de enloquecer?</li>
+        <li>¿Quién es Aldonza Lorenzo? ¿Y para Don Quijote?</li>
+        <li>Cita dos episodios famosos del Quijote.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li>"El manco de Lepanto", porque perdió el uso de la mano izquierda en la batalla de Lepanto (1571).</li>
+          <li>1ª parte en <strong>1605</strong>; 2ª parte en <strong>1615</strong>.</li>
+          <li><strong>Alonso Quijano</strong>.</li>
+          <li>Una labradora real del Toboso. Don Quijote la idealiza y la convierte en <strong>Dulcinea del Toboso</strong>, dama de sus pensamientos.</li>
+          <li>Los molinos de viento, los rebaños de ovejas, la ínsula Barataria, los duques, etc.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>🔤 Gramática — Análisis de oraciones</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 3 — Identifica el tipo de oración compuesta</div>
+      <ol>
+        <li>Estudio para que mis padres estén orgullosos.</li>
+        <li>Vino, vio y venció.</li>
+        <li>Me dijo que llegaría tarde.</li>
+        <li>El libro que me prestaste estaba aburrido.</li>
+        <li>O estudias o repites curso.</li>
+        <li>Llegamos a casa; nadie nos abrió la puerta.</li>
+        <li>Aunque llueva, iremos al parque.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li>Subordinada adverbial <strong>final</strong> ("para que").</li>
+          <li>Coordinada <strong>copulativa</strong> ("y").</li>
+          <li>Subordinada <strong>sustantiva de CD</strong> (qué dijo).</li>
+          <li>Subordinada <strong>adjetiva de relativo</strong> ("que" se refiere al libro).</li>
+          <li>Coordinada <strong>disyuntiva</strong> ("o... o").</li>
+          <li><strong>Yuxtapuesta</strong> (separadas por punto y coma).</li>
+          <li>Subordinada adverbial <strong>concesiva</strong> ("aunque").</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 4 — Monemas</div>
+      <p>Separa los monemas (lexema y morfemas) de las siguientes palabras e indica qué tipo es cada uno:</p>
+      <ol>
+        <li>panaderías</li>
+        <li>increíble</li>
+        <li>cantábamos</li>
+        <li>sacacorchos</li>
+        <li>quinceañero</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li><em>pan-</em> (lex) <em>-ad-</em> (morf. derivativo) <em>-er-</em> (morf. derivativo) <em>-ía</em> (deriv) <em>-s</em> (flex. número). DERIVACIÓN.</li>
+          <li><em>in-</em> (prefijo) <em>cre-</em> (lex) <em>-íble</em> (sufijo). DERIVACIÓN.</li>
+          <li><em>cant-</em> (lex) <em>-á-</em> (vocal temática) <em>-ba-</em> (morf. flex. tiempo) <em>-mos</em> (morf. flex. persona).</li>
+          <li><em>saca-</em> (lex 1) + <em>corcho-</em> (lex 2) <em>-s</em> (flex. número). COMPOSICIÓN.</li>
+          <li><em>quince-</em> (lex 1) + <em>-añ-</em> (lex 2) + <em>-ero</em> (sufijo). PARASÍNTESIS.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>✍️ Ortografía</h3>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 5 — Pon o quita la tilde</div>
+      <p>Corrige las palabras que estén mal acentuadas:</p>
+      <ol>
+        <li>El profesor dijo que él vendría mañana.</li>
+        <li>Se que tu sabes la respuesta.</li>
+        <li>Aún no se si vendrá.</li>
+        <li>Solo quiero que me dé un libro de te.</li>
+        <li>Mi amigo y mi te invitamos a que vengas a mi casa.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li>Correcta. ✓</li>
+          <li><strong>Sé</strong> que <strong>tú</strong> sabes la respuesta.</li>
+          <li>Aún no <strong>sé</strong> si vendrá. (correcto el primero, falta tilde en "sé")</li>
+          <li>Solo quiero que me <strong>dé</strong> un libro de <strong>té</strong>.</li>
+          <li>Mi amigo y <strong>mí</strong> te invitamos a que vengas a mi casa. → corrección: "Mi amigo y yo" (mejor); en cualquier caso "mí" lleva tilde como pronombre.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 6 — A / Ha / Ah · Hay / Ahí / Ay</div>
+      <p>Completa con la opción correcta:</p>
+      <ol>
+        <li>______ que estudiar mucho. (hay/ahí/ay)</li>
+        <li>Mi hermano ______ vuelto pronto. (a/ha/ah)</li>
+        <li>Voy ______ casa. (a/ha/ah)</li>
+        <li>______, ya entiendo. (a/ha/ah)</li>
+        <li>El libro está ______. (hay/ahí/ay)</li>
+        <li>______, qué dolor de cabeza. (hay/ahí/ay)</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li><strong>Hay</strong> que estudiar mucho.</li>
+          <li>Mi hermano <strong>ha</strong> vuelto pronto.</li>
+          <li>Voy <strong>a</strong> casa.</li>
+          <li><strong>Ah</strong>, ya entiendo.</li>
+          <li>El libro está <strong>ahí</strong>.</li>
+          <li><strong>Ay</strong>, qué dolor de cabeza.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section id="quiz">
+    <h2>🎯 Test rápido</h2>
+    <div class="quiz">
+      <div class="q">1. El máximo representante del culteranismo es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Quevedo</button>
+        <button onclick="chk(this,true)">Góngora</button>
+        <button onclick="chk(this,false)">Lope de Vega</button>
+        <button onclick="chk(this,false)">Cervantes</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">2. Don Quijote sale a la aventura porque:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Tiene un sueño profético</button>
+        <button onclick="chk(this,true)">Pierde el juicio leyendo libros de caballerías</button>
+        <button onclick="chk(this,false)">Le obliga el rey</button>
+        <button onclick="chk(this,false)">Por amor a Aldonza Lorenzo</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">3. "Quería ir, pero no pude" es una oración compuesta...</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Coordinada copulativa</button>
+        <button onclick="chk(this,true)">Coordinada adversativa</button>
+        <button onclick="chk(this,false)">Subordinada adverbial</button>
+        <button onclick="chk(this,false)">Yuxtapuesta</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">4. "Estudia para que apruebes" es una subordinada...</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Sustantiva</button>
+        <button onclick="chk(this,false)">Adjetiva</button>
+        <button onclick="chk(this,true)">Adverbial final</button>
+        <button onclick="chk(this,false)">Adverbial causal</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">5. ¿Cuál de estas palabras lleva tilde por ser esdrújula?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">cancion</button>
+        <button onclick="chk(this,true)">música</button>
+        <button onclick="chk(this,false)">arbol</button>
+        <button onclick="chk(this,false)">cantar</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">6. La obra más importante de Cervantes es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">La Galatea</button>
+        <button onclick="chk(this,false)">El Buscón</button>
+        <button onclick="chk(this,true)">El Quijote</button>
+        <button onclick="chk(this,false)">Fuente Ovejuna</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">7. La palabra "panaderías" se forma por:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Composición</button>
+        <button onclick="chk(this,true)">Derivación</button>
+        <button onclick="chk(this,false)">Parasíntesis</button>
+        <button onclick="chk(this,false)">Acrónimo</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+    <div class="quiz">
+      <div class="q">8. ¿Qué oración tiene un error de tilde?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Sé que vienes pronto.</button>
+        <button onclick="chk(this,true)">Mi tio dijo que el vendría.</button>
+        <button onclick="chk(this,false)">Aún no sé qué hacer.</button>
+        <button onclick="chk(this,false)">Tú y él vendréis mañana.</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Simulacro de examen (60 minutos)</h2>
+
+    <div class="info-box"><strong>Estructura:</strong> 4 preguntas. Tiempo: 60 min. Puntuación: variable.</div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 1 (3 pts) — Literatura</div>
+      <p>a) Define el Barroco y enumera tres temas característicos. (1 pt)</p>
+      <p>b) Explica las diferencias entre culteranismo y conceptismo, y nombra a sus máximos representantes. (1 pt)</p>
+      <p>c) Cita tres rasgos del Quijote que lo convierten en la primera novela moderna. (1 pt)</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 2 (2 pts) — Análisis sintáctico</div>
+      <p>Analiza el tipo de oración compuesta y, si es subordinada, indica de qué tipo:</p>
+      <ol type="a">
+        <li>Cuando llegues a casa, llámame.</li>
+        <li>Estudia, descansa y vuelve a estudiar.</li>
+        <li>Sé que vendrás puntual.</li>
+        <li>El profesor cuya clase me gusta más es el de Lengua.</li>
+      </ol>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 3 (2 pts) — Monemas y formación</div>
+      <p>a) Separa los monemas de las palabras: <em>imposiblemente, sacapuntas, librería, paraguas</em>.</p>
+      <p>b) Indica el procedimiento de formación de cada una.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 4 (3 pts) — Ortografía y acentuación</div>
+      <p>a) Pon las tildes que falten en este texto:</p>
+      <blockquote>"Mi tio aun no me ha dicho si vendra mañana. Yo creo que el si quiere venir, pero hay problemas en su trabajo. Sé que tu tampoco lo sabes."</blockquote>
+      <p>b) Explica por qué llevan tilde las palabras: <em>río, dándomelo, también, sé</em>.</p>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Ver solucionario</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">SOLUCIONARIO</h4>
+
+      <p><strong>Pregunta 1:</strong></p>
+      <p>a) El Barroco es el movimiento artístico-literario del siglo XVII en España, caracterizado por el pesimismo, el desengaño y la conciencia del paso del tiempo. Temas: la fugacidad de la vida, el desengaño y la muerte, la sátira social.</p>
+      <p>b) <strong>Culteranismo</strong>: busca la belleza formal con cultismos, hipérbatos y metáforas (Góngora). <strong>Conceptismo</strong>: busca la agudeza del pensamiento con juegos de palabras y dobles sentidos (Quevedo).</p>
+      <p>c) Rasgos modernos: narrador no fiable, personajes que evolucionan psicológicamente, metaficción (en la 2ª parte los personajes saben que existe la 1ª), contraste de niveles de lenguaje, parodia de un género (la caballería).</p>
+
+      <p><strong>Pregunta 2:</strong></p>
+      <ol type="a">
+        <li>Subordinada <strong>adverbial temporal</strong> (cuando + verbo).</li>
+        <li><strong>Coordinada copulativa</strong> (estudia + descansa + vuelve, unidas por "y").</li>
+        <li><strong>Subordinada sustantiva de CD</strong> (qué sé).</li>
+        <li><strong>Subordinada adjetiva de relativo</strong> ("cuya clase" se refiere a "el profesor").</li>
+      </ol>
+
+      <p><strong>Pregunta 3:</strong></p>
+      <p>a) <em>im-pos-ible-mente</em>: in- (prefijo) + posible- (lex) + -mente (sufijo) → <strong>derivación</strong>.<br>
+      <em>sacapuntas</em>: saca- (lex) + puntas (lex) → <strong>composición</strong>.<br>
+      <em>librería</em>: libr- (lex) + -ería (sufijo) → <strong>derivación</strong>.<br>
+      <em>paraguas</em>: para- (lex/preposición) + agua-s (lex+flexivo) → <strong>composición</strong>.</p>
+
+      <p><strong>Pregunta 4:</strong></p>
+      <p>a) "Mi <strong>tío aún</strong> no me ha dicho si <strong>vendrá</strong> mañana. Yo creo que <strong>él sí</strong> quiere venir, pero hay problemas en su trabajo. <strong>Sé</strong> que <strong>tú</strong> tampoco lo sabes."</p>
+      <p>b) <em>río</em>: hiato acentual (vocal cerrada tónica junto a abierta). <em>dándomelo</em>: sobreesdrújula. <em>también</em>: aguda terminada en n. <em>sé</em>: tilde diacrítica (verbo saber/ser, distinto del pronombre "se").</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Ocultar solución' : 'Ver solución';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✅ ¡Correcto!';}
+    else{btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true'))b.classList.add('correct');
+      });
+      fb.className='feedback show ko';fb.textContent='❌ Incorrecto. La respuesta correcta está marcada en verde.';}
+  }
+</script>
+</body>
+</html>

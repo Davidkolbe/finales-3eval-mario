@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biología y Geología · Final 3ª eval · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#134e4a;--panel-2:#115e59;--text:#ccfbf1;
+    --muted:#99f6e4;--border:#0d9488;--accent:#fbbf24;--accent-2:#14b8a6;
+    --good:#4ade80;--bad:#f87171;--blood:#dc2626}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#042f2e 0%,#115e59 100%);
+    color:var(--text);min-height:100vh;line-height:1.65}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent-2);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent-2);color:#fff}
+  header{background:linear-gradient(135deg,#115e59 0%,#14b8a6 100%);
+    padding:36px 24px;text-align:center;border-radius:16px;margin-bottom:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#ccfbf1}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.85em;
+    transition:all .2s;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#042f2e}
+  nav button.active{background:var(--accent);color:#042f2e;font-weight:700}
+  section{background:var(--panel);border-radius:14px;padding:26px;margin-bottom:22px;
+    display:none;animation:fadeIn .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.6em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h3{color:#5eead4;font-size:1.25em;margin:18px 0 10px}
+  h4{color:#fde68a;font-size:1.05em;margin:12px 0 6px}
+  p{margin-bottom:10px}
+  ul,ol{margin:8px 0 10px 24px}li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--panel-2);
+    border-radius:8px;overflow:hidden;font-size:.92em}
+  table th,table td{padding:10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  table th{background:var(--accent);color:#042f2e}
+  .info-box{background:rgba(20,184,166,.12);border-left:4px solid var(--accent-2);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .tip-box{background:rgba(74,222,128,.08);border-left:4px solid var(--good);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .warn-box{background:rgba(248,113,113,.1);border-left:4px solid var(--bad);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .blood-box{background:rgba(220,38,38,.12);border-left:4px solid var(--blood);
+    padding:14px 18px;border-radius:8px;margin:12px 0}
+  .ejercicio{background:var(--panel-2);padding:16px;border-radius:10px;margin:12px 0;
+    border-left:4px solid var(--accent-2)}
+  .ejercicio .num{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:6px}
+  .toggle-sol{background:var(--accent-2);color:#fff;border:none;padding:6px 14px;
+    border-radius:6px;cursor:pointer;font-size:.85em;margin-top:8px;font-family:inherit}
+  .toggle-sol:hover{background:#0f766e}
+  .solucion{background:#042f2e;padding:14px;border-radius:8px;margin-top:10px;
+    border-left:3px solid var(--good);display:none}
+  .solucion.show{display:block}
+  .quiz{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0}
+  .quiz .q{font-weight:600;margin-bottom:10px;color:var(--accent)}
+  .quiz .options{display:flex;flex-direction:column;gap:6px}
+  .quiz .options button{background:#042f2e;color:var(--text);border:1px solid var(--border);
+    padding:10px 14px;border-radius:6px;cursor:pointer;text-align:left;font-family:inherit}
+  .quiz .options button:hover{background:var(--panel);border-color:var(--accent)}
+  .quiz .options button.correct{background:rgba(74,222,128,.25);border-color:var(--good)}
+  .quiz .options button.wrong{background:rgba(248,113,113,.25);border-color:var(--bad)}
+  .feedback{margin-top:8px;padding:10px;border-radius:6px;display:none;font-size:.9em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);color:#fca5a5}
+  .new-tag{display:inline-block;background:var(--blood);color:#fff;padding:2px 8px;
+    border-radius:10px;font-size:.7em;font-weight:700;margin-left:8px;vertical-align:middle}
+  .flow{background:var(--panel-2);padding:12px;border-radius:8px;margin:10px 0;
+    font-family:"Courier New",monospace;font-size:.95em;white-space:pre-wrap;color:#5eead4}
+  @media(max-width:700px){header h1{font-size:1.6em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>🫁 Biología y Geología</h1>
+    <p>Examen final · Lunes 25 mayo · 12:00</p>
+    <p style="color:#fef3c7;margin-top:6px"><strong>Temario:</strong> Aparato respiratorio (T4) · Aparato circulatorio (T5) · Aparato excretor (T6 NUEVO)</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="show('temario')">📋 Temario</button>
+    <button onclick="show('respiratorio')">🫁 Respiratorio (T4)</button>
+    <button onclick="show('circulatorio')">❤️ Circulatorio (T5)</button>
+    <button onclick="show('excretor')">💧 Excretor (T6)</button>
+    <button onclick="show('nutricion')">🔄 Las 4 funciones</button>
+    <button onclick="show('enfermedades')">🩺 Enfermedades</button>
+    <button onclick="show('ejer')">✏️ Ejercicios</button>
+    <button onclick="show('quiz')">🎯 Test</button>
+    <button onclick="show('simulacro')">📝 Simulacro</button>
+  </nav>
+
+  <!-- TEMARIO -->
+  <section id="temario" class="active">
+    <h2>📋 Qué entra</h2>
+    <h3>Tema 4 — Aparato respiratorio</h3>
+    <ul>
+      <li>Función de la respiración: intercambio gaseoso (O₂ entra, CO₂ sale).</li>
+      <li>Vías respiratorias y pulmones.</li>
+      <li>Mecánica respiratoria: inspiración y espiración.</li>
+      <li>Intercambio en alvéolos.</li>
+      <li>Enfermedades respiratorias.</li>
+    </ul>
+    <h3>Tema 5 — Aparato circulatorio</h3>
+    <ul>
+      <li>La sangre y sus componentes.</li>
+      <li>El corazón: anatomía y funcionamiento.</li>
+      <li>Vasos sanguíneos: arterias, venas, capilares.</li>
+      <li>Circulación mayor y menor (doble y completa).</li>
+      <li>Sistema linfático.</li>
+      <li>Enfermedades cardiovasculares.</li>
+    </ul>
+    <h3>Tema 6 — Aparato excretor <span class="new-tag">NUEVO</span></h3>
+    <ul>
+      <li>La excreción: función y órganos excretores.</li>
+      <li>Riñones y vías urinarias.</li>
+      <li>La nefrona: estructura y formación de la orina.</li>
+      <li>Relación entre los 4 aparatos de la nutrición.</li>
+      <li>Enfermedades del aparato excretor.</li>
+    </ul>
+  </section>
+
+  <!-- RESPIRATORIO -->
+  <section id="respiratorio">
+    <h2>🫁 Tema 4 — Aparato Respiratorio</h2>
+
+    <h3>Función</h3>
+    <p>Realizar el <strong>intercambio gaseoso</strong>: tomar oxígeno (O₂) del aire e introducirlo en la sangre, y eliminar el dióxido de carbono (CO₂) producido por las células.</p>
+
+    <h3>Estructura — Las vías respiratorias</h3>
+    <ol>
+      <li><strong>Fosas nasales</strong>: el aire entra y se calienta, humedece y filtra.</li>
+      <li><strong>Faringe</strong>: vía común con el aparato digestivo.</li>
+      <li><strong>Laringe</strong>: contiene las cuerdas vocales. La <strong>epiglotis</strong> impide que el alimento entre en las vías respiratorias.</li>
+      <li><strong>Tráquea</strong>: tubo cartilaginoso que conduce el aire hacia los pulmones.</li>
+      <li><strong>Bronquios</strong> (2): uno para cada pulmón.</li>
+      <li><strong>Bronquiolos</strong>: ramificaciones cada vez más finas.</li>
+      <li><strong>Alvéolos pulmonares</strong>: pequeños sacos donde ocurre el intercambio gaseoso.</li>
+    </ol>
+
+    <h3>Los pulmones</h3>
+    <ul>
+      <li>Dos pulmones (derecho con 3 lóbulos, izquierdo con 2 lóbulos por el corazón).</li>
+      <li>Recubiertos por una membrana doble: la <strong>pleura</strong>.</li>
+      <li>Contienen ≈ 300 millones de alvéolos.</li>
+      <li>Capacidad pulmonar total ≈ 5-6 litros.</li>
+    </ul>
+
+    <h3>Mecánica respiratoria</h3>
+    <table>
+      <tr><th>Fase</th><th>Diafragma</th><th>Costillas</th><th>Caja torácica</th><th>Aire</th></tr>
+      <tr><td><strong>Inspiración</strong></td><td>Se contrae (baja)</td><td>Suben</td><td>Aumenta volumen</td><td>Entra</td></tr>
+      <tr><td><strong>Espiración</strong></td><td>Se relaja (sube)</td><td>Bajan</td><td>Disminuye volumen</td><td>Sale</td></tr>
+    </table>
+
+    <h3>Intercambio gaseoso en los alvéolos</h3>
+    <div class="flow">Aire alvéolo (mucho O₂)  →  Sangre capilar (poco O₂)
+Sangre capilar (mucho CO₂) ←  Aire alvéolo (poco CO₂)</div>
+    <p>Funciona por <strong>difusión</strong>: los gases pasan desde donde hay más concentración a donde hay menos.</p>
+
+    <div class="info-box"><strong>📌 Idea clave:</strong> el aparato respiratorio NO transporta el oxígeno por el cuerpo. De eso se encarga el aparato circulatorio. La respiración solo se ocupa de ENTRAR el O₂ a la sangre y SACAR el CO₂.</div>
+
+    <h3>Enfermedades respiratorias</h3>
+    <ul>
+      <li><strong>Asma:</strong> los bronquios se inflaman, dificultan la entrada de aire.</li>
+      <li><strong>Bronquitis:</strong> inflamación de los bronquios. Tos persistente.</li>
+      <li><strong>Neumonía:</strong> infección de los alvéolos.</li>
+      <li><strong>EPOC</strong> (Enfermedad Pulmonar Obstructiva Crónica): muy ligada al tabaquismo.</li>
+      <li><strong>Cáncer de pulmón:</strong> principal causa: tabaco.</li>
+    </ul>
+  </section>
+
+  <!-- CIRCULATORIO -->
+  <section id="circulatorio">
+    <h2>❤️ Tema 5 — Aparato Circulatorio</h2>
+
+    <h3>Función</h3>
+    <p>Transportar nutrientes, oxígeno, hormonas y desechos por todo el cuerpo. También participa en la defensa (glóbulos blancos) y la regulación de la temperatura.</p>
+
+    <h3>La sangre — Componentes</h3>
+    <table>
+      <tr><th>Componente</th><th>Función</th></tr>
+      <tr><td><strong>Plasma</strong> (55%)</td><td>Líquido amarillento. Transporta nutrientes, hormonas y residuos.</td></tr>
+      <tr><td><strong>Glóbulos rojos</strong> (eritrocitos)</td><td>Transportan O₂ y CO₂ gracias a la <strong>hemoglobina</strong>.</td></tr>
+      <tr><td><strong>Glóbulos blancos</strong> (leucocitos)</td><td>Defensa frente a infecciones (sistema inmune).</td></tr>
+      <tr><td><strong>Plaquetas</strong> (trombocitos)</td><td>Coagulación de la sangre.</td></tr>
+    </table>
+
+    <h3>El corazón — Anatomía</h3>
+    <ul>
+      <li>Órgano muscular hueco situado entre los dos pulmones.</li>
+      <li>Tamaño aproximado de un puño.</li>
+      <li>Tiene <strong>4 cavidades</strong>:
+        <ul>
+          <li>2 <strong>aurículas</strong> (arriba): reciben la sangre.</li>
+          <li>2 <strong>ventrículos</strong> (abajo): bombean la sangre.</li>
+        </ul>
+      </li>
+      <li>Las cavidades del lado derecho y del izquierdo NO se comunican (separadas por el <strong>tabique cardíaco</strong>).</li>
+      <li>Hay <strong>válvulas</strong> que impiden el retroceso de la sangre.</li>
+    </ul>
+
+    <h3>Funcionamiento — Latido</h3>
+    <ol>
+      <li><strong>Sístole auricular</strong>: aurículas se contraen, sangre pasa a ventrículos.</li>
+      <li><strong>Sístole ventricular</strong>: ventrículos se contraen, sangre sale del corazón.</li>
+      <li><strong>Diástole</strong>: corazón se relaja y se llena de sangre.</li>
+    </ol>
+    <p>≈ 70 latidos por minuto en reposo. Bombea unos 5 litros de sangre por minuto.</p>
+
+    <h3>Vasos sanguíneos</h3>
+    <table>
+      <tr><th>Tipo</th><th>Función</th><th>Características</th></tr>
+      <tr><td><strong>Arterias</strong></td><td>Salen del corazón</td><td>Paredes gruesas y elásticas. Soportan presión alta.</td></tr>
+      <tr><td><strong>Venas</strong></td><td>Vuelven al corazón</td><td>Paredes más finas. Tienen válvulas que evitan el retroceso.</td></tr>
+      <tr><td><strong>Capilares</strong></td><td>Intercambio con células</td><td>Muy finos (una sola capa). Permiten paso de gases y nutrientes.</td></tr>
+    </table>
+
+    <div class="warn-box"><strong>⚠️ Cuidado con los nombres:</strong> arteria NO significa "con oxígeno". Por ejemplo, la <strong>arteria pulmonar</strong> lleva sangre <strong>SIN oxígeno</strong> al pulmón. Lo importante es la dirección: arteria = sale del corazón.</div>
+
+    <h3>La doble circulación</h3>
+    <p>El ser humano tiene una circulación <strong>doble y completa</strong>: la sangre pasa <strong>dos veces</strong> por el corazón en cada vuelta y NO se mezcla la sangre oxigenada con la no oxigenada.</p>
+
+    <h4>Circulación menor (pulmonar)</h4>
+    <div class="flow">Ventrículo derecho → Arteria pulmonar →
+Pulmones (O₂ entra, CO₂ sale) →
+Vena pulmonar → Aurícula izquierda</div>
+
+    <h4>Circulación mayor (sistémica)</h4>
+    <div class="flow">Ventrículo izquierdo → Arteria aorta →
+Todo el cuerpo (entrega O₂ y nutrientes) →
+Venas cava → Aurícula derecha</div>
+
+    <div class="info-box"><strong>🔄 Recuerda:</strong> el corazón funciona como dos bombas en paralelo. La derecha envía sangre a los pulmones; la izquierda al resto del cuerpo. La sangre da una "vuelta" cada minuto aproximadamente.</div>
+
+    <h3>Sistema linfático</h3>
+    <ul>
+      <li>Red de vasos linfáticos paralelos a los sanguíneos.</li>
+      <li>Transportan la <strong>linfa</strong> (líquido similar al plasma con linfocitos).</li>
+      <li>Funciones: defensa (ganglios linfáticos), drenaje del exceso de líquido en tejidos, transporte de grasas.</li>
+    </ul>
+
+    <h3>Enfermedades cardiovasculares</h3>
+    <ul>
+      <li><strong>Hipertensión</strong>: presión arterial elevada.</li>
+      <li><strong>Aterosclerosis</strong>: depósitos de grasa (placas) en las arterias.</li>
+      <li><strong>Infarto de miocardio</strong>: muerte del tejido del corazón por falta de riego.</li>
+      <li><strong>Ictus / accidente cerebrovascular</strong>: corte del riego sanguíneo en el cerebro.</li>
+      <li><strong>Anemia</strong>: pocos glóbulos rojos o poca hemoglobina.</li>
+      <li><strong>Leucemia</strong>: cáncer de la sangre (médula ósea).</li>
+    </ul>
+  </section>
+
+  <!-- EXCRETOR -->
+  <section id="excretor">
+    <h2>💧 Tema 6 — Aparato Excretor <span class="new-tag">NUEVO</span></h2>
+
+    <h3>1. La excreción</h3>
+    <p>Proceso por el que se <strong>eliminan sustancias de desecho</strong> procedentes del metabolismo de las células.</p>
+
+    <h3>Órganos excretores (varios)</h3>
+    <table>
+      <tr><th>Órgano</th><th>Qué excreta</th></tr>
+      <tr><td><strong>Riñones</strong></td><td>Orina (agua + sustancias de desecho).</td></tr>
+      <tr><td><strong>Pulmones</strong></td><td>CO₂.</td></tr>
+      <tr><td><strong>Glándulas sudoríparas</strong></td><td>Sudor (agua + desechos similares a la orina). Termorreguladoras.</td></tr>
+      <tr><td><strong>Hígado</strong></td><td>Algunos fármacos, alcohol y otras sustancias.</td></tr>
+    </table>
+
+    <div class="info-box"><strong>📌 Importante:</strong> aunque hay varios órganos excretores, cuando hablamos del <strong>"aparato excretor"</strong> nos referimos sobre todo al <strong>aparato urinario</strong> (riñones + vías urinarias).</div>
+
+    <h3>2. El aparato urinario</h3>
+    <p><strong>Función:</strong> filtrar la sangre para formar la orina con los productos de desecho y expulsarla al exterior.</p>
+
+    <h4>Componentes</h4>
+    <ul>
+      <li><strong>Riñones</strong> (2): filtran la sangre y forman la orina.</li>
+      <li><strong>Arteria renal</strong>: lleva la sangre con desechos al riñón.</li>
+      <li><strong>Vena renal</strong>: saca la sangre ya depurada del riñón.</li>
+      <li><strong>Uréteres</strong> (2): conductos que llevan la orina del riñón a la vejiga.</li>
+      <li><strong>Vejiga urinaria</strong>: bolsa dilatable donde se almacena la orina.</li>
+      <li><strong>Uretra</strong>: conducto por el que se expulsa la orina al exterior.</li>
+    </ul>
+
+    <h3>3. Anatomía del riñón — Tres capas</h3>
+    <table>
+      <tr><th>Capa</th><th>Posición</th><th>Función</th></tr>
+      <tr><td><strong>Cápsula fibrosa</strong></td><td>Cubierta externa</td><td>Protección.</td></tr>
+      <tr><td><strong>Corteza renal</strong></td><td>Capa externa</td><td>Aspecto granular. Aquí ocurre la <strong>filtración</strong>.</td></tr>
+      <tr><td><strong>Médula renal</strong></td><td>Capa media</td><td>Aspecto estriado. Formada por <strong>pirámides de Malpighi</strong>. Aquí termina de formarse la orina.</td></tr>
+      <tr><td><strong>Pelvis renal</strong></td><td>Capa interna</td><td>Formada por <strong>cálices renales</strong>. Almacena la orina y la envía al uréter.</td></tr>
+    </table>
+
+    <h3>4. La nefrona — Unidad funcional del riñón</h3>
+    <p>La nefrona es la <strong>unidad anatómica y funcional del riñón</strong>. Cada riñón tiene aproximadamente <strong>1 millón de nefronas</strong>. Filtran y depuran la sangre.</p>
+
+    <h4>Estructura de una nefrona</h4>
+    <ol>
+      <li><strong>Glomérulo</strong>: ovillo de capilares sanguíneos.</li>
+      <li><strong>Cápsula de Bowman</strong>: rodea al glomérulo.</li>
+      <li><strong>Túbulo renal</strong>: continúa desde la cápsula de Bowman.</li>
+      <li><strong>Tubo colector</strong>: recibe la orina de varias nefronas y la envía a la pelvis renal.</li>
+    </ol>
+    <p>La sangre llega por la <strong>arteriola aferente</strong> y sale por la <strong>arteriola eferente</strong>.</p>
+
+    <h3>5. Formación de la orina — TRES ETAPAS</h3>
+
+    <h4>1ª FILTRACIÓN — En el glomérulo</h4>
+    <p>La sangre llega al glomérulo a presión y se filtran <strong>al interior de la cápsula de Bowman</strong> tanto sustancias aprovechables (agua, glucosa, aminoácidos, sales) como desaprovechables (urea, ácido úrico).</p>
+
+    <h4>2ª REABSORCIÓN — En el túbulo renal</h4>
+    <p>Se <strong>recuperan las sustancias aprovechables</strong> (agua, glucosa, aminoácidos, sales minerales): pasan desde el túbulo a los capilares que lo rodean. Vuelven a la sangre.</p>
+
+    <h4>3ª SECRECIÓN — En el túbulo</h4>
+    <p>Algunas sustancias de desecho que NO se filtraron en el glomérulo <strong>pasan desde los capilares al interior del túbulo</strong>. Así se eliminan también en la orina.</p>
+
+    <div class="flow">SANGRE  →  glomérulo  →  CÁPSULA BOWMAN  (1. FILTRACIÓN)
+                       ↓
+                  TÚBULO RENAL  (2. REABSORCIÓN: vuelve lo útil a la sangre)
+                       ↓
+                  TÚBULO RENAL  (3. SECRECIÓN: lo malo que falta entra al túbulo)
+                       ↓
+                  TUBO COLECTOR  →  PELVIS  →  URÉTER  →  VEJIGA  →  URETRA  →  EXTERIOR</div>
+
+    <div class="tip-box"><strong>💡 Para no confundirte:</strong>
+      <ul>
+        <li><strong>Filtración</strong>: la sangre suelta TODO en el túbulo (lo bueno y lo malo).</li>
+        <li><strong>Reabsorción</strong>: el túbulo devuelve a la sangre lo BUENO.</li>
+        <li><strong>Secreción</strong>: el túbulo coge lo MALO que la sangre todavía tenía.</li>
+      </ul>
+      Resultado: en el túbulo queda solo lo malo → orina.
+    </div>
+  </section>
+
+  <!-- NUTRICIÓN -->
+  <section id="nutricion">
+    <h2>🔄 Relación entre los 4 aparatos de la nutrición</h2>
+
+    <p>La nutrición no la hace un solo aparato, sino la <strong>cooperación de cuatro</strong>:</p>
+
+    <table>
+      <tr><th>Aparato</th><th>Función</th><th>Lo que entra</th><th>Lo que sale</th></tr>
+      <tr><td><strong>Digestivo</strong></td><td>Transformar alimentos en nutrientes</td><td>Alimentos</td><td>Nutrientes (a la sangre) y heces</td></tr>
+      <tr><td><strong>Respiratorio</strong></td><td>Intercambio gaseoso</td><td>O₂ del aire</td><td>CO₂ al aire</td></tr>
+      <tr><td><strong>Circulatorio</strong></td><td>Transporte</td><td>Nutrientes y O₂</td><td>Lleva todo a las células y recoge desechos</td></tr>
+      <tr><td><strong>Excretor</strong></td><td>Eliminación de desechos</td><td>Sangre con urea, sales</td><td>Orina</td></tr>
+    </table>
+
+    <h3>Ciclo completo de la nutrición</h3>
+    <div class="flow">1. DIGESTIVO: alimentos → nutrientes → pasan a la sangre
+2. RESPIRATORIO: aire → O₂ → pasa a la sangre
+3. CIRCULATORIO: lleva nutrientes + O₂ a TODAS las células
+4. CÉLULAS: usan nutrientes y O₂ → producen ENERGÍA + CO₂ + urea
+5. CIRCULATORIO: recoge CO₂ + urea
+6. RESPIRATORIO: expulsa CO₂
+7. EXCRETOR: expulsa urea (en orina)</div>
+
+    <div class="info-box">
+      <strong>📌 Conexión clave para el examen:</strong> los cuatro aparatos están coordinados. Sin circulatorio, los demás no pueden hacer su trabajo. Sin respiratorio o excretor, las células se "intoxicarían". Sin digestivo, no hay nutrientes.
+    </div>
+
+    <h3>Las 3 funciones vitales</h3>
+    <ul>
+      <li><strong>Nutrición</strong> (los 4 aparatos): obtener materia y energía.</li>
+      <li><strong>Relación</strong>: percibir el medio y responder (sistemas nervioso y endocrino).</li>
+      <li><strong>Reproducción</strong>: perpetuación de la especie.</li>
+    </ul>
+  </section>
+
+  <!-- ENFERMEDADES -->
+  <section id="enfermedades">
+    <h2>🩺 Enfermedades — Tabla resumen</h2>
+
+    <h3>Aparato respiratorio</h3>
+    <table>
+      <tr><th>Enfermedad</th><th>Descripción</th><th>Causa frecuente</th></tr>
+      <tr><td>Asma</td><td>Inflamación de bronquios, dificultad para respirar</td><td>Alergias, factor genético</td></tr>
+      <tr><td>Bronquitis</td><td>Inflamación de los bronquios. Tos.</td><td>Infecciones, tabaco</td></tr>
+      <tr><td>Neumonía</td><td>Infección de los alvéolos</td><td>Bacterias (neumococo), virus</td></tr>
+      <tr><td>EPOC</td><td>Enfermedad obstructiva crónica</td><td>Tabaco</td></tr>
+      <tr><td>Cáncer de pulmón</td><td>Tumor maligno</td><td>Tabaco (90% de casos)</td></tr>
+    </table>
+
+    <h3>Aparato circulatorio</h3>
+    <table>
+      <tr><th>Enfermedad</th><th>Descripción</th><th>Factor de riesgo</th></tr>
+      <tr><td>Hipertensión</td><td>Presión arterial alta</td><td>Sal, estrés, sedentarismo</td></tr>
+      <tr><td>Aterosclerosis</td><td>Placas de grasa en arterias</td><td>Colesterol, tabaco, sedentarismo</td></tr>
+      <tr><td>Infarto de miocardio</td><td>Muerte de tejido cardíaco</td><td>Aterosclerosis coronaria</td></tr>
+      <tr><td>Ictus</td><td>Falta de riego en cerebro</td><td>Hipertensión, aterosclerosis</td></tr>
+      <tr><td>Anemia</td><td>Pocos glóbulos rojos / hemoglobina</td><td>Falta de hierro, hemorragias</td></tr>
+      <tr><td>Leucemia</td><td>Cáncer de sangre</td><td>Genética, radiaciones</td></tr>
+    </table>
+
+    <h3>Aparato excretor</h3>
+    <table>
+      <tr><th>Enfermedad</th><th>Descripción</th></tr>
+      <tr><td><strong>Cálculos renales</strong> (piedras)</td><td>Cristales sólidos en riñones o vías urinarias. Muy dolorosos. Se eliminan con líquido o cirugía.</td></tr>
+      <tr><td><strong>Cistitis</strong></td><td>Infección de la vejiga, frecuente sobre todo en mujeres.</td></tr>
+      <tr><td><strong>Insuficiencia renal</strong></td><td>Los riñones no funcionan bien. Aguda o crónica. Tratamientos: diálisis o trasplante.</td></tr>
+      <tr><td><strong>Pielonefritis</strong></td><td>Infección del riñón.</td></tr>
+      <tr><td><strong>Incontinencia urinaria</strong></td><td>Pérdida del control para retener la orina.</td></tr>
+    </table>
+
+    <h3>Hábitos saludables</h3>
+    <ul>
+      <li><strong>No fumar</strong>: es el factor más importante para los aparatos respiratorio y circulatorio.</li>
+      <li><strong>Beber agua</strong> (1,5-2 L al día): protege los riñones.</li>
+      <li><strong>Dieta equilibrada</strong>: pocas grasas, poca sal, mucha fruta y verdura.</li>
+      <li><strong>Ejercicio regular</strong>: corazón fuerte y mejor capacidad pulmonar.</li>
+      <li><strong>Evitar el alcohol en exceso</strong>: protege hígado y riñones.</li>
+    </ul>
+  </section>
+
+  <!-- EJERCICIOS -->
+  <section id="ejer">
+    <h2>✏️ Ejercicios</h2>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 1 — Recorrido del aire</div>
+      <p>Ordena las siguientes estructuras en el orden por el que pasa el aire al respirar:</p>
+      <p>bronquios · alvéolos · faringe · fosas nasales · bronquiolos · laringe · tráquea</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Fosas nasales → faringe → laringe → tráquea → bronquios → bronquiolos → alvéolos.</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 2 — Verdadero o falso</div>
+      <ol>
+        <li>La arteria pulmonar lleva sangre con O₂.</li>
+        <li>Los glóbulos blancos se encargan de la coagulación.</li>
+        <li>El ventrículo izquierdo bombea la sangre al resto del cuerpo.</li>
+        <li>Las venas tienen válvulas para evitar el retroceso.</li>
+        <li>La epiglotis impide que el aire entre en el esófago.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li>FALSO. La arteria pulmonar lleva sangre <strong>SIN O₂</strong> (del corazón a los pulmones).</li>
+          <li>FALSO. Los glóbulos blancos defienden; las plaquetas coagulan.</li>
+          <li>VERDADERO.</li>
+          <li>VERDADERO.</li>
+          <li>FALSO. La epiglotis impide que el ALIMENTO entre en las vías respiratorias.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 3 — Circuito sanguíneo</div>
+      <p>Describe el camino que recorre una gota de sangre desde que entra en el ventrículo derecho hasta que sale del izquierdo.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p>Ventrículo derecho → arteria pulmonar → pulmones (intercambio: gana O₂, pierde CO₂) → vena pulmonar → aurícula izquierda → ventrículo izquierdo. (Esta es la circulación menor o pulmonar.)</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 4 — Las 3 etapas de formación de la orina</div>
+      <p>Indica en qué etapa de formación de la orina ocurre cada uno de estos procesos:</p>
+      <ol>
+        <li>La glucosa que se había filtrado vuelve a la sangre.</li>
+        <li>La sangre del glomérulo libera urea, sales, agua y glucosa hacia la cápsula de Bowman.</li>
+        <li>El cuerpo elimina algunos restos de medicamentos pasándolos desde los capilares al túbulo.</li>
+        <li>El agua útil se recupera para que el cuerpo no se deshidrate.</li>
+      </ol>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ol>
+          <li>REABSORCIÓN.</li>
+          <li>FILTRACIÓN.</li>
+          <li>SECRECIÓN.</li>
+          <li>REABSORCIÓN.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 5 — Cuatro aparatos en acción</div>
+      <p>Mario corre durante 30 minutos. Explica qué hacen los aparatos digestivo, respiratorio, circulatorio y excretor mientras corre.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <p><strong>Digestivo:</strong> antes y después de correr ha aportado nutrientes (glucosa, etc.) que están en la sangre.</p>
+        <p><strong>Respiratorio:</strong> aumenta la frecuencia y profundidad respiratoria para meter más O₂ y sacar más CO₂.</p>
+        <p><strong>Circulatorio:</strong> el corazón late más rápido y bombea más sangre. Lleva O₂ y nutrientes a los músculos y recoge el CO₂ y la urea generados.</p>
+        <p><strong>Excretor:</strong> los riñones siguen filtrando la sangre y eliminando residuos. Las glándulas sudoríparas también eliminan sudor (con función termorreguladora).</p>
+      </div>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">Ej. 6 — Anatomía de la nefrona</div>
+      <p>Identifica y describe la función de: glomérulo, cápsula de Bowman, túbulo renal, tubo colector, arteriola aferente, arteriola eferente.</p>
+      <button class="toggle-sol" onclick="toggleSol(this)">Ver solución</button>
+      <div class="solucion">
+        <ul>
+          <li><strong>Glomérulo:</strong> ovillo de capilares; aquí ocurre la filtración.</li>
+          <li><strong>Cápsula de Bowman:</strong> envoltura del glomérulo que recibe el filtrado.</li>
+          <li><strong>Túbulo renal:</strong> conducto donde ocurren reabsorción y secreción.</li>
+          <li><strong>Tubo colector:</strong> recoge la orina de varias nefronas y la envía a la pelvis.</li>
+          <li><strong>Arteriola aferente:</strong> trae la sangre al glomérulo (entra).</li>
+          <li><strong>Arteriola eferente:</strong> saca la sangre del glomérulo (sale).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section id="quiz">
+    <h2>🎯 Test rápido (15 preguntas)</h2>
+
+    <div class="quiz">
+      <div class="q">1. La función principal del aparato respiratorio es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Transportar O₂ por el cuerpo</button>
+        <button onclick="chk(this,true)">Realizar el intercambio de gases (O₂/CO₂)</button>
+        <button onclick="chk(this,false)">Producir energía</button>
+        <button onclick="chk(this,false)">Eliminar urea</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">2. Los alvéolos pulmonares son:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Conductos del aire</button>
+        <button onclick="chk(this,true)">Pequeños sacos donde ocurre el intercambio gaseoso</button>
+        <button onclick="chk(this,false)">Músculos respiratorios</button>
+        <button onclick="chk(this,false)">Membranas externas</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">3. Durante la inspiración, el diafragma:</div>
+      <div class="options">
+        <button onclick="chk(this,true)">Se contrae y baja</button>
+        <button onclick="chk(this,false)">Se relaja y sube</button>
+        <button onclick="chk(this,false)">No interviene</button>
+        <button onclick="chk(this,false)">Se mueve hacia arriba y atrás</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">4. Los glóbulos rojos transportan O₂ gracias a:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">El plasma</button>
+        <button onclick="chk(this,true)">La hemoglobina</button>
+        <button onclick="chk(this,false)">La fibrina</button>
+        <button onclick="chk(this,false)">Las plaquetas</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">5. ¿Qué cavidad del corazón bombea la sangre al resto del cuerpo?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Aurícula derecha</button>
+        <button onclick="chk(this,false)">Aurícula izquierda</button>
+        <button onclick="chk(this,false)">Ventrículo derecho</button>
+        <button onclick="chk(this,true)">Ventrículo izquierdo</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">6. La arteria pulmonar lleva sangre:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Con mucho O₂</button>
+        <button onclick="chk(this,true)">Con poco O₂ (rica en CO₂)</button>
+        <button onclick="chk(this,false)">Sin glóbulos rojos</button>
+        <button onclick="chk(this,false)">Solo plasma</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">7. La unidad funcional del riñón es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">El alvéolo</button>
+        <button onclick="chk(this,false)">El glóbulo blanco</button>
+        <button onclick="chk(this,true)">La nefrona</button>
+        <button onclick="chk(this,false)">El uréter</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">8. La filtración de la sangre ocurre en:</div>
+      <div class="options">
+        <button onclick="chk(this,true)">El glomérulo</button>
+        <button onclick="chk(this,false)">El tubo colector</button>
+        <button onclick="chk(this,false)">La pelvis renal</button>
+        <button onclick="chk(this,false)">La uretra</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">9. ¿Cuántos uréteres tiene una persona?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">1</button>
+        <button onclick="chk(this,true)">2</button>
+        <button onclick="chk(this,false)">3</button>
+        <button onclick="chk(this,false)">4</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">10. La capa interna del riñón se llama:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Corteza</button>
+        <button onclick="chk(this,false)">Médula</button>
+        <button onclick="chk(this,true)">Pelvis renal</button>
+        <button onclick="chk(this,false)">Cápsula fibrosa</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">11. La reabsorción consiste en:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Pasar todo lo que hay en la sangre al túbulo</button>
+        <button onclick="chk(this,true)">Recuperar las sustancias útiles del túbulo a la sangre</button>
+        <button onclick="chk(this,false)">Producir orina en la vejiga</button>
+        <button onclick="chk(this,false)">Eliminar el sudor</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">12. El sudor es excretado por:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Los riñones</button>
+        <button onclick="chk(this,false)">El hígado</button>
+        <button onclick="chk(this,true)">Las glándulas sudoríparas</button>
+        <button onclick="chk(this,false)">Los pulmones</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">13. Una persona con anemia tiene:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Pocas plaquetas</button>
+        <button onclick="chk(this,true)">Pocos glóbulos rojos o poca hemoglobina</button>
+        <button onclick="chk(this,false)">Demasiada glucosa</button>
+        <button onclick="chk(this,false)">Hipertensión</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">14. ¿Qué aparato NO interviene en la nutrición?</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Digestivo</button>
+        <button onclick="chk(this,false)">Respiratorio</button>
+        <button onclick="chk(this,false)">Excretor</button>
+        <button onclick="chk(this,true)">Reproductor</button>
+      </div><div class="feedback"></div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">15. La causa más frecuente de cáncer de pulmón es:</div>
+      <div class="options">
+        <button onclick="chk(this,false)">Polución</button>
+        <button onclick="chk(this,true)">Tabaco</button>
+        <button onclick="chk(this,false)">Genética</button>
+        <button onclick="chk(this,false)">Asma</button>
+      </div><div class="feedback"></div>
+    </div>
+  </section>
+
+  <!-- SIMULACRO -->
+  <section id="simulacro">
+    <h2>📝 Simulacro de examen (60 minutos)</h2>
+
+    <div class="info-box"><strong>Estructura:</strong> 5 preguntas. 60 min. La pregunta 4 es nueva (T6 Aparato excretor).</div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 1 (2 pts) — Aparato respiratorio</div>
+      <p>a) Enumera por orden las estructuras del aparato respiratorio que recorre el aire desde la entrada hasta los pulmones.</p>
+      <p>b) Explica con tus palabras qué ocurre en los alvéolos.</p>
+      <p>c) Describe el papel del diafragma durante la inspiración y la espiración.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 2 (2 pts) — La sangre y el corazón</div>
+      <p>a) Cita los cuatro componentes de la sangre y la función de cada uno.</p>
+      <p>b) Indica las cuatro cavidades del corazón y la función de cada par.</p>
+      <p>c) ¿Qué diferencia a las arterias de las venas?</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 3 (2 pts) — La doble circulación</div>
+      <p>Explica con detalle la circulación menor y la circulación mayor. Indica los vasos por los que pasa la sangre y si lleva O₂ o CO₂.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 4 (2 pts) — Aparato excretor (NUEVO)</div>
+      <p>a) ¿Qué es la nefrona? Cita sus partes principales.</p>
+      <p>b) Explica las tres etapas de la formación de la orina.</p>
+      <p>c) Indica el recorrido de la orina desde el riñón hasta el exterior.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">PREGUNTA 5 (2 pts) — Funciones vitales</div>
+      <p>a) Explica brevemente cómo cooperan los cuatro aparatos de la nutrición.</p>
+      <p>b) Cita dos enfermedades de cada uno de los tres aparatos estudiados (respiratorio, circulatorio y excretor) y un consejo de prevención común.</p>
+    </div>
+
+    <button class="toggle-sol" onclick="toggleSol(this)">📋 Ver solucionario</button>
+    <div class="solucion">
+      <h4 style="color:var(--good)">SOLUCIONARIO</h4>
+
+      <p><strong>Pregunta 1:</strong></p>
+      <p>a) Fosas nasales → faringe → laringe → tráquea → bronquios → bronquiolos → alvéolos pulmonares.</p>
+      <p>b) En los alvéolos ocurre el intercambio gaseoso por difusión: el O₂ del aire pasa a la sangre y el CO₂ de la sangre pasa al aire alveolar.</p>
+      <p>c) En la inspiración, el diafragma se contrae y baja, aumentando el volumen del tórax → entra aire. En la espiración, se relaja y sube, disminuyendo el volumen → sale aire.</p>
+
+      <p><strong>Pregunta 2:</strong></p>
+      <p>a) Plasma (transporta nutrientes y desechos), glóbulos rojos (transportan O₂ y CO₂), glóbulos blancos (defensa), plaquetas (coagulación).</p>
+      <p>b) Aurícula derecha + ventrículo derecho (recibe sangre del cuerpo y la manda a los pulmones); aurícula izquierda + ventrículo izquierdo (recibe sangre de los pulmones y la manda al cuerpo).</p>
+      <p>c) Las arterias salen del corazón, paredes gruesas, soportan presión alta. Las venas vuelven al corazón, paredes finas, tienen válvulas.</p>
+
+      <p><strong>Pregunta 3:</strong></p>
+      <p><strong>Circulación menor (pulmonar):</strong> ventrículo derecho → arteria pulmonar (sin O₂) → pulmones (gana O₂, pierde CO₂) → vena pulmonar (con O₂) → aurícula izquierda.</p>
+      <p><strong>Circulación mayor (sistémica):</strong> ventrículo izquierdo → arteria aorta (con O₂) → todo el cuerpo → venas cava (sin O₂) → aurícula derecha. Es doble (la sangre pasa dos veces por el corazón) y completa (no se mezclan los dos tipos de sangre).</p>
+
+      <p><strong>Pregunta 4:</strong></p>
+      <p>a) La nefrona es la unidad anatómica y funcional del riñón. Sus partes son: glomérulo, cápsula de Bowman, túbulo renal y tubo colector. Recibe sangre por la arteriola aferente y la devuelve por la eferente.</p>
+      <p>b) <strong>1ª Filtración</strong> en el glomérulo: la sangre libera agua, sales, glucosa, aminoácidos y desechos hacia la cápsula de Bowman. <strong>2ª Reabsorción</strong> en el túbulo: las sustancias útiles (agua, glucosa, sales, aminoácidos) vuelven a la sangre. <strong>3ª Secreción</strong>: algunos desechos que no se filtraron pasan desde la sangre al túbulo. El líquido resultante es la orina.</p>
+      <p>c) Túbulos colectores → pelvis renal → uréter → vejiga urinaria → uretra → exterior.</p>
+
+      <p><strong>Pregunta 5:</strong></p>
+      <p>a) El digestivo aporta nutrientes a la sangre. El respiratorio aporta O₂ y elimina CO₂. El circulatorio transporta nutrientes, O₂ y desechos por todo el cuerpo. El excretor elimina los desechos de la sangre como orina. Cooperan: sin uno, los demás no funcionan.</p>
+      <p>b) <strong>Respiratorio:</strong> asma, neumonía. <strong>Circulatorio:</strong> hipertensión, infarto. <strong>Excretor:</strong> cálculos renales, cistitis. Consejo común: <strong>hábitos saludables</strong> (no fumar, dieta equilibrada, ejercicio, hidratación).</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function show(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggleSol(btn){
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? '🙈 Ocultar' : 'Ver solución';
+  }
+  function chk(btn,ok){
+    const quiz = btn.closest('.quiz');
+    const fb = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(ok){btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✅ ¡Correcto!';}
+    else{btn.classList.add('wrong');
+      quiz.querySelectorAll('button').forEach(b=>{
+        if(b.getAttribute('onclick').includes('true'))b.classList.add('correct');
+      });
+      fb.className='feedback show ko';fb.textContent='❌ Incorrecto. La correcta está en verde.';}
+  }
+</script>
+</body>
+</html>
