@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Progreso · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;--gold:#f59e0b;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#4c1d95 0%,#be123c 100%);
+    padding:40px 24px;text-align:center;border-radius:18px;margin-bottom:32px;
+    box-shadow:0 12px 32px rgba(0,0,0,.5)}
+  header h1{font-size:2.4em;margin-bottom:6px}
+  header p{color:#fde68a}
+  h2{color:var(--accent);font-size:1.5em;margin-bottom:16px;
+    border-bottom:2px solid var(--accent);padding-bottom:8px}
+  section{background:var(--panel);padding:24px;border-radius:14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .nivel-card{background:linear-gradient(135deg,#312e81,#7c2d12);
+    padding:30px;border-radius:18px;text-align:center;margin-bottom:24px;
+    border:3px solid var(--accent);box-shadow:0 8px 30px rgba(0,0,0,.5)}
+  .nivel-card .n{font-size:5em;font-weight:900;color:var(--accent);text-shadow:0 4px 12px rgba(0,0,0,.5);line-height:1}
+  .nivel-card .lbl{color:#fff;font-size:1.2em;margin-top:8px;letter-spacing:1px}
+  .barra-nivel{background:rgba(0,0,0,.3);height:14px;border-radius:10px;overflow:hidden;margin-top:18px}
+  .barra-nivel-inner{background:linear-gradient(90deg,#fbbf24,#f97316);height:100%;transition:width .8s}
+  .nivel-card .pts{color:#fde68a;margin-top:10px;font-size:.95em}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:14px;margin-bottom:22px}
+  .stat{background:var(--panel-2);padding:18px;border-radius:12px;text-align:center}
+  .stat .num{font-size:2em;font-weight:800;color:var(--accent);display:block}
+  .stat .lbl{color:var(--muted);font-size:.85em;margin-top:4px}
+  .asig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .asig{background:var(--panel-2);padding:18px;border-radius:12px;border-left:5px solid}
+  .asig .titulo{display:flex;align-items:center;gap:10px;font-size:1.15em;font-weight:700;margin-bottom:10px}
+  .asig .titulo .e{font-size:1.6em}
+  .asig .pts-line{display:flex;justify-content:space-between;color:var(--muted);font-size:.9em;margin-bottom:6px}
+  .asig .pts-line strong{color:var(--accent)}
+  .asig-bar{background:#0f172a;height:8px;border-radius:4px;overflow:hidden;margin:8px 0}
+  .asig-bar-inner{height:100%;transition:width .8s}
+  .asig .stats-mini{display:flex;justify-content:space-around;font-size:.8em;color:var(--muted);margin-top:8px}
+  .asig .stats-mini span{color:var(--text)}
+  .logros-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:12px}
+  .logro{background:var(--panel-2);padding:14px;border-radius:10px;text-align:center;
+    border:2px solid var(--gold);transition:transform .2s}
+  .logro:hover{transform:scale(1.05)}
+  .logro .em{font-size:2em;display:block;margin-bottom:4px}
+  .logro .n{font-size:.85em;font-weight:600;color:var(--accent)}
+  .logro .f{font-size:.7em;color:var(--muted);margin-top:4px}
+  .empty-msg{color:var(--muted);text-align:center;padding:24px;font-style:italic}
+  .acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center}
+  .acciones button{padding:10px 18px;border:0;border-radius:10px;cursor:pointer;
+    font-family:inherit;font-size:.9em;font-weight:600;transition:all .2s}
+  .acciones .reset{background:#ef4444;color:#fff}
+  .acciones .export{background:#3b82f6;color:#fff}
+  .acciones .import{background:#10b981;color:#fff}
+  textarea{width:100%;min-height:80px;background:#0f172a;color:var(--text);
+    border:1px solid var(--border);border-radius:8px;padding:10px;
+    font-family:monospace;font-size:.8em;margin-top:10px}
+  @media(max-width:640px){header h1{font-size:1.8em}.nivel-card .n{font-size:3.5em}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>⭐ Mi Progreso</h1>
+    <p id="bienvenida">Cargando…</p>
+  </header>
+
+  <div class="nivel-card">
+    <div class="n" id="nivel-num">1</div>
+    <div class="lbl">NIVEL ACTUAL</div>
+    <div class="barra-nivel"><div class="barra-nivel-inner" id="barra-nivel"></div></div>
+    <div class="pts" id="pts-info">0 / 50 puntos para Nivel 2</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="num" id="s-puntos">0</span><span class="lbl">Puntos totales</span></div>
+    <div class="stat"><span class="num" id="s-racha">0</span><span class="lbl">🔥 Racha (días)</span></div>
+    <div class="stat"><span class="num" id="s-ejer">0</span><span class="lbl">Ejercicios bien</span></div>
+    <div class="stat"><span class="num" id="s-quiz">0</span><span class="lbl">Quiz acertados</span></div>
+    <div class="stat"><span class="num" id="s-sims">0</span><span class="lbl">Simulacros</span></div>
+    <div class="stat"><span class="num" id="s-pomo">0</span><span class="lbl">🍅 Pomodoros</span></div>
+  </div>
+
+  <section>
+    <h2>📚 Progreso por asignatura</h2>
+    <div class="asig-grid" id="asignaturas-list"></div>
+  </section>
+
+  <section>
+    <h2>🏆 Logros desbloqueados</h2>
+    <div id="logros-container"></div>
+  </section>
+
+  <section>
+    <h2>⚙️ Gestión</h2>
+    <p style="color:var(--muted);margin-bottom:10px">Si estudias en varios dispositivos (tablet, móvil, ordenador), puedes <strong>exportar tu progreso</strong> aquí y <strong>pegarlo en el otro</strong>.</p>
+    <div class="acciones">
+      <button class="export" onclick="exportar()">📤 Exportar mi progreso</button>
+      <button class="import" onclick="importar()">📥 Importar progreso</button>
+      <button class="reset" onclick="resetear()">🗑️ Reiniciar todo</button>
+    </div>
+    <textarea id="textarea-export" placeholder="Aquí aparecerá tu progreso al exportar, o pega aquí el texto al importar..." style="display:none"></textarea>
+  </section>
+</div>
+
+<script src="app.js"></script>
+<script>
+  function render(){
+    const e = window.MarioApp?.estado;
+    if(!e){ setTimeout(render, 200); return; }
+    const p = window.MarioApp.progresoNivel(e.puntosTotal);
+
+    document.getElementById('bienvenida').innerHTML = `Bienvenido de nuevo, <strong>${e.nombre}</strong> · ${new Date().toLocaleDateString('es-ES',{weekday:'long', day:'numeric', month:'long'})}`;
+    document.getElementById('nivel-num').textContent = p.nivel;
+    document.getElementById('barra-nivel').style.width = p.pct + '%';
+    document.getElementById('pts-info').textContent = `${e.puntosTotal} / ${p.max} puntos · faltan ${p.max - e.puntosTotal} para Nivel ${p.nivel+1}`;
+    document.getElementById('s-puntos').textContent = e.puntosTotal;
+    document.getElementById('s-racha').textContent = e.racha || 0;
+
+    let totalEjer = 0, totalQuiz = 0, totalSims = 0;
+    Object.values(e.asignaturas).forEach(a => {
+      totalEjer += a.ejerciciosOK;
+      totalQuiz += a.quizOK;
+      totalSims += a.simulacrosCompletados;
+    });
+    document.getElementById('s-ejer').textContent = totalEjer;
+    document.getElementById('s-quiz').textContent = totalQuiz;
+    document.getElementById('s-sims').textContent = totalSims;
+    document.getElementById('s-pomo').textContent = e.sesionesPomodoro || 0;
+
+    // Asignaturas
+    const cfg = window.MarioApp.CONFIG.asignaturas;
+    const links = {mate:'mate.html', lengua:'lengua.html', fisica:'fisica.html', ingles:'ingles.html', historia:'historia.html', biologia:'biologia.html'};
+    const cont = document.getElementById('asignaturas-list');
+    cont.innerHTML = Object.keys(cfg).map(k => {
+      const c = cfg[k];
+      const a = e.asignaturas[k];
+      const np = window.MarioApp.progresoNivel(a.puntos);
+      return `
+        <a href="${links[k]}" style="text-decoration:none;color:inherit">
+          <div class="asig" style="border-color:${c.color}">
+            <div class="titulo"><span class="e">${c.emoji}</span><span>${c.nombre}</span></div>
+            <div class="pts-line"><span>Nivel <strong>${np.nivel}</strong></span><span><strong>${a.puntos}</strong> pts</span></div>
+            <div class="asig-bar"><div class="asig-bar-inner" style="background:${c.color};width:${np.pct}%"></div></div>
+            <div class="stats-mini">
+              <div>✅ <span>${a.ejerciciosOK}</span></div>
+              <div>🎯 <span>${a.quizOK}</span></div>
+              <div>📝 <span>${a.simulacrosCompletados}</span></div>
+            </div>
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    // Logros
+    const lc = document.getElementById('logros-container');
+    if(e.logros.length === 0){
+      lc.innerHTML = '<div class="empty-msg">Aún no has desbloqueado ningún logro. ¡Empieza a estudiar y verás cómo se llenan!</div>';
+    } else {
+      lc.innerHTML = '<div class="logros-grid">' + e.logros.slice().reverse().map(l => `
+        <div class="logro">
+          <span class="em">${l.emoji}</span>
+          <div class="n">${l.nombre}</div>
+          <div class="f">${new Date(l.fecha).toLocaleDateString('es-ES')}</div>
+        </div>
+      `).join('') + '</div>';
+    }
+  }
+
+  function exportar(){
+    const e = window.MarioApp?.estado;
+    const ta = document.getElementById('textarea-export');
+    ta.style.display = 'block';
+    ta.value = btoa(unescape(encodeURIComponent(JSON.stringify(e))));
+    ta.select();
+    try { document.execCommand('copy'); window.MarioApp.mostrarToast('📋 Copiado al portapapeles. Pégalo en el otro dispositivo.', 'good', 5000); }
+    catch(err) { window.MarioApp.mostrarToast('Selecciona el texto y cópialo manualmente', 'info', 4000); }
+  }
+  function importar(){
+    const ta = document.getElementById('textarea-export');
+    ta.style.display = 'block';
+    if(!ta.value){ ta.placeholder = 'Pega aquí el código exportado y vuelve a pulsar Importar'; ta.focus(); return; }
+    try {
+      const obj = JSON.parse(decodeURIComponent(escape(atob(ta.value.trim()))));
+      if(!obj.asignaturas || !obj.puntosTotal === undefined) throw new Error('formato');
+      if(confirm('¿Reemplazar tu progreso actual con el importado?')){
+        localStorage.setItem('mario_progreso_v1', JSON.stringify(obj));
+        window.MarioApp.mostrarToast('✅ Progreso importado. Recargando...', 'good', 2000);
+        setTimeout(()=>location.reload(), 1500);
+      }
+    } catch(err) {
+      window.MarioApp.mostrarToast('❌ El código no es válido', 'bad', 3000);
+    }
+  }
+  function resetear(){
+    if(confirm('¿Borrar TODO tu progreso? Esta acción no se puede deshacer.')){
+      if(confirm('¿De verdad? Perderás puntos, niveles y logros.')){
+        localStorage.removeItem('mario_progreso_v1');
+        window.MarioApp.mostrarToast('🗑️ Progreso borrado. Recargando...', 'info', 2000);
+        setTimeout(()=>location.reload(), 1500);
+      }
+    }
+  }
+
+  setTimeout(render, 300);
+</script>
+</body>
+</html>

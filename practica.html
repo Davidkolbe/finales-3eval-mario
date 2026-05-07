@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Práctica infinita · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
+  .container{max-width:900px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#4c1d95 0%,#be123c 100%);
+    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fde68a}
+  section{background:var(--panel);padding:24px;border-radius:14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  h2{color:var(--accent);font-size:1.4em;margin-bottom:14px;
+    border-bottom:2px solid var(--accent);padding-bottom:6px}
+  .asig-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .asig-tabs button{background:var(--panel-2);color:var(--text);border:2px solid var(--border);
+    padding:8px 14px;border-radius:10px;cursor:pointer;font-size:.9em;font-family:inherit;
+    transition:all .2s}
+  .asig-tabs button:hover{border-color:var(--accent)}
+  .asig-tabs button.active{background:var(--accent);color:#0f172a;border-color:var(--accent);font-weight:700}
+  .gen-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+  .gen-tabs button{background:#0f172a;color:var(--text);border:1px solid var(--border);
+    padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.82em;font-family:inherit}
+  .gen-tabs button:hover{background:var(--panel-2)}
+  .gen-tabs button.active{background:#3b82f6;color:#fff;border-color:#3b82f6;font-weight:700}
+  .ejercicio{background:var(--panel-2);padding:24px;border-radius:14px;
+    border-left:5px solid var(--accent);margin-bottom:18px}
+  .ejercicio .num{color:var(--muted);font-size:.85em;margin-bottom:8px}
+  .ejercicio .enunciado{font-size:1.1em;line-height:1.5;margin-bottom:16px}
+  input[type=text], input[type=number]{
+    width:100%;padding:12px;background:#0f172a;color:var(--text);
+    border:2px solid var(--border);border-radius:8px;font-size:1em;font-family:inherit
+  }
+  input:focus{outline:0;border-color:var(--accent)}
+  .opciones{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .opciones button{background:#0f172a;color:var(--text);border:2px solid var(--border);
+    padding:12px 16px;border-radius:8px;cursor:pointer;text-align:left;font-family:inherit;
+    font-size:1em;transition:all .2s}
+  .opciones button:hover{border-color:var(--accent);background:var(--panel-2)}
+  .opciones button.correct{background:rgba(74,222,128,.2);border-color:var(--good)}
+  .opciones button.wrong{background:rgba(248,113,113,.2);border-color:var(--bad)}
+  .acciones{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .acciones button{padding:10px 20px;border:0;border-radius:10px;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:.95em;transition:all .15s}
+  .acciones button:hover{transform:translateY(-1px)}
+  .btn-comprobar{background:var(--accent);color:#0f172a}
+  .btn-siguiente{background:var(--good);color:#0f172a}
+  .btn-pista{background:var(--panel-2);color:var(--accent);border:1px solid var(--accent) !important}
+  .feedback{padding:14px 18px;border-radius:10px;margin-top:14px;display:none;font-size:.95em}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(74,222,128,.15);border-left:4px solid var(--good);color:#86efac}
+  .feedback.ko{background:rgba(248,113,113,.15);border-left:4px solid var(--bad);color:#fca5a5}
+  .stats{display:flex;gap:14px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+  .stat-mini{background:var(--panel-2);padding:10px 16px;border-radius:8px;text-align:center;min-width:90px}
+  .stat-mini .n{font-size:1.4em;font-weight:800;color:var(--accent);display:block}
+  .stat-mini .l{color:var(--muted);font-size:.78em}
+  .empty{text-align:center;color:var(--muted);padding:40px;font-style:italic}
+  .repaso-list{display:grid;gap:8px;margin-top:14px}
+  .repaso-item{background:var(--panel-2);padding:12px;border-radius:8px;border-left:3px solid var(--bad);
+    display:flex;justify-content:space-between;align-items:center;font-size:.9em}
+  .repaso-item .gen{color:var(--accent);font-weight:600}
+  @media(max-width:640px){header h1{font-size:1.6em}.acciones{flex-direction:column}.acciones button{width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>♾️ Práctica Infinita</h1>
+    <p>Ejercicios sin parar. Cada uno suma puntos y sube tu nivel.</p>
+  </header>
+
+  <section>
+    <h2>Elige asignatura y tipo</h2>
+    <div class="asig-tabs" id="asig-tabs"></div>
+    <div class="gen-tabs" id="gen-tabs"></div>
+  </section>
+
+  <section id="zona-ejercicio">
+    <div class="empty">Selecciona una asignatura y un tipo arriba para empezar 👆</div>
+  </section>
+
+  <section>
+    <h2>📊 Estadísticas de esta sesión</h2>
+    <div class="stats">
+      <div class="stat-mini"><span class="n" id="s-hechos">0</span><span class="l">Hechos</span></div>
+      <div class="stat-mini"><span class="n" id="s-aciertos">0</span><span class="l">✅ Aciertos</span></div>
+      <div class="stat-mini"><span class="n" id="s-errores">0</span><span class="l">❌ Errores</span></div>
+      <div class="stat-mini"><span class="n" id="s-racha">0</span><span class="l">🔥 Racha actual</span></div>
+      <div class="stat-mini"><span class="n" id="s-puntos">+0</span><span class="l">Puntos ganados</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🧠 Repaso espaciado</h2>
+    <p style="color:var(--muted);margin-bottom:8px">Tipos de ejercicio donde has fallado más. ¡Repásalos!</p>
+    <div id="repaso-container"></div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+<script src="ejercicios.js"></script>
+<script>
+  let asigActual = 'mate';
+  let genActual = null;
+  let ejercicioActual = null;
+  let sesionStats = {hechos:0, aciertos:0, errores:0, racha:0, puntos:0};
+
+  const KEY_REPASO = 'mario_repaso_v1';
+  function cargarRepaso(){
+    try { return JSON.parse(localStorage.getItem(KEY_REPASO) || '{}'); }
+    catch(e){ return {}; }
+  }
+  function guardarRepaso(r){ localStorage.setItem(KEY_REPASO, JSON.stringify(r)); }
+
+  function registrarFallo(asig, gen){
+    const r = cargarRepaso();
+    const k = `${asig}.${gen}`;
+    if(!r[k]) r[k] = {asig, gen, fallos:0, aciertos:0, ultimoFallo:0};
+    r[k].fallos++;
+    r[k].ultimoFallo = Date.now();
+    guardarRepaso(r);
+  }
+  function registrarAcierto(asig, gen){
+    const r = cargarRepaso();
+    const k = `${asig}.${gen}`;
+    if(!r[k]) r[k] = {asig, gen, fallos:0, aciertos:0, ultimoFallo:0};
+    r[k].aciertos++;
+    guardarRepaso(r);
+  }
+
+  function pintarTabsAsig(){
+    const cfg = window.MarioApp?.CONFIG?.asignaturas || {};
+    const cont = document.getElementById('asig-tabs');
+    cont.innerHTML = Object.keys(cfg).map(k => {
+      if(!window.GeneradorEjercicios[k]) return '';
+      const c = cfg[k];
+      return `<button data-asig="${k}" class="${k===asigActual?'active':''}">${c.emoji} ${c.nombre}</button>`;
+    }).join('');
+    cont.querySelectorAll('button').forEach(b => {
+      b.onclick = () => {
+        asigActual = b.dataset.asig;
+        genActual = null;
+        ejercicioActual = null;
+        pintarTabsAsig();
+        pintarTabsGen();
+        document.getElementById('zona-ejercicio').innerHTML = '<div class="empty">Selecciona un tipo de ejercicio 👆</div>';
+      };
+    });
+  }
+  function pintarTabsGen(){
+    const gen = window.GeneradorEjercicios[asigActual];
+    const cont = document.getElementById('gen-tabs');
+    if(!gen){ cont.innerHTML = ''; return; }
+    cont.innerHTML = gen.generadores.map(g =>
+      `<button data-gen="${g}" class="${g===genActual?'active':''}">${gen.nombres[g]||g}</button>`
+    ).join('');
+    cont.querySelectorAll('button').forEach(b => {
+      b.onclick = () => {
+        genActual = b.dataset.gen;
+        pintarTabsGen();
+        nuevoEjercicio();
+      };
+    });
+  }
+
+  function nuevoEjercicio(){
+    if(!genActual) return;
+    const gen = window.GeneradorEjercicios[asigActual];
+    const e = gen[genActual]();
+    e._asig = asigActual;
+    e._gen = genActual;
+    ejercicioActual = e;
+    renderEjercicio(e);
+  }
+
+  function renderEjercicio(e){
+    const cont = document.getElementById('zona-ejercicio');
+    let inputHtml = '';
+    if(e.opciones){
+      inputHtml = `<div class="opciones">${e.opciones.map((op,i) => `<button data-i="${i}">${op}</button>`).join('')}</div>`;
+    } else {
+      inputHtml = `<input type="text" id="resp-input" placeholder="Tu respuesta${e.unidad?' ('+e.unidad+')':''}" autofocus>`;
+    }
+
+    cont.innerHTML = `
+      <h2>${window.GeneradorEjercicios[asigActual].nombres[genActual]}</h2>
+      <div class="ejercicio">
+        <div class="num">Ejercicio · ${asigActual} · ${genActual}</div>
+        <div class="enunciado">${e.enunciado}</div>
+        ${inputHtml}
+        <div class="acciones" id="acciones">
+          ${e.opciones ? '' : '<button class="btn-comprobar" onclick="comprobar()">✓ Comprobar</button>'}
+          <button class="btn-pista" onclick="pista()">💡 Ver solución</button>
+          <button class="btn-siguiente" onclick="nuevoEjercicio()">▶ Otro ejercicio</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    `;
+
+    if(e.opciones){
+      cont.querySelectorAll('.opciones button').forEach((btn) => {
+        btn.onclick = () => {
+          const correcto = btn.textContent === e.respuesta;
+          procesarResultado(correcto, btn);
+        };
+      });
+    } else {
+      const inp = document.getElementById('resp-input');
+      inp.onkeydown = (ev) => { if(ev.key==='Enter') comprobar(); };
+    }
+  }
+
+  window.comprobar = function(){
+    const e = ejercicioActual;
+    if(!e || e.opciones) return;
+    const inp = document.getElementById('resp-input');
+    const r = inp.value.trim();
+    if(!r) return;
+    let ok = false;
+    if(e.tipoRespuesta === 'texto' && e.validar){
+      ok = e.validar(r);
+    } else if(typeof e.respuesta === 'number'){
+      const n = parseFloat(r.replace(',','.'));
+      if(isNaN(n)){ ok = false; }
+      else {
+        const tol = e.tolerancia || 0.001;
+        ok = Math.abs(n - e.respuesta) <= tol;
+      }
+    } else {
+      ok = r.toLowerCase() === String(e.respuesta).toLowerCase();
+    }
+    procesarResultado(ok);
+  };
+
+  function procesarResultado(ok, btnEl){
+    const e = ejercicioActual;
+    const fb = document.getElementById('feedback');
+    sesionStats.hechos++;
+    if(ok){
+      sesionStats.aciertos++;
+      sesionStats.racha++;
+      sesionStats.puntos += 5;
+      registrarAcierto(e._asig, e._gen);
+      fb.className = 'feedback show ok';
+      fb.innerHTML = `✅ <strong>¡Correcto!</strong> ${e.solucion}`;
+      if(window.MarioApp){
+        window.MarioApp.sumarPuntos(e._asig, 5, 'práctica');
+        if(sesionStats.racha === 5) window.MarioApp.desbloquearLogro('racha_5_practica','5 seguidos en práctica','🔥');
+        if(sesionStats.racha === 10) window.MarioApp.desbloquearLogro('racha_10_practica','¡10 seguidos!','💪');
+        if(sesionStats.racha === 20) window.MarioApp.desbloquearLogro('racha_20_practica','¡20 seguidos!','🏆');
+      }
+      if(btnEl) btnEl.classList.add('correct');
+    } else {
+      sesionStats.errores++;
+      sesionStats.racha = 0;
+      registrarFallo(e._asig, e._gen);
+      fb.className = 'feedback show ko';
+      fb.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta era: ${e.solucion}`;
+      if(window.MarioApp) window.MarioApp.sumarPuntos(e._asig, 1, '');
+      if(btnEl){
+        btnEl.classList.add('wrong');
+        // Marca la correcta
+        document.querySelectorAll('.opciones button').forEach(b => {
+          if(b.textContent === e.respuesta) b.classList.add('correct');
+        });
+      }
+    }
+    actualizarStats();
+    pintarRepaso();
+  }
+
+  window.pista = function(){
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback show';
+    fb.style.background = 'rgba(251,191,36,.15)';
+    fb.style.borderLeft = '4px solid var(--accent)';
+    fb.style.color = '#fde68a';
+    fb.innerHTML = `💡 <strong>Solución:</strong> ${ejercicioActual.solucion}`;
+  };
+
+  function actualizarStats(){
+    document.getElementById('s-hechos').textContent = sesionStats.hechos;
+    document.getElementById('s-aciertos').textContent = sesionStats.aciertos;
+    document.getElementById('s-errores').textContent = sesionStats.errores;
+    document.getElementById('s-racha').textContent = sesionStats.racha;
+    document.getElementById('s-puntos').textContent = '+' + sesionStats.puntos;
+  }
+
+  function pintarRepaso(){
+    const r = cargarRepaso();
+    const items = Object.values(r).filter(x => x.fallos > x.aciertos);
+    items.sort((a,b) => (b.fallos - b.aciertos) - (a.fallos - a.aciertos));
+    const cont = document.getElementById('repaso-container');
+    if(items.length === 0){
+      cont.innerHTML = '<div class="empty">Aún no has fallado nada significativamente. ¡Sigue practicando!</div>';
+      return;
+    }
+    cont.innerHTML = '<div class="repaso-list">' + items.slice(0,8).map(i => {
+      const cfg = window.MarioApp.CONFIG.asignaturas[i.asig];
+      const nombreGen = window.GeneradorEjercicios[i.asig].nombres[i.gen] || i.gen;
+      return `
+        <div class="repaso-item">
+          <div>
+            <span style="color:${cfg.color}">${cfg.emoji} ${cfg.nombre}</span> ·
+            <span class="gen">${nombreGen}</span>
+            <small style="color:var(--muted);margin-left:8px">${i.fallos} fallos / ${i.aciertos} aciertos</small>
+          </div>
+          <button onclick="repasarDe('${i.asig}','${i.gen}')" style="background:var(--accent);color:#0f172a;border:0;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:600">Repasar</button>
+        </div>
+      `;
+    }).join('') + '</div>';
+  }
+  window.repasarDe = function(asig, gen){
+    asigActual = asig;
+    genActual = gen;
+    pintarTabsAsig();
+    pintarTabsGen();
+    nuevoEjercicio();
+    window.scrollTo({top: document.getElementById('zona-ejercicio').offsetTop - 20, behavior: 'smooth'});
+  };
+
+  setTimeout(() => {
+    pintarTabsAsig();
+    pintarTabsGen();
+    pintarRepaso();
+  }, 200);
+</script>
+</body>
+</html>
