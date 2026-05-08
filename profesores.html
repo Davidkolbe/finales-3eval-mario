@@ -7,8 +7,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
-    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
-    --good:#4ade80;--bad:#f87171}
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;--good:#4ade80;--bad:#f87171}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
     color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
@@ -17,48 +16,38 @@
     padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
   .back:hover{background:var(--accent);color:#0f172a}
   header{background:linear-gradient(135deg,#7c2d12 0%,#dc2626 100%);
-    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    padding:30px 24px;text-align:center;border-radius:18px;margin-bottom:22px;
     box-shadow:0 10px 30px rgba(0,0,0,.5)}
-  header h1{font-size:2.2em;margin-bottom:6px}
+  header h1{font-size:2.1em;margin-bottom:6px}
   header p{color:#fde68a}
-  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
-    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100}
-  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
-    padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.9em;font-family:inherit}
-  nav button:hover{background:var(--accent);color:#0f172a}
-  nav button.active{background:var(--accent);color:#0f172a;font-weight:700}
-  section{display:none;margin-bottom:22px}
-  section.active{display:block;animation:fadeIn .3s}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .info-box{background:rgba(251,191,36,.1);border-left:4px solid var(--accent);
+    padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:.95em}
+  section{background:var(--panel);padding:22px;border-radius:14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3);border-left:5px solid}
+  section.mate{border-color:#3b82f6}
+  section.lengua{border-color:#a855f7}
+  section.fisica{border-color:#ef4444}
+  section.ingles{border-color:#10b981}
+  section.historia{border-color:#f59e0b}
+  section.bio{border-color:#14b8a6}
   h2{color:var(--accent);font-size:1.5em;margin-bottom:14px;
     border-bottom:2px solid var(--accent);padding-bottom:6px}
-  h3{color:#fed7aa;font-size:1.2em;margin:22px 0 12px}
-  .video-card{background:var(--panel);padding:16px;border-radius:14px;margin-bottom:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,.3);transition:transform .15s}
-  .video-card:hover{transform:translateY(-2px)}
-  .video-card .titulo{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:4px}
-  .video-card .canal{color:var(--muted);font-size:.85em;margin-bottom:8px}
-  .video-card .desc{color:var(--text);font-size:.92em;margin-bottom:12px}
+  h3{color:#fde68a;margin:18px 0 10px;font-size:1.15em}
+  .video-card{background:var(--panel-2);padding:14px;border-radius:12px;margin-bottom:14px}
+  .video-card .titulo{font-weight:700;color:var(--accent);font-size:1.05em;margin-bottom:6px}
+  .video-card .desc{color:var(--text);font-size:.9em;margin-bottom:10px}
+  .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#000;margin-bottom:10px}
+  .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
   .btns{display:flex;gap:8px;flex-wrap:wrap}
-  .btn-yt{background:#dc2626;color:#fff;text-decoration:none;padding:8px 16px;
-    border-radius:8px;font-size:.85em;font-weight:600;display:inline-flex;align-items:center;gap:6px;
-    transition:background .15s}
-  .btn-yt:hover{background:#991b1b}
-  .btn-canal{background:var(--panel-2);color:var(--accent);text-decoration:none;padding:8px 14px;
-    border-radius:8px;font-size:.85em;font-weight:600;border:1px solid var(--accent)}
-  .btn-canal:hover{background:var(--accent);color:#0f172a}
-  .channel-info{background:var(--panel-2);padding:14px 18px;border-radius:10px;margin-bottom:18px;
-    border-left:4px solid var(--accent)}
-  .channel-info strong{color:var(--accent)}
-  .channel-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
-  .channel-list a{background:var(--panel);padding:10px 14px;border-radius:8px;
-    text-decoration:none;color:var(--text);border-left:4px solid var(--accent);
-    font-size:.9em;transition:all .15s}
-  .channel-list a:hover{background:var(--panel-2);transform:translateX(3px)}
-  .channel-list a strong{color:var(--accent);display:block;margin-bottom:2px}
-  .channel-list a span{color:var(--muted);font-size:.85em}
-  .info-box{background:rgba(251,191,36,.1);border-left:4px solid var(--accent);
-    padding:12px 16px;border-radius:8px;margin:14px 0}
+  .btn-yt{display:inline-block;background:#ff0000;color:#fff;padding:8px 14px;border-radius:8px;
+    text-decoration:none;font-weight:600;font-size:.9em;transition:background .15s}
+  .btn-yt:hover{background:#cc0000}
+  .btn-search{background:#475569}
+  .btn-search:hover{background:#64748b}
+  .canales{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .canales a{background:var(--panel-2);padding:8px 14px;border-radius:20px;
+    text-decoration:none;color:var(--text);font-size:.9em;border:1px solid var(--border)}
+  .canales a:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -66,456 +55,254 @@
   <a class="back" href="index.html">← Volver al panel</a>
   <header>
     <h1>👨‍🏫 Profesores virtuales</h1>
-    <p>Los mejores YouTubers educativos para cada asignatura</p>
+    <p>Vídeos verificados de YouTube — los mejores canales educativos en español</p>
   </header>
 
   <div class="info-box">
-    <strong>💡 Cómo funciona:</strong> cada tarjeta tiene <strong>"Buscar en YouTube"</strong> (te lleva a YouTube con la búsqueda hecha — coge el primer vídeo) y <strong>"Ir al canal"</strong> (vas directo al canal del profesor). Así siempre encontrarás vídeos vivos.
+    <strong>💡 Cómo usarlo:</strong> los vídeos se reproducen directamente aquí dentro. Si alguno no carga, pulsa <strong>"Abrir en YouTube"</strong>. También tienes los canales recomendados al final de cada asignatura.
   </div>
 
-  <nav>
-    <button class="active" data-tab="mate">📐 Mate</button>
-    <button data-tab="lengua">📖 Lengua</button>
-    <button data-tab="fisica">⚡ Física</button>
-    <button data-tab="ingles">🇬🇧 Inglés</button>
-    <button data-tab="historia">🌍 Historia</button>
-    <button data-tab="biologia">🫁 Biología</button>
-  </nav>
-
-  <!-- MATE -->
-  <section id="mate" class="active">
+  <!-- ================= MATEMÁTICAS ================= -->
+  <section class="mate">
     <h2>📐 Matemáticas</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados</strong> — pulsa para ir directo al canal:
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@Unicoos" target="_blank"><strong>Unicoos</strong><span>David Calle · el rey de mate/física</span></a>
-        <a href="https://www.youtube.com/@JulioProfeNet" target="_blank"><strong>JulioProfe</strong><span>Explicaciones claras</span></a>
-        <a href="https://www.youtube.com/@lasmatesfaciles" target="_blank"><strong>Lasmatesfaciles</strong><span>3º y 4º ESO</span></a>
-        <a href="https://www.youtube.com/@Math2Me" target="_blank"><strong>Math2Me</strong><span>Mate desde cero</span></a>
-      </div>
-    </div>
 
     <h3>🔺 Pitágoras y triángulos</h3>
     <div class="video-card">
-      <div class="titulo">Teorema de Pitágoras paso a paso</div>
-      <div class="canal">Sugeridos: Unicoos · JulioProfe</div>
-      <div class="desc">Explicación clarísima del teorema con ejemplos resueltos.</div>
+      <div class="titulo">Teorema de Pitágoras Super Fácil</div>
+      <div class="desc">El básico imprescindible — explicación clara con ejemplos.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/eTEBvBIz8Ok" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=teorema+de+pitagoras+unicoos">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=eTEBvBIz8Ok">▶ Abrir en YouTube</a>
       </div>
     </div>
     <div class="video-card">
-      <div class="titulo">Teorema del cateto y de la altura</div>
-      <div class="canal">Sugeridos: Unicoos · Lasmatesfaciles</div>
-      <div class="desc">Los dos teoremas que más caen en examen, con ejemplos.</div>
+      <div class="titulo">Teorema de la altura y Thales (3º ESO)</div>
+      <div class="desc">Los teoremas clave de semejanza, paso a paso.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/L2uL3xWrMY0" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=teorema+cateto+altura+3+eso">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>📐 Semejanza y Thales</h3>
-    <div class="video-card">
-      <div class="titulo">Teorema de Thales: explicación y ejercicios</div>
-      <div class="canal">Sugeridos: Unicoos · JulioProfe</div>
-      <div class="desc">Cómo aplicar Thales para alturas y dividir segmentos.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=teorema+de+thales+unicoos">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Semejanza de figuras (razón k, áreas k², volúmenes k³)</div>
-      <div class="canal">Sugeridos: Unicoos · Lasmatesfaciles</div>
-      <div class="desc">La regla clave que más confunde.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=semejanza+figuras+razon+k+3+eso">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=L2uL3xWrMY0">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>📦 Áreas y volúmenes</h3>
+    <h3>📊 Más temas (búsqueda en canales fiables)</h3>
     <div class="video-card">
-      <div class="titulo">Áreas y volúmenes de cuerpos geométricos</div>
-      <div class="canal">Sugeridos: Lasmatesfaciles · Unicoos</div>
-      <div class="desc">Repaso de prismas, pirámides, cilindros, conos y esferas.</div>
+      <div class="titulo">Vectores, funciones, áreas y volúmenes</div>
+      <div class="desc">Si quieres más vídeos, busca dentro de los canales top:</div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=areas+y+volumenes+cuerpos+geometricos+3+eso">🔍 Buscar en YouTube</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@Unicoos/search?query=vectores+3+eso">🔎 Vectores en Unicoos</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@Unicoos/search?query=funciones+lineales+3+eso">🔎 Funciones en Unicoos</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@Unicoos/search?query=areas+volumenes+3+eso">🔎 Áreas y volúmenes</a>
       </div>
     </div>
 
-    <h3>🧭 Vectores</h3>
-    <div class="video-card">
-      <div class="titulo">Vectores en el plano: módulo, suma, producto por escalar</div>
-      <div class="canal">Sugeridos: Math2Me · Unicoos</div>
-      <div class="desc">Operaciones básicas con vectores para el examen.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=vectores+plano+modulo+suma+3+eso">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>📈 Funciones</h3>
-    <div class="video-card">
-      <div class="titulo">Funciones lineales y afines (y = mx + n)</div>
-      <div class="canal">Sugeridos: Unicoos · JulioProfe</div>
-      <div class="desc">y = mx+n explicada de cero, con representación gráfica.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=funciones+lineales+afines+pendiente+ordenada+origen">🔍 Buscar en YouTube</a>
-      </div>
+    <div class="canales">
+      <a href="https://www.youtube.com/@Unicoos" target="_blank">📺 Unicoos</a>
+      <a href="https://www.youtube.com/@JulioProfeNet" target="_blank">📺 JulioProfe</a>
+      <a href="https://www.youtube.com/@lasmatesfaciles" target="_blank">📺 Las Mates Fáciles</a>
+      <a href="https://www.youtube.com/@Math2Me" target="_blank">📺 Math2Me</a>
     </div>
   </section>
 
-  <!-- LENGUA -->
-  <section id="lengua">
+  <!-- ================= LENGUA ================= -->
+  <section class="lengua">
     <h2>📖 Lengua y Literatura</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados:</strong>
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@TrazosdeLengua" target="_blank"><strong>Trazos de Lengua</strong><span>Literatura y gramática</span></a>
-        <a href="https://www.youtube.com/@LenguaylaLiteratura" target="_blank"><strong>La Lengua y la Literatura</strong><span>Educativo en español</span></a>
-        <a href="https://www.youtube.com/@aula365" target="_blank"><strong>Aula 365</strong><span>Resúmenes con animación</span></a>
-        <a href="https://www.youtube.com/@academiaplay" target="_blank"><strong>AcademiaPlay</strong><span>Historia y literatura</span></a>
+
+    <h3>🎭 Don Quijote (Cervantes)</h3>
+    <div class="video-card">
+      <div class="titulo">El Quijote · Capítulo 1 (RTVE Archivo)</div>
+      <div class="desc">Adaptación clásica de RTVE — el primer capítulo entero.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/VZ1geIOE5T8" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=VZ1geIOE5T8">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>🎭 El Barroco</h3>
+    <h3>📜 Barroco, Cervantes y gramática (búsquedas)</h3>
     <div class="video-card">
-      <div class="titulo">El Barroco: contexto y características</div>
-      <div class="canal">Sugerido: Trazos de Lengua · Aula365</div>
-      <div class="desc">Visión general: pesimismo, desengaño, fugacidad de la vida.</div>
+      <div class="titulo">Más vídeos de literatura y gramática</div>
+      <div class="desc">Busca dentro de canales fiables:</div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=el+barroco+literatura+contexto+caracteristicas">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Culteranismo vs Conceptismo (Góngora vs Quevedo)</div>
-      <div class="canal">Sugerido: Trazos de Lengua</div>
-      <div class="desc">La gran rivalidad literaria del Barroco con ejemplos.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=culteranismo+conceptismo+gongora+quevedo">🔍 Buscar en YouTube</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@academiaplay/search?query=barroco">🔎 Barroco · AcademiaPlay</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@academiaplay/search?query=cervantes+quijote">🔎 Cervantes · AcademiaPlay</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=oraciones+compuestas+coordinadas+subordinadas">🔎 Oraciones compuestas</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=acentuacion+tilde+diacritica+3+eso">🔎 Tildes y diacrítica</a>
       </div>
     </div>
 
-    <h3>⚔️ Cervantes y El Quijote</h3>
-    <div class="video-card">
-      <div class="titulo">Don Quijote: resumen completo</div>
-      <div class="canal">Sugerido: AcademiaPlay · Aula365</div>
-      <div class="desc">El Quijote en pocos minutos: historia, personajes, episodios.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=don+quijote+resumen+academiaplay">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Vida y obra de Miguel de Cervantes</div>
-      <div class="canal">Sugerido: AcademiaPlay</div>
-      <div class="desc">Biografía: Lepanto, Argel, su obra completa.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=miguel+de+cervantes+vida+obra">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>🌳 Análisis sintáctico</h3>
-    <div class="video-card">
-      <div class="titulo">Oraciones compuestas: yuxtapuestas, coordinadas y subordinadas</div>
-      <div class="canal">Sugerido: La Lengua y la Literatura · Trazos de Lengua</div>
-      <div class="desc">Esquema clave para identificar cualquier oración compuesta.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=oraciones+compuestas+yuxtapuestas+coordinadas+subordinadas">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Oraciones subordinadas adverbiales</div>
-      <div class="canal">Sugerido: La Lengua y la Literatura</div>
-      <div class="desc">Tipos de adverbiales: temporales, causales, finales, condicionales...</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=subordinadas+adverbiales+tipos+ejemplos">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>✍️ Tildes y diptongos</h3>
-    <div class="video-card">
-      <div class="titulo">Acentuación: agudas, llanas, esdrújulas y tilde diacrítica</div>
-      <div class="canal">Sugerido: Trazos de Lengua</div>
-      <div class="desc">Las reglas de acentuación claras y las tildes diacríticas.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=acentuacion+agudas+llanas+esdrujulas+tilde+diacritica">🔍 Buscar en YouTube</a>
-      </div>
+    <div class="canales">
+      <a href="https://www.youtube.com/@academiaplay" target="_blank">📺 AcademiaPlay</a>
+      <a href="https://www.youtube.com/@aula365" target="_blank">📺 Aula 365</a>
+      <a href="https://www.youtube.com/@TrazosdeLengua" target="_blank">📺 Trazos de Lengua</a>
     </div>
   </section>
 
-  <!-- FÍSICA -->
-  <section id="fisica">
+  <!-- ================= FÍSICA Y QUÍMICA ================= -->
+  <section class="fisica">
     <h2>⚡ Física y Química</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados:</strong>
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@Unicoos" target="_blank"><strong>Unicoos</strong><span>El rey para 3º ESO</span></a>
-        <a href="https://www.youtube.com/@QuantumFracture" target="_blank"><strong>QuantumFracture</strong><span>Divulgación científica</span></a>
-        <a href="https://www.youtube.com/@DateUnVoltio" target="_blank"><strong>Date un Voltio</strong><span>Física general</span></a>
-        <a href="https://www.youtube.com/@Math2Me" target="_blank"><strong>Math2Me</strong><span>Problemas de mate y física</span></a>
-      </div>
-    </div>
 
     <h3>🚗 MRU (Movimiento Rectilíneo Uniforme)</h3>
     <div class="video-card">
-      <div class="titulo">MRU desde cero: explicación + ejercicios</div>
-      <div class="canal">Sugerido: Unicoos</div>
-      <div class="desc">El primer vídeo que tienes que ver. Conceptos básicos del MRU.</div>
+      <div class="titulo">Física MRU — Secundaria (Unicoos)</div>
+      <div class="desc">El vídeo definitivo para entender el MRU desde cero.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/3WWozOSZlj4" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=MRU+unicoos+ejercicios">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Problemas de encuentro y alcance (MRU)</div>
-      <div class="canal">Sugerido: Unicoos</div>
-      <div class="desc">Los problemas TÍPICOS de examen resueltos paso a paso.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=mru+encuentro+alcance+problemas">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=3WWozOSZlj4">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>🚀 MRUA</h3>
+    <h3>🚀 MRUA (Movimiento con aceleración)</h3>
     <div class="video-card">
-      <div class="titulo">MRUA: aceleración, ecuaciones y gráficas</div>
-      <div class="canal">Sugerido: Unicoos</div>
-      <div class="desc">Las 3 ecuaciones del MRUA aplicadas a problemas reales.</div>
+      <div class="titulo">Física MRUA — Secundaria (Unicoos)</div>
+      <div class="desc">Movimiento Rectilíneo Uniformemente Acelerado, paso a paso.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/bs5yjRQV3NM" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=MRUA+ecuaciones+ejercicios+unicoos">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=bs5yjRQV3NM">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>🍎 Caída libre y tiro vertical</h3>
+    <h3>📈 Gráficas v-t, e-t, a-t</h3>
     <div class="video-card">
-      <div class="titulo">Caída libre y tiro vertical hacia arriba</div>
-      <div class="canal">Sugerido: Unicoos</div>
-      <div class="desc">Cómo resolver problemas de caída libre con g=10 m/s².</div>
+      <div class="titulo">MRU y MRUA — Gráficas (Unicoos)</div>
+      <div class="desc">Aprende a leer e interpretar las gráficas (caen seguro en examen).</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/6A7MRVUT8SE" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=caida+libre+tiro+vertical+ejercicios+resueltos">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=6A7MRVUT8SE">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>📊 Gráficas posición-tiempo y velocidad-tiempo</h3>
+    <h3>🎯 Problemas resueltos de MRU y MRUA</h3>
     <div class="video-card">
-      <div class="titulo">Cómo interpretar gráficas en Física</div>
-      <div class="canal">Sugerido: Unicoos</div>
-      <div class="desc">Si fallas en gráficas, ESTE es tu vídeo.</div>
+      <div class="titulo">Problemas con MRU y MRUA</div>
+      <div class="desc">Velocidad, tiempo, distancia, tiro vertical y gráficas resueltos.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/Onb3K_VLF2Y" allowfullscreen></iframe></div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=graficas+posicion+tiempo+velocidad+tiempo+fisica">🔍 Buscar en YouTube</a>
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=Onb3K_VLF2Y">▶ Abrir en YouTube</a>
       </div>
+    </div>
+
+    <div class="canales">
+      <a href="https://www.youtube.com/@Unicoos" target="_blank">📺 Unicoos</a>
+      <a href="https://www.youtube.com/@QuantumFracture" target="_blank">📺 QuantumFracture</a>
+      <a href="https://www.youtube.com/@DateUnVoltio" target="_blank">📺 Date un Voltio</a>
     </div>
   </section>
 
-  <!-- INGLÉS -->
-  <section id="ingles">
-    <h2>🇬🇧 English</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados:</strong>
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@AmigosIngleses" target="_blank"><strong>Amigos Ingleses</strong><span>Los mejores en español</span></a>
-        <a href="https://www.youtube.com/@DanielWelsch" target="_blank"><strong>Daniel Welsch</strong><span>Profesor británico</span></a>
-        <a href="https://www.youtube.com/@bbclearningenglish" target="_blank"><strong>BBC Learning English</strong><span>Inglés británico oficial</span></a>
-        <a href="https://www.youtube.com/@EnglishWithLucy" target="_blank"><strong>English with Lucy</strong><span>Profesora muy clara</span></a>
+  <!-- ================= INGLÉS ================= -->
+  <section class="ingles">
+    <h2>🇬🇧 Inglés</h2>
+
+    <h3>⏪ Past Simple — Verbos irregulares</h3>
+    <div class="video-card">
+      <div class="titulo">Past Simple Tense — Regular and Irregular Verbs</div>
+      <div class="desc">Lección completa sobre el pasado simple en inglés.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/LkyCYeDdvgI" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=LkyCYeDdvgI">▶ Abrir en YouTube</a>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="titulo">Past Simple Irregular Verbs</div>
+      <div class="desc">Práctica enfocada en los verbos irregulares en pasado.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/Xs9_64pxISc" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=Xs9_64pxISc">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>⏰ Verb tenses</h3>
+    <h3>🗣️ Más temas (búsquedas)</h3>
     <div class="video-card">
-      <div class="titulo">Present Perfect vs Past Simple</div>
-      <div class="canal">Sugerido: Amigos Ingleses</div>
-      <div class="desc">La diferencia que más confunde, con ejemplos en contexto.</div>
+      <div class="titulo">Otros temas de inglés</div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=present+perfect+vs+past+simple+amigos+ingleses">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Past Continuous vs Past Simple (when/while)</div>
-      <div class="canal">Sugerido: Daniel Welsch</div>
-      <div class="desc">Cuando una acción interrumpe a otra: when vs while.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=past+continuous+past+simple+when+while">🔍 Buscar en YouTube</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@AmigosIngleses/search?query=present+perfect">🔎 Present Perfect</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@AmigosIngleses/search?query=conditional">🔎 Conditionals</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/@AmigosIngleses/search?query=passive+voice">🔎 Passive Voice</a>
       </div>
     </div>
 
-    <h3>🔀 Conditionals</h3>
-    <div class="video-card">
-      <div class="titulo">First, Second, Third Conditionals</div>
-      <div class="canal">Sugerido: Amigos Ingleses</div>
-      <div class="desc">Los condicionales claros para no liarte.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=conditionals+first+second+third+amigos+ingleses">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>🛡️ Modal verbs</h3>
-    <div class="video-card">
-      <div class="titulo">MUST vs HAVE TO en inglés</div>
-      <div class="canal">Sugerido: Amigos Ingleses</div>
-      <div class="desc">La diferencia clave que cae en examen.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=must+vs+have+to+english">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>🔄 Passive voice</h3>
-    <div class="video-card">
-      <div class="titulo">Passive Voice (voz pasiva)</div>
-      <div class="canal">Sugerido: English with Lucy · Amigos Ingleses</div>
-      <div class="desc">Cómo transformar de activa a pasiva en cualquier tiempo.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=passive+voice+english+grammar">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>💬 Reported speech</h3>
-    <div class="video-card">
-      <div class="titulo">Reported Speech (estilo indirecto)</div>
-      <div class="canal">Sugerido: Daniel Welsch · Amigos Ingleses</div>
-      <div class="desc">Cómo pasar de estilo directo a indirecto.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=reported+speech+ingles+ejemplos">🔍 Buscar en YouTube</a>
-      </div>
+    <div class="canales">
+      <a href="https://www.youtube.com/@AmigosIngleses" target="_blank">📺 Amigos Ingleses</a>
+      <a href="https://www.youtube.com/@aprendeinglessensational" target="_blank">📺 Aprende Inglés Sensational</a>
     </div>
   </section>
 
-  <!-- HISTORIA -->
-  <section id="historia">
+  <!-- ================= HISTORIA ================= -->
+  <section class="historia">
     <h2>🌍 Geografía e Historia</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados:</strong>
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@academiaplay" target="_blank"><strong>AcademiaPlay</strong><span>Historia con tono ameno</span></a>
-        <a href="https://www.youtube.com/@MemoriasdePez" target="_blank"><strong>Memorias de Pez</strong><span>Historia divertida</span></a>
-        <a href="https://www.youtube.com/@aula365" target="_blank"><strong>Aula365</strong><span>Resúmenes animados</span></a>
-        <a href="https://www.youtube.com/@QuantumFracture" target="_blank"><strong>QuantumFracture</strong><span>Cambio climático y ciencia</span></a>
+
+    <h3>👑 La Restauración Borbónica (1875-1902)</h3>
+    <div class="video-card">
+      <div class="titulo">La Restauración Borbónica (1875-1902)</div>
+      <div class="desc">Cánovas, Sagasta, turnismo y crisis del 98 — todo en un vídeo.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/eJc2-gA5jDw" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=eJc2-gA5jDw">▶ Abrir en YouTube</a>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="titulo">La Restauración Borbónica · Cánovas y Constitución 1876</div>
+      <div class="desc">Otro enfoque más detallado sobre el sistema canovista.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/rRz0TRl_vWo" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=rRz0TRl_vWo">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>🏗️ Sectores económicos</h3>
+    <h3>🌾 Sectores económicos (búsquedas)</h3>
     <div class="video-card">
-      <div class="titulo">Sector primario, secundario y terciario</div>
-      <div class="canal">Sugerido: Aula365</div>
-      <div class="desc">Los 3 sectores económicos resumidos para 3º ESO.</div>
+      <div class="titulo">Sectores primario, secundario y terciario</div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=sector+primario+secundario+terciario+geografia">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">Energías renovables y no renovables</div>
-      <div class="canal">Sugerido: Aula365 · QuantumFracture</div>
-      <div class="desc">Diferencias clave entre tipos de energía.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=energias+renovables+no+renovables+explicacion">🔍 Buscar en YouTube</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=sector+primario+geografia+3+eso">🔎 Sector primario</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=sector+secundario+industria+3+eso">🔎 Sector secundario</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=sector+terciario+turismo+comercio+3+eso">🔎 Sector terciario</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=sostenibilidad+cambio+climatico+3+eso">🔎 Sostenibilidad</a>
       </div>
     </div>
 
-    <h3>🌱 Sostenibilidad</h3>
-    <div class="video-card">
-      <div class="titulo">Cambio climático: causas y consecuencias</div>
-      <div class="canal">Sugerido: QuantumFracture</div>
-      <div class="desc">El cambio climático explicado con ciencia.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=cambio+climatico+quantum+fracture">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>👑 La Restauración (1874-1902)</h3>
-    <div class="video-card">
-      <div class="titulo">La Restauración borbónica en España (Cánovas y Sagasta)</div>
-      <div class="canal">Sugerido: AcademiaPlay</div>
-      <div class="desc">El sistema del turnismo y la Restauración con animaciones.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=restauracion+borbonica+canovas+sagasta+turnismo">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">El Desastre del 98: cómo España perdió Cuba</div>
-      <div class="canal">Sugerido: AcademiaPlay · Memorias de Pez</div>
-      <div class="desc">Maine, Tratado de París y generación del 98.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=desastre+del+98+cuba+filipinas+espa%C3%B1a">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>🏛️ España siglo XIX</h3>
-    <div class="video-card">
-      <div class="titulo">España en el siglo XIX: industrialización y sociedad</div>
-      <div class="canal">Sugerido: AcademiaPlay</div>
-      <div class="desc">Cómo España se modernizó tarde y desigualmente.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=espa%C3%B1a+siglo+XIX+industrializacion+desamortizacion">🔍 Buscar en YouTube</a>
-      </div>
+    <div class="canales">
+      <a href="https://www.youtube.com/@academiaplay" target="_blank">📺 AcademiaPlay</a>
+      <a href="https://www.youtube.com/@MemoriasdePez" target="_blank">📺 Memorias de Pez</a>
+      <a href="https://www.youtube.com/@PaseDeDiapositivas" target="_blank">📺 Pase de Diapositivas</a>
     </div>
   </section>
 
-  <!-- BIOLOGÍA -->
-  <section id="biologia">
+  <!-- ================= BIOLOGÍA ================= -->
+  <section class="bio">
     <h2>🫁 Biología y Geología</h2>
-    <div class="channel-info">
-      <strong>Canales recomendados:</strong>
-      <div class="channel-list">
-        <a href="https://www.youtube.com/@AmoebaSistersEspanol" target="_blank"><strong>Amoeba Sisters Español</strong><span>Bio con animaciones</span></a>
-        <a href="https://www.youtube.com/@ProfePlus" target="_blank"><strong>Profe Plus</strong><span>Biología clara</span></a>
-        <a href="https://www.youtube.com/@aula365" target="_blank"><strong>Aula365</strong><span>Cuerpo humano animado</span></a>
-        <a href="https://www.youtube.com/@cienciasaludable" target="_blank"><strong>Ciencia Saludable</strong><span>Anatomía explicada</span></a>
+
+    <h3>🌬️ Aparato Respiratorio</h3>
+    <div class="video-card">
+      <div class="titulo">Anatomía del Aparato Respiratorio · 3º ESO</div>
+      <div class="desc">El vídeo perfecto para repasar la anatomía completa.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/12jJwYs3GeY" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=12jJwYs3GeY">▶ Abrir en YouTube</a>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="titulo">Aparato Respiratorio 3 ESO</div>
+      <div class="desc">Otro recorrido por los órganos que nos permiten respirar.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/eFVpBg4unuY" allowfullscreen></iframe></div>
+      <div class="btns">
+        <a class="btn-yt" target="_blank" href="https://www.youtube.com/watch?v=eFVpBg4unuY">▶ Abrir en YouTube</a>
       </div>
     </div>
 
-    <h3>🫁 Aparato respiratorio</h3>
+    <h3>💓 Aparato Circulatorio · 💧 Aparato Excretor</h3>
     <div class="video-card">
-      <div class="titulo">Aparato respiratorio: anatomía y funcionamiento</div>
-      <div class="canal">Sugerido: Profe Plus · Aula365</div>
-      <div class="desc">Recorrido del aire desde fosas nasales hasta alvéolos.</div>
+      <div class="titulo">Más temas de Biología</div>
       <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=aparato+respiratorio+3+eso+anatomia">🔍 Buscar en YouTube</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=aparato+circulatorio+3+eso">🔎 Circulatorio</a>
+        <a class="btn-yt btn-search" target="_blank" href="https://www.youtube.com/results?search_query=aparato+excretor+nefrona+3+eso">🔎 Excretor / Nefrona</a>
       </div>
     </div>
 
-    <h3>❤️ Aparato circulatorio</h3>
-    <div class="video-card">
-      <div class="titulo">El corazón: cavidades y circulación mayor/menor</div>
-      <div class="canal">Sugerido: Aula365 · Profe Plus</div>
-      <div class="desc">La doble circulación con animaciones claras.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=corazon+circulacion+mayor+menor+3+eso">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">La sangre: componentes y función</div>
-      <div class="canal">Sugerido: Profe Plus</div>
-      <div class="desc">Plasma, glóbulos rojos, blancos y plaquetas.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=componentes+de+la+sangre+3+eso">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-
-    <h3>💧 Aparato excretor (NUEVO)</h3>
-    <div class="video-card">
-      <div class="titulo">Aparato excretor: riñones y vías urinarias</div>
-      <div class="canal">Sugerido: Profe Plus · Aula365</div>
-      <div class="desc">Anatomía del riñón y cómo funciona.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=aparato+excretor+ri%C3%B1ones+3+eso">🔍 Buscar en YouTube</a>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="titulo">La nefrona: filtración, reabsorción y secreción</div>
-      <div class="canal">Sugerido: Profe Plus · Ciencia Saludable</div>
-      <div class="desc">Las 3 etapas de formación de la orina con dibujos.</div>
-      <div class="btns">
-        <a class="btn-yt" target="_blank" href="https://www.youtube.com/results?search_query=nefrona+filtracion+reabsorcion+secrecion+orina">🔍 Buscar en YouTube</a>
-      </div>
+    <div class="canales">
+      <a href="https://www.youtube.com/@QuantumFracture" target="_blank">📺 QuantumFracture</a>
+      <a href="https://www.youtube.com/@academiaplay" target="_blank">📺 AcademiaPlay (humano)</a>
     </div>
   </section>
-</div>
 
+</div>
 <script src="app.js"></script>
-<script>
-  document.querySelectorAll('nav button').forEach(b => {
-    b.onclick = () => {
-      document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
-      document.querySelectorAll('section').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      document.getElementById(b.dataset.tab).classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
-    };
-  });
-</script>
 </body>
 </html>
