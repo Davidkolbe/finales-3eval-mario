@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramas interactivos · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#312e81 0%,#7c2d12 100%);
+    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fde68a}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.9em;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#0f172a}
+  nav button.active{background:var(--accent);color:#0f172a;font-weight:700}
+  section{background:var(--panel);padding:24px;border-radius:14px;margin-bottom:22px;
+    display:none;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  section.active{display:block;animation:fadeIn .3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.5em;margin-bottom:14px;
+    border-bottom:2px solid var(--accent);padding-bottom:6px}
+  .info-box{background:rgba(251,191,36,.1);border-left:4px solid var(--accent);
+    padding:12px 16px;border-radius:8px;margin:12px 0}
+  .controls{background:var(--panel-2);padding:16px;border-radius:10px;margin:14px 0}
+  .controls label{display:block;margin-bottom:8px;font-weight:600;color:var(--accent)}
+  .controls input[type=range]{width:100%}
+  .controls .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+  @media(max-width:640px){.controls .row{grid-template-columns:1fr}}
+  .info-area{background:#0f172a;padding:14px;border-radius:8px;margin-top:10px;
+    font-family:monospace;border:1px solid var(--border)}
+  .resultado-line{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)}
+  .resultado-line:last-child{border:0}
+  .resultado-line strong{color:var(--accent)}
+  .canvas-wrap{background:#0a0e1f;border:2px solid var(--border);border-radius:10px;
+    padding:10px;margin:14px 0;overflow:hidden}
+  svg, canvas{display:block;width:100%;height:auto}
+  .clickable{cursor:pointer;transition:opacity .2s}
+  .clickable:hover{opacity:.7}
+  .info-modal{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);
+    background:linear-gradient(135deg,#312e81,#7c2d12);color:#fff;padding:18px 24px;
+    border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.5);
+    border:2px solid var(--accent);max-width:90%;z-index:5000;display:none;
+    animation:slideUp .3s}
+  .info-modal.show{display:block}
+  .info-modal .titulo{color:var(--accent);font-weight:700;font-size:1.1em;margin-bottom:6px}
+  .info-modal .desc{font-size:.92em;line-height:1.5}
+  .info-modal .cerrar{position:absolute;top:6px;right:10px;background:none;border:0;color:#fff;font-size:1.2em;cursor:pointer}
+  @keyframes slideUp{from{transform:translate(-50%,40px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+  .play-btn{background:var(--good);color:#0f172a;border:0;padding:10px 20px;
+    border-radius:10px;cursor:pointer;font-weight:700;font-family:inherit;margin-right:6px}
+  .play-btn:hover{background:#22c55e}
+  .play-btn.stop{background:var(--bad);color:#fff}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>🎨 Diagramas interactivos</h1>
+    <p>Aprende explorando. Pulsa, arrastra, prueba.</p>
+  </header>
+
+  <nav>
+    <button class="active" data-tab="corazon">❤️ Corazón</button>
+    <button data-tab="nefrona">💧 Nefrona</button>
+    <button data-tab="pulmones">🫁 Pulmones</button>
+    <button data-tab="grafica">📈 Recta y=mx+n</button>
+    <button data-tab="cilindro">🥫 Cilindro 3D</button>
+    <button data-tab="movimiento">🚗 Simulador MRU/MRUA</button>
+    <button data-tab="timeline">📅 Timeline historia</button>
+  </nav>
+
+  <!-- CORAZÓN -->
+  <section id="corazon" class="active">
+    <h2>❤️ El corazón humano · clic en cada parte</h2>
+    <div class="info-box">Pulsa sobre cada cavidad o vaso para descubrir su función.</div>
+    <div class="canvas-wrap">
+      <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;margin:0 auto">
+        <!-- Aurícula derecha -->
+        <path d="M 100 130 Q 100 80 180 80 Q 230 90 240 130 L 240 220 L 100 220 Z" fill="#3b82f6" stroke="#fff" stroke-width="2" class="clickable" data-info="auriculaD"/>
+        <text x="170" y="160" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">Aurícula</text>
+        <text x="170" y="178" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">Derecha</text>
+
+        <!-- Aurícula izquierda -->
+        <path d="M 260 130 Q 270 90 320 80 Q 400 80 400 130 L 400 220 L 260 220 Z" fill="#ef4444" stroke="#fff" stroke-width="2" class="clickable" data-info="auriculaI"/>
+        <text x="330" y="160" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">Aurícula</text>
+        <text x="330" y="178" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">Izquierda</text>
+
+        <!-- Ventrículo derecho -->
+        <path d="M 100 230 L 240 230 L 240 400 Q 240 440 200 440 Q 100 430 100 380 Z" fill="#1e40af" stroke="#fff" stroke-width="2" class="clickable" data-info="ventriculoD"/>
+        <text x="170" y="320" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Ventrículo</text>
+        <text x="170" y="340" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Derecho</text>
+
+        <!-- Ventrículo izquierdo -->
+        <path d="M 260 230 L 400 230 L 400 380 Q 400 450 320 450 Q 260 440 260 400 Z" fill="#991b1b" stroke="#fff" stroke-width="2" class="clickable" data-info="ventriculoI"/>
+        <text x="330" y="320" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Ventrículo</text>
+        <text x="330" y="340" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Izquierdo</text>
+
+        <!-- Vena cava (hacia AD) -->
+        <rect x="60" y="40" width="50" height="90" fill="#1e3a8a" stroke="#fff" stroke-width="2" class="clickable" data-info="venaCava"/>
+        <text x="85" y="100" fill="#fff" font-size="11" text-anchor="middle">Vena</text>
+        <text x="85" y="115" fill="#fff" font-size="11" text-anchor="middle">cava</text>
+
+        <!-- Arteria pulmonar (sale VD) -->
+        <rect x="140" y="20" width="40" height="70" fill="#60a5fa" stroke="#fff" stroke-width="2" class="clickable" data-info="arteriaPulm"/>
+        <text x="160" y="55" fill="#fff" font-size="10" text-anchor="middle">Arteria</text>
+        <text x="160" y="70" fill="#fff" font-size="10" text-anchor="middle">pulmonar</text>
+
+        <!-- Vena pulmonar (entra AI) -->
+        <rect x="320" y="20" width="40" height="70" fill="#dc2626" stroke="#fff" stroke-width="2" class="clickable" data-info="venaPulm"/>
+        <text x="340" y="55" fill="#fff" font-size="10" text-anchor="middle">Vena</text>
+        <text x="340" y="70" fill="#fff" font-size="10" text-anchor="middle">pulmonar</text>
+
+        <!-- Aorta (sale VI) -->
+        <rect x="390" y="40" width="50" height="90" fill="#7f1d1d" stroke="#fff" stroke-width="2" class="clickable" data-info="aorta"/>
+        <text x="415" y="100" fill="#fff" font-size="11" text-anchor="middle">Arteria</text>
+        <text x="415" y="115" fill="#fff" font-size="11" text-anchor="middle">aorta</text>
+
+        <!-- Tabique -->
+        <line x1="250" y1="220" x2="250" y2="450" stroke="#fff" stroke-width="3" stroke-dasharray="5,5"/>
+        <text x="250" y="470" fill="#94a3b8" font-size="11" text-anchor="middle">Tabique cardíaco</text>
+      </svg>
+    </div>
+    <div class="info-modal" id="modal-corazon">
+      <button class="cerrar" onclick="document.getElementById('modal-corazon').classList.remove('show')">×</button>
+      <div class="titulo" id="modal-corazon-titulo"></div>
+      <div class="desc" id="modal-corazon-desc"></div>
+    </div>
+  </section>
+
+  <!-- NEFRONA -->
+  <section id="nefrona">
+    <h2>💧 La nefrona · clic en cada parte</h2>
+    <div class="info-box">Las 3 etapas de formación de la orina: filtración (glomérulo), reabsorción y secreción (túbulo).</div>
+    <div class="canvas-wrap">
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cápsula de Bowman (rodea glomérulo) -->
+        <ellipse cx="120" cy="150" rx="80" ry="70" fill="#fef3c7" stroke="#fff" stroke-width="2" class="clickable" data-info="bowman"/>
+        <text x="120" y="100" fill="#1c0f02" font-size="12" text-anchor="middle" font-weight="bold">Cápsula</text>
+        <text x="120" y="115" fill="#1c0f02" font-size="12" text-anchor="middle" font-weight="bold">de Bowman</text>
+
+        <!-- Glomérulo (ovillo de capilares) -->
+        <g class="clickable" data-info="glomerulo">
+          <circle cx="120" cy="160" r="40" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+          <circle cx="105" cy="145" r="8" fill="#991b1b"/>
+          <circle cx="135" cy="145" r="8" fill="#991b1b"/>
+          <circle cx="115" cy="170" r="8" fill="#991b1b"/>
+          <circle cx="135" cy="175" r="8" fill="#991b1b"/>
+          <text x="120" y="165" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Glomérulo</text>
+        </g>
+
+        <!-- Arteriola aferente -->
+        <line x1="20" y1="120" x2="80" y2="140" stroke="#dc2626" stroke-width="6" class="clickable" data-info="aferente"/>
+        <text x="50" y="115" fill="#fff" font-size="10">Arteriola aferente</text>
+
+        <!-- Arteriola eferente -->
+        <line x1="160" y1="160" x2="220" y2="180" stroke="#7f1d1d" stroke-width="5" class="clickable" data-info="eferente"/>
+        <text x="195" y="155" fill="#fff" font-size="10">A. eferente</text>
+
+        <!-- Túbulo renal -->
+        <path d="M 120 220 Q 100 260 140 280 Q 200 300 180 340 Q 160 370 220 360" fill="none" stroke="#fbbf24" stroke-width="20" class="clickable" data-info="tubulo"/>
+        <text x="280" y="280" fill="#fff" font-size="13" font-weight="bold">Túbulo renal</text>
+        <text x="280" y="296" fill="#fde68a" font-size="11">(Reabsorción +</text>
+        <text x="280" y="310" fill="#fde68a" font-size="11">Secreción)</text>
+
+        <!-- Capilares peritubulares -->
+        <path d="M 100 230 Q 90 280 130 300 Q 180 320 170 360" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="3,3" class="clickable" data-info="capilares"/>
+        <text x="80" y="370" fill="#fca5a5" font-size="10">Capilares</text>
+
+        <!-- Tubo colector -->
+        <rect x="380" y="320" width="40" height="70" fill="#22c55e" stroke="#fff" stroke-width="2" class="clickable" data-info="colector"/>
+        <text x="400" y="355" fill="#0f172a" font-size="10" text-anchor="middle" font-weight="bold">Tubo</text>
+        <text x="400" y="370" fill="#0f172a" font-size="10" text-anchor="middle" font-weight="bold">colector</text>
+
+        <!-- Flecha hacia colector -->
+        <path d="M 230 360 L 380 355" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <polygon points="0,0 10,5 0,10" fill="#fbbf24"/>
+          </marker>
+        </defs>
+
+        <!-- Etapas etiquetadas -->
+        <text x="120" y="50" fill="#fbbf24" font-size="14" text-anchor="middle" font-weight="bold">1. FILTRACIÓN</text>
+        <text x="280" y="50" fill="#fbbf24" font-size="14" text-anchor="middle" font-weight="bold">2-3. REABSORCIÓN y SECRECIÓN</text>
+      </svg>
+    </div>
+    <div class="info-modal" id="modal-nefrona">
+      <button class="cerrar" onclick="document.getElementById('modal-nefrona').classList.remove('show')">×</button>
+      <div class="titulo" id="modal-nefrona-titulo"></div>
+      <div class="desc" id="modal-nefrona-desc"></div>
+    </div>
+  </section>
+
+  <!-- PULMONES -->
+  <section id="pulmones">
+    <h2>🫁 Aparato respiratorio · clic en cada parte</h2>
+    <div class="canvas-wrap">
+      <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;margin:0 auto">
+        <!-- Fosas nasales -->
+        <ellipse cx="250" cy="60" rx="40" ry="20" fill="#f59e0b" stroke="#fff" stroke-width="2" class="clickable" data-info="fosas"/>
+        <text x="250" y="65" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Fosas nasales</text>
+
+        <!-- Faringe -->
+        <rect x="225" y="80" width="50" height="40" fill="#a16207" stroke="#fff" stroke-width="2" class="clickable" data-info="faringe"/>
+        <text x="250" y="105" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Faringe</text>
+
+        <!-- Laringe -->
+        <rect x="220" y="120" width="60" height="40" fill="#854d0e" stroke="#fff" stroke-width="2" class="clickable" data-info="laringe"/>
+        <text x="250" y="145" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Laringe</text>
+
+        <!-- Tráquea -->
+        <rect x="230" y="160" width="40" height="100" fill="#713f12" stroke="#fff" stroke-width="2" class="clickable" data-info="traquea"/>
+        <text x="250" y="215" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Tráquea</text>
+
+        <!-- Bronquio izquierdo y derecho -->
+        <line x1="250" y1="260" x2="170" y2="320" stroke="#713f12" stroke-width="20" class="clickable" data-info="bronquios"/>
+        <line x1="250" y1="260" x2="330" y2="320" stroke="#713f12" stroke-width="20"/>
+        <text x="180" y="305" fill="#fff" font-size="10" font-weight="bold">Bronquios</text>
+
+        <!-- Pulmón izquierdo (mayor que derecho lateralmente) -->
+        <path d="M 70 320 Q 50 380 60 450 Q 80 520 150 530 Q 220 530 230 450 L 230 320 Z" fill="#0891b2" stroke="#fff" stroke-width="2" class="clickable" data-info="pulmonD" opacity="0.9"/>
+        <text x="140" y="430" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Pulmón D.</text>
+        <text x="140" y="448" fill="#cffafe" font-size="10" text-anchor="middle">(3 lóbulos)</text>
+
+        <path d="M 270 320 L 270 450 Q 280 530 350 530 Q 420 520 440 450 Q 450 380 430 320 Z" fill="#155e75" stroke="#fff" stroke-width="2" class="clickable" data-info="pulmonI" opacity="0.9"/>
+        <text x="355" y="430" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Pulmón I.</text>
+        <text x="355" y="448" fill="#cffafe" font-size="10" text-anchor="middle">(2 lóbulos)</text>
+
+        <!-- Alvéolos (algunas burbujas) -->
+        <g class="clickable" data-info="alveolos">
+          <circle cx="100" cy="490" r="6" fill="#fbbf24"/>
+          <circle cx="115" cy="500" r="5" fill="#fbbf24"/>
+          <circle cx="125" cy="488" r="5" fill="#fbbf24"/>
+          <circle cx="380" cy="490" r="6" fill="#fbbf24"/>
+          <circle cx="395" cy="500" r="5" fill="#fbbf24"/>
+          <circle cx="405" cy="488" r="5" fill="#fbbf24"/>
+          <text x="115" y="515" fill="#fbbf24" font-size="10" font-weight="bold">Alvéolos</text>
+        </g>
+
+        <!-- Diafragma -->
+        <path d="M 60 540 Q 250 580 440 540" fill="none" stroke="#dc2626" stroke-width="6" class="clickable" data-info="diafragma"/>
+        <text x="250" y="595" fill="#dc2626" font-size="13" text-anchor="middle" font-weight="bold">Diafragma</text>
+      </svg>
+    </div>
+    <div class="info-modal" id="modal-pulmones">
+      <button class="cerrar" onclick="document.getElementById('modal-pulmones').classList.remove('show')">×</button>
+      <div class="titulo" id="modal-pulmones-titulo"></div>
+      <div class="desc" id="modal-pulmones-desc"></div>
+    </div>
+  </section>
+
+  <!-- GRÁFICA y=mx+n -->
+  <section id="grafica">
+    <h2>📈 Función lineal y = mx + n</h2>
+    <div class="info-box">Mueve los sliders y observa cómo cambia la recta.</div>
+    <div class="controls">
+      <label>Pendiente m: <span id="g-m-val">1</span></label>
+      <input type="range" id="g-m" min="-5" max="5" step="0.5" value="1">
+      <label>Ordenada n: <span id="g-n-val">0</span></label>
+      <input type="range" id="g-n" min="-5" max="5" step="0.5" value="0">
+    </div>
+    <div class="info-area" id="g-info"></div>
+    <div class="canvas-wrap">
+      <canvas id="grafica-canvas" width="600" height="500"></canvas>
+    </div>
+  </section>
+
+  <!-- CILINDRO -->
+  <section id="cilindro">
+    <h2>🥫 Cilindro 3D</h2>
+    <div class="info-box">Cambia el radio y la altura. Observa el cálculo de área y volumen.</div>
+    <div class="controls">
+      <div class="row">
+        <div>
+          <label>Radio r: <span id="c-r-val">5</span> cm</label>
+          <input type="range" id="c-r" min="1" max="15" step="0.5" value="5">
+        </div>
+        <div>
+          <label>Altura h: <span id="c-h-val">10</span> cm</label>
+          <input type="range" id="c-h" min="1" max="20" step="0.5" value="10">
+        </div>
+      </div>
+    </div>
+    <div class="info-area" id="c-info"></div>
+    <div class="canvas-wrap">
+      <canvas id="cilindro-canvas" width="600" height="500"></canvas>
+    </div>
+  </section>
+
+  <!-- SIMULADOR MOVIMIENTO -->
+  <section id="movimiento">
+    <h2>🚗 Simulador MRU/MRUA</h2>
+    <div class="info-box">Configura velocidad y aceleración. Pulsa play. Observa el coche y la gráfica posición-tiempo en directo.</div>
+    <div class="controls">
+      <div class="row">
+        <div>
+          <label>Velocidad inicial v₀: <span id="m-v-val">10</span> m/s</label>
+          <input type="range" id="m-v" min="0" max="40" step="1" value="10">
+        </div>
+        <div>
+          <label>Aceleración a: <span id="m-a-val">0</span> m/s²</label>
+          <input type="range" id="m-a" min="-5" max="5" step="0.5" value="0">
+        </div>
+      </div>
+      <button class="play-btn" id="m-play">▶ Iniciar</button>
+      <button class="play-btn stop" id="m-reset">↺ Reset</button>
+      <span id="m-tiempo" style="margin-left:14px;font-weight:700;color:var(--accent)">t = 0 s</span>
+    </div>
+    <div class="info-area" id="m-info"></div>
+    <div class="canvas-wrap">
+      <canvas id="mov-canvas" width="600" height="200"></canvas>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="grafica-mov" width="600" height="300"></canvas>
+    </div>
+  </section>
+
+  <!-- TIMELINE HISTORIA -->
+  <section id="timeline">
+    <h2>📅 Línea temporal · Restauración (1874-1902)</h2>
+    <div class="info-box">Pulsa cada evento para ampliar.</div>
+    <div id="timeline-cont" style="position:relative;padding:20px 10px"></div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+<script>
+// ============= NAV =============
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('section').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+// ============= INFOS =============
+const INFOS = {
+  // Corazón
+  auriculaD: {t:'Aurícula derecha', d:'Recibe la sangre VENOSA (sin O₂) que viene del cuerpo a través de las venas cavas. La envía al ventrículo derecho.'},
+  auriculaI: {t:'Aurícula izquierda', d:'Recibe la sangre OXIGENADA que viene de los pulmones por la vena pulmonar. La envía al ventrículo izquierdo.'},
+  ventriculoD: {t:'Ventrículo derecho', d:'Bombea la sangre SIN OXÍGENO hacia los PULMONES por la arteria pulmonar (circulación menor).'},
+  ventriculoI: {t:'Ventrículo izquierdo', d:'Es el más potente. Bombea la sangre OXIGENADA al RESTO DEL CUERPO por la arteria aorta (circulación mayor).'},
+  venaCava: {t:'Vena cava', d:'Trae la sangre sin oxígeno desde el cuerpo a la aurícula derecha.'},
+  arteriaPulm: {t:'Arteria pulmonar', d:'⚠️ Sale del ventrículo derecho hacia los pulmones. ¡OJO! Es una arteria pero lleva sangre SIN oxígeno.'},
+  venaPulm: {t:'Vena pulmonar', d:'⚠️ Trae sangre desde los pulmones a la aurícula izquierda. Es una vena pero lleva sangre CON oxígeno.'},
+  aorta: {t:'Arteria aorta', d:'La arteria más grande. Sale del ventrículo izquierdo y distribuye la sangre oxigenada por todo el cuerpo.'},
+  // Nefrona
+  bowman: {t:'Cápsula de Bowman', d:'Envoltura del glomérulo. Recibe el filtrado de la sangre (orina primaria).'},
+  glomerulo: {t:'Glomérulo', d:'Ovillo de capilares sanguíneos. Aquí ocurre la 1ª etapa: FILTRACIÓN. Pasa al líquido capsular agua, sales, glucosa, urea...'},
+  aferente: {t:'Arteriola aferente', d:'Trae la sangre al glomérulo desde la arteria renal.'},
+  eferente: {t:'Arteriola eferente', d:'Saca la sangre del glomérulo. Después rodea el túbulo formando los capilares peritubulares.'},
+  tubulo: {t:'Túbulo renal', d:'Aquí ocurren las etapas 2 y 3: REABSORCIÓN (las sustancias útiles vuelven a la sangre) y SECRECIÓN (los desechos restantes pasan al túbulo).'},
+  capilares: {t:'Capilares peritubulares', d:'Red de vasos que rodean el túbulo. Recogen lo reabsorbido y aportan lo que se va a secretar.'},
+  colector: {t:'Tubo colector', d:'Recibe la orina ya formada de varias nefronas y la lleva a la pelvis renal → uréter → vejiga → uretra.'},
+  // Pulmones
+  fosas: {t:'Fosas nasales', d:'El aire entra y se calienta, humedece y filtra (los pelos atrapan partículas).'},
+  faringe: {t:'Faringe', d:'Vía común con el aparato digestivo. Por aquí pasa el aire hacia la laringe.'},
+  laringe: {t:'Laringe', d:'Contiene las cuerdas vocales. La epiglotis impide que el alimento entre en las vías respiratorias.'},
+  traquea: {t:'Tráquea', d:'Tubo cartilaginoso que conduce el aire hacia los bronquios. Se mantiene siempre abierta.'},
+  bronquios: {t:'Bronquios', d:'Dos tubos (uno para cada pulmón) que se ramifican en bronquiolos cada vez más finos.'},
+  pulmonD: {t:'Pulmón derecho', d:'Tiene 3 lóbulos (es ligeramente más grande que el izquierdo).'},
+  pulmonI: {t:'Pulmón izquierdo', d:'Tiene solo 2 lóbulos para dejar espacio al corazón.'},
+  alveolos: {t:'Alvéolos pulmonares', d:'Pequeños sacos donde ocurre el INTERCAMBIO GASEOSO por difusión: O₂ pasa a la sangre y CO₂ sale al aire alveolar. ≈300 millones por pulmón.'},
+  diafragma: {t:'Diafragma', d:'Músculo principal de la respiración. Inspiración: se contrae y baja → entra aire. Espiración: se relaja y sube → sale aire.'}
+};
+
+document.querySelectorAll('.clickable').forEach(el => {
+  el.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const key = el.dataset.info;
+    const info = INFOS[key];
+    if(!info) return;
+    // Identificar el modal de la sección actual
+    const sec = el.closest('section').id;
+    const modal = document.getElementById('modal-' + sec);
+    if(modal){
+      document.getElementById('modal-' + sec + '-titulo').textContent = info.t;
+      document.getElementById('modal-' + sec + '-desc').textContent = info.d;
+      modal.classList.add('show');
+      if(window.MarioApp) window.MarioApp.sumarPuntos('biologia', 1, '');
+    }
+  });
+});
+
+// ============= GRÁFICA y = mx+n =============
+function dibujarGrafica(){
+  const c = document.getElementById('grafica-canvas');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const cx = W/2, cy = H/2;
+  const escala = 40;
+  ctx.fillStyle = '#0a0e1f'; ctx.fillRect(0,0,W,H);
+  // Cuadrícula
+  ctx.strokeStyle = '#334155'; ctx.lineWidth = 0.5;
+  for(let x=0; x<W; x+=escala){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for(let y=0; y<H; y+=escala){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  // Ejes
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
+  // Etiquetas
+  ctx.fillStyle = '#94a3b8'; ctx.font = '12px monospace';
+  for(let i=-7; i<=7; i++) if(i!==0){
+    ctx.fillText(i, cx + i*escala + 2, cy + 14);
+    ctx.fillText(-i, cx - 16, cy - i*escala + 4);
+  }
+  // Recta
+  const m = parseFloat(document.getElementById('g-m').value);
+  const n = parseFloat(document.getElementById('g-n').value);
+  ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  for(let px=0; px<W; px+=2){
+    const x = (px - cx)/escala;
+    const y = m*x + n;
+    const py = cy - y*escala;
+    if(px === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  // Punto de corte con eje Y
+  ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(cx, cy - n*escala, 6, 0, Math.PI*2); ctx.fill();
+  // Etiqueta de la fórmula
+  ctx.fillStyle = '#fbbf24'; ctx.font = 'bold 18px monospace';
+  ctx.fillText(`y = ${m}x ${n>=0?'+':'-'} ${Math.abs(n)}`, 14, 26);
+
+  // Info area
+  const tipo = m === 0 ? 'constante' : (m > 0 ? 'creciente 📈' : 'decreciente 📉');
+  document.getElementById('g-info').innerHTML = `
+    <div class="resultado-line"><span>Pendiente m</span><strong>${m}</strong></div>
+    <div class="resultado-line"><span>Ordenada en el origen n</span><strong>${n}</strong></div>
+    <div class="resultado-line"><span>Función</span><strong>${tipo}</strong></div>
+    <div class="resultado-line"><span>Corte eje Y</span><strong>(0, ${n})</strong></div>
+    <div class="resultado-line"><span>Corte eje X (y=0)</span><strong>${m===0 ? 'no corta' : `(${(-n/m).toFixed(2)}, 0)`}</strong></div>
+  `;
+}
+['g-m','g-n'].forEach(id => {
+  document.getElementById(id).oninput = (ev) => {
+    document.getElementById(id+'-val').textContent = ev.target.value;
+    dibujarGrafica();
+  };
+});
+dibujarGrafica();
+
+// ============= CILINDRO =============
+function dibujarCilindro(){
+  const c = document.getElementById('cilindro-canvas');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.fillStyle = '#0a0e1f'; ctx.fillRect(0,0,W,H);
+  const r = parseFloat(document.getElementById('c-r').value);
+  const h = parseFloat(document.getElementById('c-h').value);
+  const escala = 12; // px por cm
+  const cx = W/2, cy = H/2 + 30;
+  const radioP = r * escala;
+  const altP = h * escala;
+  // Cuerpo del cilindro
+  ctx.fillStyle = '#1e40af';
+  ctx.fillRect(cx - radioP, cy - altP/2, radioP*2, altP);
+  // Tapa elíptica superior
+  ctx.fillStyle = '#3b82f6';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy - altP/2, radioP, radioP/3, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Tapa elíptica inferior (más oscura)
+  ctx.fillStyle = '#1e3a8a';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + altP/2, radioP, radioP/3, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Borde superior
+  ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy - altP/2, radioP, radioP/3, 0, 0, Math.PI*2);
+  ctx.stroke();
+  // Líneas laterales
+  ctx.beginPath();
+  ctx.moveTo(cx - radioP, cy - altP/2); ctx.lineTo(cx - radioP, cy + altP/2);
+  ctx.moveTo(cx + radioP, cy - altP/2); ctx.lineTo(cx + radioP, cy + altP/2);
+  ctx.stroke();
+  // Etiquetas
+  ctx.strokeStyle = '#22c55e'; ctx.fillStyle = '#22c55e';
+  ctx.font = 'bold 14px monospace';
+  ctx.beginPath(); ctx.moveTo(cx, cy - altP/2 - 12); ctx.lineTo(cx + radioP, cy - altP/2 - 12); ctx.stroke();
+  ctx.fillText('r = ' + r, cx + radioP/2 - 20, cy - altP/2 - 18);
+  ctx.beginPath(); ctx.moveTo(cx + radioP + 18, cy - altP/2); ctx.lineTo(cx + radioP + 18, cy + altP/2); ctx.stroke();
+  ctx.fillText('h = ' + h, cx + radioP + 22, cy);
+
+  // Cálculos
+  const PI = 3.14;
+  const Alat = round(2*PI*r*h, 2);
+  const Atot = round(2*PI*r*(r+h), 2);
+  const V = round(PI*r*r*h, 2);
+  document.getElementById('c-info').innerHTML = `
+    <div class="resultado-line"><span>Área lateral (2π·r·h)</span><strong>${Alat} cm²</strong></div>
+    <div class="resultado-line"><span>Área total (2π·r·(r+h))</span><strong>${Atot} cm²</strong></div>
+    <div class="resultado-line"><span>Volumen (π·r²·h)</span><strong>${V} cm³ ≈ ${round(V/1000,3)} L</strong></div>
+  `;
+}
+function round(n,d){ const f=Math.pow(10,d); return Math.round(n*f)/f; }
+['c-r','c-h'].forEach(id => {
+  document.getElementById(id).oninput = (ev) => {
+    document.getElementById(id+'-val').textContent = ev.target.value;
+    dibujarCilindro();
+  };
+});
+dibujarCilindro();
+
+// ============= SIMULADOR MOVIMIENTO =============
+let movEstado = {t:0, x:0, v0:10, a:0, activo:false, posiciones:[]};
+let movInterval = null;
+function dibujarMov(){
+  const c = document.getElementById('mov-canvas');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.fillStyle = '#0a0e1f'; ctx.fillRect(0,0,W,H);
+  // Carretera
+  ctx.fillStyle = '#475569'; ctx.fillRect(0, H/2 - 20, W, 40);
+  ctx.strokeStyle = '#fbbf24'; ctx.setLineDash([10,10]);
+  ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+  ctx.setLineDash([]);
+  // Marcas en metros
+  ctx.fillStyle = '#94a3b8'; ctx.font = '11px monospace';
+  for(let i=0; i<=600; i+=100){
+    const x = (i/600) * W;
+    ctx.fillText(i + 'm', x, H/2 + 35);
+  }
+  // Coche
+  const xPx = (movEstado.x / 600) * W;
+  ctx.fillStyle = '#ef4444';
+  ctx.fillRect(xPx - 25, H/2 - 12, 50, 24);
+  ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(xPx - 18, H/2 - 8, 14, 8);
+  ctx.fillStyle = '#0f172a';
+  ctx.beginPath(); ctx.arc(xPx - 15, H/2 + 12, 5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(xPx + 15, H/2 + 12, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = '12px sans-serif';
+  ctx.fillText('🚗', xPx - 15, H/2 - 16);
+  // Gráfica posición-tiempo
+  const c2 = document.getElementById('grafica-mov');
+  const ctx2 = c2.getContext('2d');
+  const W2 = c2.width, H2 = c2.height;
+  ctx2.fillStyle = '#0a0e1f'; ctx2.fillRect(0,0,W2,H2);
+  // Ejes
+  ctx2.strokeStyle = '#475569'; ctx2.lineWidth = 1;
+  ctx2.beginPath(); ctx2.moveTo(40, 20); ctx2.lineTo(40, H2-30); ctx2.lineTo(W2-10, H2-30); ctx2.stroke();
+  ctx2.fillStyle = '#94a3b8'; ctx2.font = '12px monospace';
+  ctx2.fillText('t (s)', W2-30, H2-12);
+  ctx2.fillText('x (m)', 5, 16);
+  // Escala: tiempo 0-30s, posición 0-600m
+  const px = (t,x) => [40 + (t/30)*(W2-50), H2-30 - (x/600)*(H2-50)];
+  // Marcas
+  ctx2.fillStyle = '#64748b'; ctx2.font = '10px monospace';
+  for(let t=0; t<=30; t+=5){
+    const [x,y] = px(t, 0);
+    ctx2.fillText(t, x-4, H2-15);
+    ctx2.beginPath(); ctx2.moveTo(x, H2-30); ctx2.lineTo(x, H2-26); ctx2.stroke();
+  }
+  for(let x=0; x<=600; x+=100){
+    const [px_, py] = px(0, x);
+    ctx2.fillText(x, 5, py+4);
+    ctx2.beginPath(); ctx2.moveTo(40, py); ctx2.lineTo(44, py); ctx2.stroke();
+  }
+  // Trayectoria
+  if(movEstado.posiciones.length > 1){
+    ctx2.strokeStyle = '#fbbf24'; ctx2.lineWidth = 2;
+    ctx2.beginPath();
+    movEstado.posiciones.forEach((p, i) => {
+      const [px_, py] = px(p.t, p.x);
+      if(i === 0) ctx2.moveTo(px_, py); else ctx2.lineTo(px_, py);
+    });
+    ctx2.stroke();
+    // Punto actual
+    const ult = movEstado.posiciones[movEstado.posiciones.length-1];
+    const [px_, py] = px(ult.t, ult.x);
+    ctx2.fillStyle = '#22c55e';
+    ctx2.beginPath(); ctx2.arc(px_, py, 5, 0, Math.PI*2); ctx2.fill();
+  }
+
+  // Info
+  const v = movEstado.v0 + movEstado.a * movEstado.t;
+  document.getElementById('m-info').innerHTML = `
+    <div class="resultado-line"><span>Tiempo (t)</span><strong>${round(movEstado.t,1)} s</strong></div>
+    <div class="resultado-line"><span>Posición (x)</span><strong>${round(movEstado.x,2)} m</strong></div>
+    <div class="resultado-line"><span>Velocidad actual (v)</span><strong>${round(v,2)} m/s</strong></div>
+    <div class="resultado-line"><span>Tipo de movimiento</span><strong>${movEstado.a === 0 ? 'MRU' : 'MRUA'}</strong></div>
+  `;
+  document.getElementById('m-tiempo').textContent = `t = ${round(movEstado.t,1)} s`;
+}
+function tickMov(){
+  movEstado.t += 0.1;
+  movEstado.x = movEstado.v0 * movEstado.t + 0.5 * movEstado.a * movEstado.t * movEstado.t;
+  movEstado.posiciones.push({t: movEstado.t, x: movEstado.x});
+  if(movEstado.x > 600 || movEstado.t > 30) togglePlay();
+  dibujarMov();
+}
+function togglePlay(){
+  movEstado.activo = !movEstado.activo;
+  const btn = document.getElementById('m-play');
+  if(movEstado.activo){
+    btn.textContent = '⏸ Pausa';
+    movInterval = setInterval(tickMov, 100);
+  } else {
+    btn.textContent = '▶ Iniciar';
+    clearInterval(movInterval);
+  }
+}
+function resetMov(){
+  movEstado.activo = false; clearInterval(movInterval);
+  movEstado.t = 0; movEstado.x = 0; movEstado.posiciones = [];
+  document.getElementById('m-play').textContent = '▶ Iniciar';
+  dibujarMov();
+}
+['m-v','m-a'].forEach(id => {
+  document.getElementById(id).oninput = (ev) => {
+    document.getElementById(id+'-val').textContent = ev.target.value;
+    movEstado.v0 = parseFloat(document.getElementById('m-v').value);
+    movEstado.a = parseFloat(document.getElementById('m-a').value);
+    if(!movEstado.activo) dibujarMov();
+  };
+});
+document.getElementById('m-play').onclick = togglePlay;
+document.getElementById('m-reset').onclick = resetMov;
+movEstado.v0 = 10; movEstado.a = 0;
+dibujarMov();
+
+// ============= TIMELINE HISTORIA =============
+const eventos = [
+  {a:1874, t:'Proclamación de Alfonso XII', d:'El general Martínez Campos proclama rey al príncipe Alfonso, hijo de Isabel II. Fin de la Primera República. Empieza la Restauración.'},
+  {a:1876, t:'Constitución de 1876', d:'Cánovas redacta una Constitución conservadora pero flexible. Da gran poder al rey y permite gobernar a conservadores y liberales.'},
+  {a:1885, t:'Muerte de Alfonso XII y Pacto del Pardo', d:'Alfonso XII muere de tuberculosis. Su mujer María Cristina asume la regencia. Cánovas y Sagasta firman el Pacto del Pardo para mantener el turnismo.'},
+  {a:1898, t:'Explosión del Maine (15 feb)', d:'El acorazado estadounidense Maine explota en La Habana. EE.UU. lo usa como casus belli para declarar la guerra a España.'},
+  {a:1898, t:'Tratado de París (10 dic)', d:'España pierde Cuba y Puerto Rico (cedidas a EE.UU.) y vende Filipinas por 20 millones de dólares. "El Desastre del 98".'},
+  {a:1902, t:'Mayoría de edad de Alfonso XIII', d:'Acaba la regencia. Alfonso XIII jura la Constitución a los 16 años. Empieza un nuevo período de la Restauración con el sistema en crisis.'}
+];
+const cont = document.getElementById('timeline-cont');
+cont.innerHTML = `<div style="position:absolute;left:30px;top:0;bottom:0;width:3px;background:#fbbf24"></div>` +
+  eventos.map((ev,i) => `
+    <div style="position:relative;padding-left:60px;margin-bottom:20px;cursor:pointer" onclick="document.getElementById('tl-${i}').classList.toggle('show')">
+      <div style="position:absolute;left:22px;top:8px;width:18px;height:18px;background:#fbbf24;border:3px solid #0f172a;border-radius:50%;box-shadow:0 0 0 3px #fbbf24"></div>
+      <div style="background:var(--panel-2);padding:14px;border-radius:10px;border-left:4px solid var(--accent)">
+        <div style="font-weight:700;color:var(--accent);font-size:1.1em">${ev.a} · ${ev.t}</div>
+        <div id="tl-${i}" style="display:none;margin-top:10px;color:var(--muted);line-height:1.5" class="tl-content">${ev.d}</div>
+        <div style="font-size:.8em;color:var(--muted);margin-top:6px">Click para ${i==0?'expandir':'expandir/cerrar'}</div>
+      </div>
+    </div>
+  `).join('');
+// Mostrar/ocultar
+document.querySelectorAll('.tl-content').forEach(el => {
+  Object.defineProperty(el, 'classList', {
+    value: {
+      toggle: function(c) { if(c==='show') el.style.display = el.style.display==='none' || !el.style.display ? 'block' : 'none'; }
+    }
+  });
+});
+</script>
+</body>
+</html>
