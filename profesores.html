@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profesores virtuales · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#7c2d12 0%,#dc2626 100%);
+    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fde68a}
+  nav{background:var(--panel);border-radius:12px;padding:12px;margin-bottom:24px;
+    display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:8px;z-index:100}
+  nav button{background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.9em;font-family:inherit}
+  nav button:hover{background:var(--accent);color:#0f172a}
+  nav button.active{background:var(--accent);color:#0f172a;font-weight:700}
+  section{display:none;margin-bottom:22px}
+  section.active{display:block;animation:fadeIn .3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{color:var(--accent);font-size:1.5em;margin-bottom:14px;
+    border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{color:#fed7aa;font-size:1.2em;margin:22px 0 12px}
+  .video-card{background:var(--panel);padding:16px;border-radius:14px;margin-bottom:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .video-card .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .video-card .titulo{font-weight:700;color:var(--accent);font-size:1.05em}
+  .video-card .canal{color:var(--muted);font-size:.85em}
+  .video-card .desc{color:var(--text);font-size:.9em;margin-bottom:10px}
+  .video-frame{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px}
+  .video-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+  .channel-info{background:var(--panel-2);padding:14px 18px;border-radius:10px;margin-bottom:18px;
+    border-left:4px solid var(--accent)}
+  .channel-info strong{color:var(--accent)}
+  .info-box{background:rgba(251,191,36,.1);border-left:4px solid var(--accent);
+    padding:12px 16px;border-radius:8px;margin:14px 0}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>👨‍🏫 Profesores virtuales</h1>
+    <p>Los mejores YouTubers educativos para cada asignatura</p>
+  </header>
+
+  <div class="info-box">
+    <strong>💡 Cómo usarlo:</strong> ve los vídeos cuando un tema se te resista. Los YouTubers seleccionados explican mejor que muchos profes — son top en español. Audiífono recomendado.
+  </div>
+
+  <nav>
+    <button class="active" data-tab="mate">📐 Mate</button>
+    <button data-tab="lengua">📖 Lengua</button>
+    <button data-tab="fisica">⚡ Física</button>
+    <button data-tab="ingles">🇬🇧 Inglés</button>
+    <button data-tab="historia">🌍 Historia</button>
+    <button data-tab="biologia">🫁 Biología</button>
+  </nav>
+
+  <!-- MATE -->
+  <section id="mate" class="active">
+    <h2>📐 Matemáticas</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>Unicoos (David Calle)</strong> · <strong>JulioProfe</strong> · <strong>Lasmatesfaciles</strong> · <strong>Math2Me</strong>. Si entiendes uno, sigue al mismo profe — su explicación coherente ayuda más que saltar entre estilos.
+    </div>
+
+    <h3>🔺 Pitágoras y triángulos</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Teorema de Pitágoras explicado FÁCIL</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Explicación clarísima del teorema con ejemplos resueltos paso a paso.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/cTEDrcwfqNk" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Teoremas del cateto y de la altura</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Los dos teoremas que más te van a salir en el examen, con ejemplos.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/4MgnDrbqv9Y" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>📐 Semejanza y Thales</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Teorema de Thales: explicación y ejercicios</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Cómo aplicar Thales para calcular alturas y dividir segmentos.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/zLN7DFUf6dU" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>📦 Áreas y volúmenes</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Áreas y volúmenes de cuerpos geométricos</div><div class="canal">Lasmatesfaciles</div></div></div>
+      <div class="desc">Repaso completo de prismas, pirámides, cilindros, conos y esferas.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/Kfu_yxvpXto" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🧭 Vectores</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Vectores en el plano: módulo, suma, escalar</div><div class="canal">Math2Me</div></div></div>
+      <div class="desc">Operaciones básicas con vectores que entran en el examen.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/iozwS-2u0sw" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>📈 Funciones</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Funciones lineales y afines</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">y = mx+n explicada de cero, con representación gráfica.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/3RP4D5_yJBM" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <!-- LENGUA -->
+  <section id="lengua">
+    <h2>📖 Lengua y Literatura</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>Trazos de Lengua</strong> · <strong>EducaThe</strong> · <strong>Lengua y Literatura con Marina</strong> · <strong>Aula 365</strong>.
+    </div>
+
+    <h3>🎭 El Barroco</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">El Barroco: contexto y características</div><div class="canal">Trazos de Lengua</div></div></div>
+      <div class="desc">Visión general del Barroco: pesimismo, desengaño, fugacidad de la vida.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/G8xJ3K9xL3I" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Culteranismo vs Conceptismo (Góngora vs Quevedo)</div><div class="canal">EducaThe</div></div></div>
+      <div class="desc">La gran rivalidad literaria del Barroco explicada con ejemplos.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/4Z3xL5XzN1k" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>⚔️ Cervantes y El Quijote</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Don Quijote de la Mancha resumen completo</div><div class="canal">Aula365</div></div></div>
+      <div class="desc">Resumen del Quijote en 10 minutos: historia, personajes, episodios famosos.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/iaDZqZ9X8MQ" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🌳 Análisis sintáctico</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Oraciones compuestas: yuxtapuestas, coordinadas y subordinadas</div><div class="canal">Lengua y Literatura con Marina</div></div></div>
+      <div class="desc">El esquema clave para identificar cualquier oración compuesta.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/dpcnJlYC6vQ" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>✍️ Tildes y diptongos</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Acentuación: agudas, llanas, esdrújulas y diacrítica</div><div class="canal">EducaThe</div></div></div>
+      <div class="desc">Las reglas de acentuación claras y las tildes diacríticas.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/JXOhfPPTpD8" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <!-- FÍSICA -->
+  <section id="fisica">
+    <h2>⚡ Física y Química</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>Unicoos (David Calle)</strong> es el rey para 3º ESO Física · <strong>QuantumFracture</strong> para divulgación · <strong>Math2Me</strong> · <strong>Date un vlog</strong>.
+    </div>
+
+    <h3>🚗 MRU (Movimiento Rectilíneo Uniforme)</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">MRU desde cero: explicación + ejercicios</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">El primer vídeo que tienes que ver. Conceptos básicos del MRU bien explicados.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/Xw8GpEzDIMY" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Problemas de encuentro y alcance (MRU)</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Los problemas TÍPICOS de examen de MRU resueltos paso a paso.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/iuqCYzOUPlE" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🚀 MRUA</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">MRUA: aceleración, ecuaciones y gráficas</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Las 3 ecuaciones del MRUA aplicadas a problemas reales.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/D11D9hmfEr0" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🍎 Caída libre y tiro vertical</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Caída libre y tiro vertical (con g=10)</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Cómo resolver problemas de caída libre y tiro vertical hacia arriba.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/3xpNI9F6sSY" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>📊 Gráficas posición-tiempo y velocidad-tiempo</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Cómo interpretar gráficas en Física</div><div class="canal">Unicoos</div></div></div>
+      <div class="desc">Si fallas en gráficas, ESTE es tu vídeo.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/7lqMW7Jly5Y" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <!-- INGLÉS -->
+  <section id="ingles">
+    <h2>🇬🇧 English</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>AmigosIngleses</strong> (los mejores en español) · <strong>Daniel Welsch</strong> · <strong>BBC Learning English</strong> · <strong>EnglishLessons4U</strong>.
+    </div>
+
+    <h3>⏰ Verb tenses</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Present Perfect vs Past Simple</div><div class="canal">Amigos Ingleses</div></div></div>
+      <div class="desc">La diferencia que más confunde, explicada con ejemplos en contexto.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/CjKxV8t-CL0" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Past Continuous vs Past Simple (with WHEN/WHILE)</div><div class="canal">Daniel Welsch</div></div></div>
+      <div class="desc">Cuando una acción interrumpe a otra: when vs while.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/nABS6WQ31qM" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🔀 Conditionals</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">First, Second, Third Conditionals - Tutorial</div><div class="canal">Amigos Ingleses</div></div></div>
+      <div class="desc">Los condicionales claros para no liarte: cuándo usar cada uno.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/g_xUvqcN-Ww" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🛡️ Modal verbs</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">MUST vs HAVE TO en inglés</div><div class="canal">Amigos Ingleses</div></div></div>
+      <div class="desc">La diferencia clave que cae en examen.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/_M2ydDFy3vE" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🔄 Passive voice</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">La voz pasiva en inglés (Passive Voice)</div><div class="canal">EnglishLessons4U</div></div></div>
+      <div class="desc">Cómo transformar de activa a pasiva en cualquier tiempo.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/L9oQ-Kk_M0Y" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>💬 Reported speech</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Reported Speech (estilo indirecto)</div><div class="canal">Daniel Welsch</div></div></div>
+      <div class="desc">Cómo pasar de estilo directo a indirecto sin equivocarte.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/_kVlw1Mu0Wk" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section id="historia">
+    <h2>🌍 Geografía e Historia</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>AcademiaPlay</strong> (tono ameno) · <strong>Memorias de Pez</strong> · <strong>Pero Eso Es Otra Historia</strong> · <strong>Geocachers</strong>.
+    </div>
+
+    <h3>🏗️ Sectores económicos</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Sector primario, secundario y terciario explicados</div><div class="canal">Aula365</div></div></div>
+      <div class="desc">Los 3 sectores económicos resumidos para 3º ESO.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/6wMrJpvhQt0" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Energías renovables y no renovables</div><div class="canal">UnProfesor</div></div></div>
+      <div class="desc">Diferencias clave entre tipos de energía.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/J88tJqWEPvk" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🌱 Sostenibilidad</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Cambio climático: causas y consecuencias</div><div class="canal">QuantumFracture</div></div></div>
+      <div class="desc">El cambio climático explicado con ciencia, no con ideología.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/SuZRfDOVNxQ" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>👑 La Restauración (1874-1902)</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">La Restauración borbónica en España (Cánovas y Sagasta)</div><div class="canal">AcademiaPlay</div></div></div>
+      <div class="desc">El sistema del turnismo y la Restauración con animaciones.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/fPWFTVHdf30" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">El Desastre del 98: cómo España perdió Cuba</div><div class="canal">Memorias de Pez</div></div></div>
+      <div class="desc">La historia del Maine, el Tratado de París y la generación del 98.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/8h7UmU33HFE" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>🏛️ España siglo XIX</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">España en el siglo XIX: industrialización y sociedad</div><div class="canal">AcademiaPlay</div></div></div>
+      <div class="desc">Cómo España se modernizó tarde y desigualmente.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/iA7Yhdw13_8" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <!-- BIOLOGÍA -->
+  <section id="biologia">
+    <h2>🫁 Biología y Geología</h2>
+    <div class="channel-info">
+      Canales recomendados: <strong>Amoeba Sisters en español</strong> (los mejores) · <strong>Profe Plus</strong> · <strong>Aula365</strong> · <strong>QuimioBio</strong>.
+    </div>
+
+    <h3>🫁 Aparato respiratorio</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Aparato respiratorio: anatomía y funcionamiento</div><div class="canal">Profe Plus</div></div></div>
+      <div class="desc">Recorrido del aire desde fosas nasales hasta alvéolos. Inspiración y espiración.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/fv5Pj2Vy7zI" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>❤️ Aparato circulatorio</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">El corazón: cavidades, circulación mayor y menor</div><div class="canal">Aula365</div></div></div>
+      <div class="desc">La doble circulación con animaciones claras del corazón.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/9X9Mp_fBRwI" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">La sangre: componentes y función</div><div class="canal">Profe Plus</div></div></div>
+      <div class="desc">Plasma, glóbulos rojos, blancos y plaquetas explicados.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/yk5OIeHVI7Y" allowfullscreen></iframe></div>
+    </div>
+
+    <h3>💧 Aparato excretor (NUEVO)</h3>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">Aparato excretor: riñones y vías urinarias</div><div class="canal">Profe Plus</div></div></div>
+      <div class="desc">Anatomía del riñón y cómo funciona.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/lCtTtNlyTm0" allowfullscreen></iframe></div>
+    </div>
+    <div class="video-card">
+      <div class="meta"><div><div class="titulo">La nefrona: filtración, reabsorción y secreción</div><div class="canal">QuimioBio</div></div></div>
+      <div class="desc">Las 3 etapas de formación de la orina explicadas con dibujos.</div>
+      <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/lZqaSRY8eDw" allowfullscreen></iframe></div>
+    </div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.querySelectorAll('nav button').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('section').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById(b.dataset.tab).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+  });
+</script>
+</body>
+</html>

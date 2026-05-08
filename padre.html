@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard del Padre · David</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#312e81 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:60px}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#312e81 0%,#7c2d12 100%);
+    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#fde68a}
+  section{background:var(--panel);padding:24px;border-radius:14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  h2{color:var(--accent);font-size:1.4em;margin-bottom:14px;
+    border-bottom:2px solid var(--accent);padding-bottom:6px}
+  .step{background:var(--panel-2);padding:18px;border-radius:10px;margin-bottom:14px;border-left:4px solid var(--accent)}
+  .step h3{color:var(--accent);margin-bottom:6px;font-size:1.1em}
+  .step ol{margin-left:20px;color:var(--muted)}
+  .step ol li{margin:4px 0;color:var(--text)}
+  textarea{width:100%;min-height:100px;background:#0f172a;color:var(--text);
+    border:1px solid var(--border);border-radius:8px;padding:10px;
+    font-family:monospace;font-size:.8em;margin-top:10px}
+  button{padding:10px 20px;border:0;border-radius:10px;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:.95em}
+  .btn-import{background:var(--good);color:#0f172a;margin-top:8px}
+  .btn-import:hover{background:#22c55e}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:18px}
+  .stat{background:var(--panel-2);padding:18px;border-radius:12px;text-align:center}
+  .stat .num{font-size:2em;font-weight:800;color:var(--accent);display:block}
+  .stat .lbl{color:var(--muted);font-size:.85em;margin-top:4px}
+  .asig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .asig{background:var(--panel-2);padding:16px;border-radius:12px;border-left:5px solid}
+  .asig .titulo{display:flex;align-items:center;gap:10px;font-size:1.05em;font-weight:700;margin-bottom:8px}
+  .asig .stats-mini{display:flex;justify-content:space-around;font-size:.85em;color:var(--muted);margin-top:8px}
+  .asig .stats-mini span{color:var(--text);font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:40px;font-style:italic}
+  .alert{padding:14px 18px;border-radius:8px;margin:12px 0;border-left:4px solid}
+  .alert.ok{background:rgba(74,222,128,.1);border-color:var(--good);color:#86efac}
+  .alert.warn{background:rgba(251,191,36,.1);border-color:var(--accent);color:#fde68a}
+  .alert.bad{background:rgba(248,113,113,.1);border-color:var(--bad);color:#fca5a5}
+  .recom{background:var(--panel-2);padding:14px 18px;border-radius:10px;margin:8px 0;
+    display:flex;align-items:center;gap:14px}
+  .recom .icon{font-size:1.8em}
+  .recom .texto{flex:1}
+  .recom .titulo{font-weight:700;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>👨‍👦 Dashboard del Padre</h1>
+    <p>Sigue el progreso de Mario · Análisis y recomendaciones</p>
+  </header>
+
+  <section>
+    <h2>📥 Importar progreso de Mario</h2>
+    <div class="step">
+      <h3>Cómo funciona</h3>
+      <ol>
+        <li>Mario abre <code>progreso.html</code> en su tablet y pulsa "📤 Exportar mi progreso".</li>
+        <li>El código se le copia al portapapeles. Te lo manda por WhatsApp/email.</li>
+        <li>Pegas el código aquí abajo y pulsas "Cargar". Verás todo su progreso.</li>
+      </ol>
+    </div>
+    <textarea id="codigo-input" placeholder="Pega aquí el código que te mandó Mario (texto largo en base64)"></textarea>
+    <button class="btn-import" onclick="cargarCodigo()">📥 Cargar progreso</button>
+    <button onclick="cargarLocal()" style="background:var(--accent);color:#0f172a;margin-top:8px;margin-left:8px">📱 Usar progreso de este dispositivo</button>
+  </section>
+
+  <section id="zona-stats" style="display:none">
+    <h2>📊 Resumen general</h2>
+    <div class="stats-grid">
+      <div class="stat"><span class="num" id="s-nivel">-</span><span class="lbl">Nivel global</span></div>
+      <div class="stat"><span class="num" id="s-puntos">-</span><span class="lbl">Puntos totales</span></div>
+      <div class="stat"><span class="num" id="s-racha">-</span><span class="lbl">🔥 Racha (días)</span></div>
+      <div class="stat"><span class="num" id="s-ejer">-</span><span class="lbl">Ejercicios bien</span></div>
+      <div class="stat"><span class="num" id="s-quiz">-</span><span class="lbl">Quiz acertados</span></div>
+      <div class="stat"><span class="num" id="s-sims">-</span><span class="lbl">Simulacros</span></div>
+      <div class="stat"><span class="num" id="s-pomo">-</span><span class="lbl">🍅 Pomodoros</span></div>
+      <div class="stat"><span class="num" id="s-logros">-</span><span class="lbl">🏆 Logros</span></div>
+    </div>
+  </section>
+
+  <section id="zona-asig" style="display:none">
+    <h2>📚 Por asignatura</h2>
+    <div class="asig-grid" id="asig-list"></div>
+  </section>
+
+  <section id="zona-analisis" style="display:none">
+    <h2>🧠 Análisis y recomendaciones</h2>
+    <div id="alertas-cont"></div>
+    <div id="recoms-cont"></div>
+  </section>
+
+  <section id="zona-logros" style="display:none">
+    <h2>🏆 Logros desbloqueados</h2>
+    <div id="logros-cont"></div>
+  </section>
+</div>
+
+<script>
+  let estado = null;
+  const CFG = {
+    mate:{nombre:'Matemáticas',emoji:'📐',color:'#3b82f6',examen:'Mar 19 mayo'},
+    lengua:{nombre:'Lengua',emoji:'📖',color:'#a855f7',examen:'Mié 20 mayo'},
+    fisica:{nombre:'Física y Química',emoji:'⚡',color:'#ef4444',examen:'Jue 21 mayo'},
+    ingles:{nombre:'Inglés',emoji:'🇬🇧',color:'#10b981',examen:'Vie 22 mayo'},
+    historia:{nombre:'Historia',emoji:'🌍',color:'#f59e0b',examen:'Lun 25 mayo'},
+    biologia:{nombre:'Biología',emoji:'🫁',color:'#14b8a6',examen:'Lun 25 mayo'}
+  };
+
+  function cargarCodigo(){
+    const cod = document.getElementById('codigo-input').value.trim();
+    if(!cod){ alert('Pega el código primero'); return; }
+    try {
+      estado = JSON.parse(decodeURIComponent(escape(atob(cod))));
+      render();
+    } catch(e){ alert('❌ El código no es válido'); }
+  }
+  function cargarLocal(){
+    const raw = localStorage.getItem('mario_progreso_v1');
+    if(!raw){ alert('No hay datos en este dispositivo. Mario tiene que estudiar aquí o usa importar.'); return; }
+    estado = JSON.parse(raw);
+    render();
+  }
+
+  function nivelDe(p){
+    const u = [0,50,150,300,500,800,1200,1800,2500,3500];
+    for(let i=u.length-1;i>=0;i--) if(p>=u[i]) return i+1;
+    return 1;
+  }
+
+  function render(){
+    document.getElementById('zona-stats').style.display='block';
+    document.getElementById('zona-asig').style.display='block';
+    document.getElementById('zona-analisis').style.display='block';
+    document.getElementById('zona-logros').style.display='block';
+
+    let totalEjer=0, totalQuiz=0, totalSims=0;
+    Object.values(estado.asignaturas||{}).forEach(a => {
+      totalEjer += a.ejerciciosOK||0;
+      totalQuiz += a.quizOK||0;
+      totalSims += a.simulacrosCompletados||0;
+    });
+    document.getElementById('s-nivel').textContent = nivelDe(estado.puntosTotal||0);
+    document.getElementById('s-puntos').textContent = estado.puntosTotal||0;
+    document.getElementById('s-racha').textContent = estado.racha||0;
+    document.getElementById('s-ejer').textContent = totalEjer;
+    document.getElementById('s-quiz').textContent = totalQuiz;
+    document.getElementById('s-sims').textContent = totalSims;
+    document.getElementById('s-pomo').textContent = estado.sesionesPomodoro||0;
+    document.getElementById('s-logros').textContent = (estado.logros||[]).length;
+
+    // Asignaturas
+    const al = document.getElementById('asig-list');
+    al.innerHTML = Object.keys(CFG).map(k => {
+      const c = CFG[k];
+      const a = estado.asignaturas[k] || {puntos:0, ejerciciosOK:0, ejerciciosKO:0, quizOK:0, quizKO:0, simulacrosCompletados:0};
+      const nivel = nivelDe(a.puntos);
+      return `
+        <div class="asig" style="border-color:${c.color}">
+          <div class="titulo"><span style="font-size:1.4em">${c.emoji}</span><span>${c.nombre}</span></div>
+          <div style="color:var(--muted);font-size:.85em">Examen: <strong style="color:${c.color}">${c.examen}</strong></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <span>Nivel <strong style="color:var(--accent)">${nivel}</strong></span>
+            <span><strong style="color:var(--accent)">${a.puntos}</strong> pts</span>
+          </div>
+          <div class="stats-mini">
+            <div>✅ <span>${a.ejerciciosOK}</span></div>
+            <div>❌ <span>${a.ejerciciosKO}</span></div>
+            <div>🎯 <span>${a.quizOK}</span></div>
+            <div>📝 <span>${a.simulacrosCompletados}</span></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Análisis
+    const alertas = [];
+    const recoms = [];
+    Object.keys(CFG).forEach(k => {
+      const a = estado.asignaturas[k] || {puntos:0,ejerciciosOK:0,quizOK:0,simulacrosCompletados:0};
+      const interaccion = a.ejerciciosOK + a.quizOK + a.simulacrosCompletados;
+      if(interaccion === 0){
+        alertas.push({tipo:'bad', msg:`⚠️ Mario aún <strong>NO ha estudiado ${CFG[k].nombre}</strong> en la app.`});
+      } else if(interaccion < 5){
+        alertas.push({tipo:'warn', msg:`⚠️ Mario apenas ha tocado <strong>${CFG[k].nombre}</strong> (${interaccion} ejercicios).`});
+      }
+      if(a.simulacrosCompletados === 0){
+        recoms.push({icon:'📝', titulo:`Falta simulacro de ${CFG[k].nombre}`, desc:`Anímalo a hacer al menos 1 simulacro completo en modo examen real.`});
+      }
+    });
+    if((estado.racha||0) === 0){
+      alertas.push({tipo:'warn', msg:'⏰ Mario no ha estudiado hoy todavía.'});
+    } else if(estado.racha >= 3){
+      alertas.push({tipo:'ok', msg:`🔥 ¡Mario lleva una racha de <strong>${estado.racha} días seguidos</strong>! Felicítale.`});
+    }
+    const totalEjerOK = Object.values(estado.asignaturas||{}).reduce((s,a)=>s+(a.ejerciciosOK||0)+(a.quizOK||0),0);
+    const totalEjerKO = Object.values(estado.asignaturas||{}).reduce((s,a)=>s+(a.ejerciciosKO||0)+(a.quizKO||0),0);
+    if(totalEjerOK + totalEjerKO > 0){
+      const tasa = Math.round(100 * totalEjerOK / (totalEjerOK + totalEjerKO));
+      if(tasa >= 80) alertas.push({tipo:'ok', msg:`✅ Tasa de aciertos del <strong>${tasa}%</strong>. Buen nivel.`});
+      else if(tasa >= 60) alertas.push({tipo:'warn', msg:`📊 Tasa de aciertos del <strong>${tasa}%</strong>. Hay margen de mejora.`});
+      else alertas.push({tipo:'bad', msg:`📉 Tasa de aciertos del <strong>${tasa}%</strong>. Conviene reforzar.`});
+    }
+
+    document.getElementById('alertas-cont').innerHTML = alertas.length ? alertas.map(a => `<div class="alert ${a.tipo}">${a.msg}</div>`).join('') : '<div class="empty">Sin alertas. Todo en orden.</div>';
+    document.getElementById('recoms-cont').innerHTML = recoms.length ? recoms.map(r => `
+      <div class="recom">
+        <span class="icon">${r.icon}</span>
+        <div class="texto"><div class="titulo">${r.titulo}</div><div>${r.desc}</div></div>
+      </div>
+    `).join('') : '';
+
+    // Logros
+    const lc = document.getElementById('logros-cont');
+    const logros = estado.logros || [];
+    lc.innerHTML = logros.length ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">${logros.slice().reverse().map(l => `
+      <div style="background:var(--panel-2);padding:12px;border-radius:10px;text-align:center;border:2px solid var(--accent)">
+        <div style="font-size:1.8em">${l.emoji}</div>
+        <div style="font-size:.85em;font-weight:600;color:var(--accent);margin-top:4px">${l.nombre}</div>
+        <div style="font-size:.7em;color:var(--muted);margin-top:4px">${new Date(l.fecha).toLocaleDateString('es-ES')}</div>
+      </div>
+    `).join('')}</div>` : '<div class="empty">Aún no hay logros desbloqueados.</div>';
+  }
+</script>
+</body>
+</html>

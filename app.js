@@ -510,12 +510,56 @@
     sim.insertBefore(btn, sim.children[1] || sim.firstChild);
   }
 
+  // ============= TUTOR IA (botón flotante que abre Claude) =============
+  const TutorIA = {
+    crear(){
+      if(document.getElementById('mario-tutor')) return;
+      const el = document.createElement('button');
+      el.id = 'mario-tutor';
+      el.innerHTML = '🤖';
+      el.title = 'Pregúntale a Claude (Tutor IA)';
+      el.style.cssText = `
+        position:fixed; top:18px; right:18px; z-index:9999;
+        background:linear-gradient(135deg,#7c2d12,#fbbf24); color:#fff;
+        width:54px; height:54px; border-radius:50%; border:3px solid #fbbf24;
+        cursor:pointer; font-size:1.7em; box-shadow:0 8px 24px rgba(0,0,0,.5);
+        transition:transform .2s; padding:0;
+      `;
+      el.onmouseenter = () => el.style.transform='scale(1.1) rotate(10deg)';
+      el.onmouseleave = () => el.style.transform='scale(1) rotate(0)';
+      el.onclick = () => this.abrirChat();
+      document.body.appendChild(el);
+    },
+    detectarContexto(){
+      const asig = detectarAsignaturaActual();
+      const cfg = CONFIG.asignaturas[asig];
+      let tema = '';
+      // Detectar sección visible
+      const sec = document.querySelector('section.active');
+      if(sec){
+        const h2 = sec.querySelector('h2');
+        if(h2) tema = h2.textContent.replace(/[🎧📋📖✏️🎯📝⚡🔥🚗🚀🍎❤️💧🫁🔄🩺📅🇪🇺🇪🇸🌾🏭🚚🌱👑🏛️📚📐⏰🛡️🔀🇬🇧✒️⚔️🔤✍️🎭]/g,'').trim();
+      }
+      return {asig, asigNombre: cfg?.nombre || 'estudios', tema};
+    },
+    abrirChat(){
+      const ctx = this.detectarContexto();
+      const promptUser = prompt(`🤖 ¡Hola Mario! Soy tu tutor IA.\n\nEstás en: ${ctx.asigNombre}${ctx.tema ? ' · ' + ctx.tema : ''}\n\n¿Qué duda tienes? Te abriré una conversación con Claude (gratis):`);
+      if(!promptUser) return;
+      const fullPrompt = `Soy Mario, estudiante de 3º ESO en el Colegio Zola Villafranca. Estoy estudiando ${ctx.asigNombre}${ctx.tema ? ' (tema: ' + ctx.tema + ')' : ''}.\n\nMi duda es: ${promptUser}\n\nExplícamelo de forma clara y adaptada a 3º ESO, con ejemplos si hace falta.`;
+      const url = 'https://claude.ai/new?q=' + encodeURIComponent(fullPrompt);
+      window.open(url, '_blank');
+      sumarPuntos(ctx.asig || 'mate', 2, 'pregunta al tutor IA');
+    }
+  };
+
   // ============= INIT =============
   function init(){
     cargar();
     chequearRacha();
     crearBadge();
     Pomodoro.crear();
+    TutorIA.crear();
     if('speechSynthesis' in window){
       AudioMario.cargarVoces();
       window.speechSynthesis.onvoiceschanged = () => AudioMario.cargarVoces();
