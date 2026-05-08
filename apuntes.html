@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apuntes oficiales del cole · Mario</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0f172a;--panel:#1e293b;--panel-2:#334155;--text:#f1f5f9;
+    --muted:#94a3b8;--border:#475569;--accent:#fbbf24;
+    --good:#4ade80;--bad:#f87171}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
+    color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:90px}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .back{display:inline-block;color:var(--accent);text-decoration:none;margin-bottom:14px;
+    padding:6px 14px;border:1px solid var(--accent);border-radius:20px;font-size:.9em}
+  .back:hover{background:var(--accent);color:#0f172a}
+  header{background:linear-gradient(135deg,#312e81 0%,#1e40af 100%);
+    padding:36px 24px;text-align:center;border-radius:18px;margin-bottom:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  header h1{font-size:2.2em;margin-bottom:6px}
+  header p{color:#dbeafe}
+  section{background:var(--panel);padding:24px;border-radius:14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.3);border-left:5px solid}
+  section.mate{border-color:#3b82f6}
+  section.lengua{border-color:#a855f7}
+  section.fisica{border-color:#ef4444}
+  section.historia{border-color:#f59e0b}
+  section.bio{border-color:#14b8a6}
+  h2{color:var(--accent);font-size:1.5em;margin-bottom:14px;
+    border-bottom:2px solid var(--accent);padding-bottom:6px}
+  .pdf-list{display:grid;gap:10px}
+  .pdf-item{background:var(--panel-2);padding:14px 18px;border-radius:10px;
+    display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);
+    transition:all .15s;border:1px solid transparent}
+  .pdf-item:hover{transform:translateX(4px);border-color:var(--accent);background:#0f172a}
+  .pdf-item .icon{font-size:1.8em}
+  .pdf-item .info{flex:1}
+  .pdf-item .nombre{font-weight:700;color:var(--accent);margin-bottom:2px}
+  .pdf-item .desc{color:var(--muted);font-size:.88em}
+  .info-box{background:rgba(251,191,36,.1);border-left:4px solid var(--accent);
+    padding:12px 16px;border-radius:8px;margin-bottom:18px}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Volver al panel</a>
+  <header>
+    <h1>📚 Apuntes oficiales del cole</h1>
+    <p>Documentos originales del Colegio Zola Villafranca</p>
+  </header>
+
+  <div class="info-box">
+    <strong>💡 Cómo usarlo:</strong> pulsa cualquier PDF para verlo en el navegador (o descargarlo). Estos son los materiales <strong>oficiales</strong> del cole — ideales para el repaso final y verificar lo estudiado.
+  </div>
+
+  <section class="mate">
+    <h2>📐 Matemáticas</h2>
+    <div class="pdf-list">
+      <a class="pdf-item" href="apuntes/UD6_Geometria.pdf" target="_blank">
+        <span class="icon">📄</span>
+        <div class="info">
+          <div class="nombre">UD 6 Geometría — Madrid, ciudad de rascacielos</div>
+          <div class="desc">Teoría completa + 60 ejercicios oficiales del cole</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="lengua">
+    <h2>📖 Lengua y Literatura</h2>
+    <div class="pdf-list">
+      <a class="pdf-item" href="apuntes/01_Apuntes_Lengua.pdf" target="_blank">
+        <span class="icon">📄</span>
+        <div class="info">
+          <div class="nombre">Apuntes de Lengua — Barroco y Cervantes</div>
+          <div class="desc">Teoría completa preparada para Mario</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/02_Cuadernillo_Ejercicios.pdf" target="_blank">
+        <span class="icon">✏️</span>
+        <div class="info">
+          <div class="nombre">Cuadernillo de ejercicios</div>
+          <div class="desc">Ejercicios para practicar gramática y literatura</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/03_Soluciones_Ejercicios.pdf" target="_blank">
+        <span class="icon">✅</span>
+        <div class="info">
+          <div class="nombre">Soluciones del cuadernillo</div>
+          <div class="desc">Para autocorregir el cuadernillo de ejercicios</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/04_Examen_Simulacro.pdf" target="_blank">
+        <span class="icon">📝</span>
+        <div class="info">
+          <div class="nombre">Examen simulacro</div>
+          <div class="desc">Hazlo cronometrado, después corrige con el solucionario</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/05_Solucionario_Simulacro.pdf" target="_blank">
+        <span class="icon">🎯</span>
+        <div class="info">
+          <div class="nombre">Solucionario del simulacro</div>
+          <div class="desc">Respuestas oficiales</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="fisica">
+    <h2>⚡ Física y Química — MRU y MRUA</h2>
+    <div class="pdf-list">
+      <a class="pdf-item" href="apuntes/02_Apuntes_Teoria_MRU_MRUA.pdf" target="_blank">
+        <span class="icon">📄</span>
+        <div class="info">
+          <div class="nombre">Apuntes teoría MRU + MRUA</div>
+          <div class="desc">Resumen completo para el examen</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/01_Analisis_Examen_MRU_Mario.pdf" target="_blank">
+        <span class="icon">⚠️</span>
+        <div class="info">
+          <div class="nombre">Análisis del examen anterior de MRU (Mario)</div>
+          <div class="desc">Errores típicos identificados — repasar antes del final</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/03_Ejercicios_Graduados.pdf" target="_blank">
+        <span class="icon">✏️</span>
+        <div class="info">
+          <div class="nombre">Ejercicios graduados</div>
+          <div class="desc">Ejercicios ordenados por dificultad</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/06_Problemas_MRUA.pdf" target="_blank">
+        <span class="icon">🚀</span>
+        <div class="info">
+          <div class="nombre">Problemas de MRUA</div>
+          <div class="desc">Hoja específica del MRUA</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/06_Problemas_MRUA_Resueltos.pdf" target="_blank">
+        <span class="icon">✅</span>
+        <div class="info">
+          <div class="nombre">Problemas de MRUA RESUELTOS</div>
+          <div class="desc">Los mismos problemas con solución paso a paso</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/04_Examen_Simulacro.pdf" target="_blank">
+        <span class="icon">📝</span>
+        <div class="info">
+          <div class="nombre">Examen simulacro</div>
+          <div class="desc">Para hacer cronometrado</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/05_Solucionario_Simulacro.pdf" target="_blank">
+        <span class="icon">🎯</span>
+        <div class="info">
+          <div class="nombre">Solucionario del simulacro</div>
+          <div class="desc">Para corregir</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/07_Soluciones_MRUA.pdf" target="_blank">
+        <span class="icon">📐</span>
+        <div class="info">
+          <div class="nombre">Soluciones MRUA (extra)</div>
+          <div class="desc">Más soluciones de problemas de MRUA</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="historia">
+    <h2>🌍 Geografía e Historia (7 temas)</h2>
+    <div class="pdf-list">
+      <a class="pdf-item" href="apuntes/TEMA-2.pdf" target="_blank">
+        <span class="icon">🌾</span>
+        <div class="info">
+          <div class="nombre">Tema 2 — El sector primario</div>
+          <div class="desc">Agricultura, ganadería, pesca, acuicultura</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-3.pdf" target="_blank">
+        <span class="icon">🏭</span>
+        <div class="info">
+          <div class="nombre">Tema 3 — El sector secundario</div>
+          <div class="desc">Energías renovables/no renovables, industria</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-4.pdf" target="_blank">
+        <span class="icon">🚚</span>
+        <div class="info">
+          <div class="nombre">Tema 4 — El sector terciario</div>
+          <div class="desc">Transporte, comercio, turismo</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-5.pdf" target="_blank">
+        <span class="icon">🇪🇺</span>
+        <div class="info">
+          <div class="nombre">Tema 5 — Los sectores en Europa y España</div>
+          <div class="desc">Economía europea y española</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-6.pdf" target="_blank">
+        <span class="icon">🌱</span>
+        <div class="info">
+          <div class="nombre">Tema 6 — Sostenibilidad y deterioro ambiental</div>
+          <div class="desc">Cambio climático, contaminación, ODS</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-17.pdf" target="_blank">
+        <span class="icon">👑</span>
+        <div class="info">
+          <div class="nombre">Tema 17 — La Restauración y crisis del 98</div>
+          <div class="desc">Cánovas, Sagasta, turnismo, pérdida de Cuba</div>
+        </div>
+      </a>
+      <a class="pdf-item" href="apuntes/TEMA-18.pdf" target="_blank">
+        <span class="icon">🏛️</span>
+        <div class="info">
+          <div class="nombre">Tema 18 — Economía, sociedad y cultura España s.XIX</div>
+          <div class="desc">Industrialización, movimiento obrero, romanticismo</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="bio">
+    <h2>🫁 Biología y Geología</h2>
+    <div class="pdf-list">
+      <a class="pdf-item" href="apuntes/U6_Aparato_excretor.pdf" target="_blank">
+        <span class="icon">💧</span>
+        <div class="info">
+          <div class="nombre">Tema 6 — Aparato Excretor (NUEVO)</div>
+          <div class="desc">Riñones, nefronas, formación de la orina</div>
+        </div>
+      </a>
+    </div>
+    <div class="info-box" style="margin-top:14px">
+      📌 <strong>Para Aparato Respiratorio (T4) y Circulatorio (T5):</strong> el cole no nos ha pasado PDF nuevo (ya los visteis en los exámenes anteriores). Si tienes los apuntes en papel/imágenes y los quieres añadir, dímelo.
+    </div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
